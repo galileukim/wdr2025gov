@@ -10,10 +10,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
     countrycode,
+    forcats,
     fs,
     ggthemes,
+    httr,
     janitor,
-    readr
+    readr,
+    readxl
 Depends: 
     dplyr,
     here,

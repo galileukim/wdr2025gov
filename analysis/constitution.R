@@ -1,6 +1,7 @@
 # set-up ------------------------------------------------------------------
 library(ggplot2)
 library(ggthemes)
+library(forcats)
 
 theme_set(
   theme_classic(
@@ -36,7 +37,10 @@ ggplot_line <- function(data, x, y, ...){
 }
 
 # visualize ---------------------------------------------------------------
-constitution |>
+constitution_subset <- constitution |>
+  filter(year >= 1960)
+
+constitution_subset |>
   summarise_merit(
     "year",
     agg_fun = "mean"
@@ -56,14 +60,14 @@ constitution |>
   )
 
 ggsave(
-  here("figs", "share_countries_merit.png"),
+  here("figs", "constitution",  "1-share_countries_merit.png"),
   height = 12,
   width = 16,
   bg = "white"
 )
 
 # absolute number
-constitution |>
+constitution_subset |>
   summarise_merit(
     "year",
     agg_fun = "sum"
@@ -80,14 +84,14 @@ constitution |>
   )
 
 ggsave(
-  here("figs", "number_countries_merit.png"),
+  here("figs", "constitution",  "2-number_countries_merit.png"),
   height = 12,
   width = 16,
   bg = "white"
 )
 
 # absolute number by region
-constitution |>
+constitution_subset |>
   filter(
     !is.na(region) &
       region != "North America"
@@ -117,14 +121,14 @@ constitution |>
   scale_colour_colorblind()
 
 ggsave(
-  here("figs", "number_countries_merit_by_region.png"),
+  here("figs", "constitution",  "3-number_countries_merit_by_region.png"),
   height = 16,
-  width = 12,
+  width = 14,
   bg = "white"
 )
 
 # share of countries
-constitution |>
+constitution_subset |>
   filter(
     !is.na(region) &
       region != "North America"
@@ -146,6 +150,113 @@ constitution |>
   ) +
   labs(
     x = "Year",
+    y = "Share of Countries",
+    title = "Share of Countries with Merit-Based Recruitment",
+    subtitle = "Enshrined in the Constitution",
+    caption = "Source: Comparative Constitutions Project"
+  ) +
+  theme(
+    legend.position = "bottom"
+  ) +
+  scale_colour_colorblind()
+
+ggsave(
+  here("figs", "constitution", "4-share_countries_merit_by_region.png"),
+  height = 16,
+  width = 14,
+  bg = "white"
+)
+
+# by income group: share
+constitution_subset |>
+  inner_join(
+    countryclass,
+    by = "country_code"
+  ) |>
+  filter(
+    !is.na(country_code) &
+      !is.na(income_group)
+  ) |>
+  mutate(
+    income_group = fct_relevel(
+      income_group,
+      c(
+        "High income",
+        "Upper middle income",
+        "Lower middle income",
+        "Low income"
+      )
+    )
+  ) |>
+  summarise_merit(
+    c("year", "income_group"),
+    agg_fun = "mean"
+  ) |>
+  ggplot_line(
+    year, merit,
+    color = income_group
+  ) +
+  facet_wrap(
+    vars(income_group),
+    nrow = 3
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  labs(
+    x = "Year",
+    y = "Share of Countries",
+    title = "Share of Countries with Merit-Based Recruitment",
+    subtitle = "Enshrined in the Constitution",
+    caption = "Source: Comparative Constitutions Project"
+  ) +
+  theme(
+    legend.position = "bottom"
+  ) +
+  scale_colour_colorblind()
+
+ggsave(
+  here("figs", "constitution",  "5-share_countries_merit_by_income.png"),
+  height = 12,
+  width = 14,
+  bg = "white"
+)
+
+# by income group: sum
+constitution_subset |>
+  inner_join(
+    countryclass,
+    by = "country_code"
+  ) |>
+  filter(
+    !is.na(country_code) &
+      !is.na(income_group)
+  ) |>
+  mutate(
+    income_group = fct_relevel(
+      income_group,
+      c(
+        "High income",
+        "Upper middle income",
+        "Lower middle income",
+        "Low income"
+      )
+    )
+  ) |>
+  summarise_merit(
+    c("year", "income_group"),
+    agg_fun = "sum"
+  ) |>
+  ggplot_line(
+    year, merit,
+    color = income_group
+  ) +
+  facet_wrap(
+    vars(income_group),
+    nrow = 3
+  ) +
+  labs(
+    x = "Year",
     y = "Number of Countries",
     title = "Number of Countries with Merit-Based Recruitment",
     subtitle = "Enshrined in the Constitution",
@@ -157,8 +268,8 @@ constitution |>
   scale_colour_colorblind()
 
 ggsave(
-  here("figs", "share_countries_merit_by_region.png"),
-  height = 16,
-  width = 12,
+  here("figs", "constitution", "6-number_countries_merit_by_income.png"),
+  height = 12,
+  width = 14,
   bg = "white"
 )

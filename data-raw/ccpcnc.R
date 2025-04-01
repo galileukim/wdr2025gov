@@ -22,6 +22,7 @@ constitution_input <- read_csv(
   col_select = c(
     cowcode, country, year, systid, systyear,
     evntid, evnttype,
+    doctit,
     civil, civil_article, civil_comments
   )
 )
@@ -56,6 +57,7 @@ constitution <- constitution_input |>
   select(
     country_code,
     year,
+    type_constitution = doctit,
     everything()
   )
 
