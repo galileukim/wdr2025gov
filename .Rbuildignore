@@ -1,2 +1,6 @@
 ^wdrhrm\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^data-raw$
+^analysis
+^figs

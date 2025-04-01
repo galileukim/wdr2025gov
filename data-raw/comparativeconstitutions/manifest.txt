@@ -1,0 +1,14 @@
+Manifest for the Comparative Constitutions Project's Characteristics of National Constitutions, Version 5.0
+
+Contents of ccpcnc_v5.zip:
+
+Codebook
+ - ccpcnc\codebook_v5.pdf
+
+Stata Data
+ - ccpcnc\ccpcnc_v5.dta
+ - ccpcnc\ccpcnc_v5_small.dta
+
+Comma-Separated Data
+ - ccpcnc\ccpcnc_v5.csv
+ - ccpcnc\ccpcnc_v5_small.csv
