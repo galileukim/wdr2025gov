@@ -7,7 +7,7 @@ library(here)
 
 # accessed in: 4/1/2025
 src <- "https://www.comparativeconstitutionsproject.org/data/ccpcnc_v5.zip"
-lcl <- "data-raw/comparativeconstitutions"
+lcl <- "data-raw/input/comparativeconstitutions"
 
 if (!file.exists(lcl)) {
   tmp <- tempfile(fileext = ".zip")
