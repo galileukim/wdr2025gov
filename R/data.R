@@ -22,3 +22,19 @@
 #' }
 #' @source <https://comparativeconstitutionsproject.org/download-data/#>
 "constitution"
+
+#' World Bank Country and Lending Groups
+#'
+#' This dataset is produced by the World Bank Group to classify countries as to their income levels and other groups.
+#'
+#' @format ## `countryclass`
+#' A data frame with 267 rows and 4 columns:
+#' \describe{
+#'   \item{country_code}{Country WB code}
+#'   \item{economy}{Country name}
+#'   \item{region}{WB region}
+#'   \item{income_group}{WB income classification}
+#'   ...
+#' }
+#' @source <https://comparativeconstitutionsproject.org/download-data/#>
+"countryclass"

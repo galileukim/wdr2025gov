@@ -2,7 +2,7 @@
 library(readxl)
 
 countryclass_input <- readxl::read_xlsx(
-  here("data-raw", "CLASS.xlsx")
+  here("data-raw", "input", "CLASS.xlsx")
 )
 
 countryclass <- countryclass_input |>
