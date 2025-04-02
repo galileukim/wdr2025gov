@@ -9,33 +9,6 @@ theme_set(
   )
 )
 
-summarise_merit <- function(data, group_var, agg_fun = "sum"){
-  switch_function <- switch(
-    agg_fun,
-    mean = {base::mean},
-    sum = {base::sum}
-  )
-
-  data |>
-    group_by(
-      across(
-        all_of(group_var)
-      )
-    ) |>
-    summarise(
-        merit = switch_function(merit == "yes", na.rm = T)
-    )
-}
-
-ggplot_line <- function(data, x, y, ...){
-  data |>
-    ggplot(
-      aes({{x}}, {{y}}, ...)
-    ) +
-    geom_point() +
-    geom_line()
-}
-
 # visualize ---------------------------------------------------------------
 constitution_subset <- constitution |>
   filter(year >= 1960)
