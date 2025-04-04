@@ -21,7 +21,7 @@ summarise_merit <- function(data, group_var, agg_fun = "sum"){
       )
     ) |>
     summarise(
-      .data[["merit"]] = switch_function(.data[["merit"]] == "yes", na.rm = T)
+      merit = switch_function(.data[["merit"]] == "yes", na.rm = T)
     )
 }
 
