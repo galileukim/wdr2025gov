@@ -59,6 +59,7 @@ gsps <- gsps_input |>
     respondent_group = group,
     topic_group,
     indicator_group,
+    question_text,
     mean,
     lower_ci,
     upper_ci,

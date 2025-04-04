@@ -51,6 +51,7 @@
 #'   \item{\code{respondent_group}}{character Respondent group}
 #'   \item{\code{topic_group}}{character Topic grouping}
 #'   \item{\code{indicator_group}}{character Indicator grouping}
+#'   \item{\code{question_text}}{character Survey question}
 #'   \item{\code{mean}}{double Average for the group. See scale}
 #'   \item{\code{lower_ci}}{double Lower bound for the average}
 #'   \item{\code{upper_ci}}{double Upper bound for the average}
