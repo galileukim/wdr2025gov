@@ -14,10 +14,12 @@ Imports:
     fs,
     ggplot2,
     ggthemes,
+    hrbrthemes,
     httr,
     janitor,
     labelled,
     openxlsx,
+    pak,
     readr,
     readxl,
     sinew

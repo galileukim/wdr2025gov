@@ -12,7 +12,9 @@ A data frame with 229467 rows and 10 variables:
 \item{\code{year}}{double Year}
 \item{\code{region}}{character World Bank region}
 \item{\code{income_group}}{character World Bank income group}
-\item{\code{group}}{character Group of respondents}
+\item{\code{respondent_group}}{character Respondent group}
+\item{\code{topic_group}}{character Topic grouping}
+\item{\code{indicator_group}}{character Indicator grouping}
 \item{\code{mean}}{double Average for the group. See scale}
 \item{\code{lower_ci}}{double Lower bound for the average}
 \item{\code{upper_ci}}{double Upper bound for the average}
