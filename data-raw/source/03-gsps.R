@@ -55,6 +55,7 @@ gsps <- gsps_input |>
     economy = country,
     year,
     region,
+    income_group,
     group,
     mean,
     lower_ci,

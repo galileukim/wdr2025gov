@@ -47,6 +47,7 @@
 #'   \item{\code{economy}}{character Country name}
 #'   \item{\code{year}}{double Year}
 #'   \item{\code{region}}{character World Bank region}
+#'   \item{\code{income_group}}{character World Bank income group}
 #'   \item{\code{group}}{character Group of respondents}
 #'   \item{\code{mean}}{double Average for the group. See scale}
 #'   \item{\code{lower_ci}}{double Lower bound for the average}

@@ -5,3 +5,6 @@ gsps_institutional <- gsps |>
   filter(
     group == "Institution"
   )
+
+gsps_national |>
+  glimpse()
