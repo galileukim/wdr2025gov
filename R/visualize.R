@@ -4,6 +4,7 @@
 #' @param group_var Grouping variable
 #' @param agg_fun Type of statistics. Defaults to sum.
 #'
+#' @import dplyr ggplot2
 #' @return A summary statistics of the data on merit
 #' @export
 summarise_merit <- function(data, group_var, agg_fun = "sum"){
@@ -20,7 +21,7 @@ summarise_merit <- function(data, group_var, agg_fun = "sum"){
       )
     ) |>
     summarise(
-      merit = switch_function(merit == "yes", na.rm = T)
+      .data[["merit"]] = switch_function(.data[["merit"]] == "yes", na.rm = T)
     )
 }
 

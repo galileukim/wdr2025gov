@@ -9,7 +9,7 @@
 
 A data frame with 16,717 rows and 13 columns:
 \describe{
-\item{country_code}{Country WB code}
+\item{country_code}{World Bank country code}
 \item{year}{Year}
 \item{type_constitution}{Title of the constitutional document}
 \item{cowcode}{Conflicts of War Code}

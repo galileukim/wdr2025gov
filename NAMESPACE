@@ -2,3 +2,5 @@
 
 export(ggplot_line)
 export(summarise_merit)
+import(dplyr)
+import(ggplot2)

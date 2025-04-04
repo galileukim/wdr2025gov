@@ -9,10 +9,10 @@
 
 A data frame with 267 rows and 4 columns:
 \describe{
-\item{country_code}{Country WB code}
+\item{country_code}{World Bank country code}
 \item{economy}{Country name}
-\item{region}{WB region}
-\item{income_group}{WB income classification}
+\item{region}{World Bank region}
+\item{income_group}{World Bank income classification}
 ...
 }
 }
