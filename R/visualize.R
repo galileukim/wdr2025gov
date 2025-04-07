@@ -21,7 +21,24 @@ summarise_merit <- function(data, group_var, agg_fun = "sum"){
       )
     ) |>
     summarise(
-      merit = switch_function(.data[["merit"]] == "yes", na.rm = T)
+      merit = switch_function(.data[["merit"]] == "yes", na.rm = T),
+      total_countries = n()
+    )
+}
+
+left_join_national <- function(data, national_data){
+  data |>
+    left_join(
+      {{national_data}} |>
+          select(country_code, economy_fct, country_mean = mean),
+      by = c("country_code")
+    ) |>
+    group_by(
+      country_code
+    ) |>
+    mutate(
+      upper_ci = max(mean),
+      lower_ci = min(mean)
     )
 }
 
@@ -35,10 +52,104 @@ summarise_merit <- function(data, group_var, agg_fun = "sum"){
 #' @return A plot
 #' @export
 ggplot_line <- function(data, x, y, ...){
-  data |>
+  plot <- data |>
     ggplot(
       aes({{x}}, {{y}}, ...)
     ) +
     geom_point() +
     geom_line()
+}
+
+#' Generate ggplot point-range
+#'
+#' @param data Data
+#' @param x X-axis variable
+#' @param y Y-axis variable
+#' @param ... Any other arguments that can be placed in aes()
+#'
+#' @import ggplot
+#' @return A plot
+#' @export
+ggplot_pointrange <- function(data, x, y, ...){
+  ggplot(data) +
+    geom_pointrange(
+      aes(
+        x = {{x}},
+        y = fct_reorder({{y}}, {{x}}),
+        xmin = lower_ci,
+        xmax = upper_ci,
+        ...
+      )
+    ) +
+    scale_x_continuous(
+      labels = scales::percent_format()
+    ) +
+    labs(
+      x = "Share of Public Servants",
+      y = "Economy"
+    )
+}
+
+#' Generate ggplot boxplot
+#'
+#' @param data Data
+#' @param x X-axis variable
+#' @param y Y-axis variable
+#' @param ... Any other arguments that can be placed in aes()
+#'
+#' @import ggplot
+#' @return A plot
+#' @export
+ggplot_boxplot <- function(data, x, y, ...){
+  ggplot(data) +
+    geom_boxplot(
+      aes(
+        x = {{x}},
+        y = fct_reorder({{y}}, {{x}}),
+        ...
+      ),
+      width = 0.25,
+      linewidth = 0.75
+    ) +
+    scale_x_continuous(
+      labels = scales::percent_format()
+    ) +
+    labs(
+      x = "Share of Public Servants",
+      y = "Economy"
+    )
+}
+
+ggplot_scatter <- function(data, x, y, ...){
+  ggplot(data) +
+    geom_point(
+      aes(
+        x = {{x}},
+        y = {{y}},
+        ...
+      )
+    ) +
+    scale_x_continuous(
+      labels = scales::percent_format()
+    ) +
+    labs(
+      x = "Performance Evaluation Conducted",
+      y = "Performance-Related Promotion"
+    )
+}
+
+#' Expands color palette to number of groups
+#'
+#' @param plot Plot, must be a ggplot
+#' @param n_group Number of discrete groups
+#'
+#' @import ggplot2 RColorBrewer
+#' @return An expanded scale
+#' @export
+scale_color_expand <- function(n_group){
+  scale_color_manual(
+    values = colorRampPalette(
+      RColorBrewer::brewer.pal(name = "Paired", n = 8)
+    )(n_group)
+  )
 }

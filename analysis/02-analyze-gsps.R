@@ -9,27 +9,6 @@ theme_set(
   )
 )
 
-ggplot_pointrange <- function(data, x, y, ...){
-  ggplot(data) +
-    geom_pointrange(
-      aes(
-        x = {{x}},
-        y = fct_reorder({{y}}, {{x}}),
-        xmin = lower_ci,
-        xmax = upper_ci,
-        ...
-      )
-      # color = "firebrick"
-    ) +
-    scale_x_continuous(
-      labels = scales::percent_format()
-    ) +
-    labs(
-      x = "Share of respondents",
-      y = "Economy"
-    )
-}
-
 # read-in data ------------------------------------------------------------
 gsps_national <- gsps |>
   filter(
@@ -47,6 +26,7 @@ gsps_regional <- gsps |>
   )
 
 # analysis ----------------------------------------------------------------
+# recruitment standards
 gsps_national_merit <- gsps_national |>
   filter(
     indicator_group == "Recruitment standard: written examination" &
@@ -64,19 +44,10 @@ gsps_national_merit |>
   theme(
     legend.position = "none"
   ) +
-  scale_color_manual(
-    values = colorRampPalette(brewer.pal(name = "Paired", n = 8))(11)
-  )
-  # scale_color_colorblind(
-  #   name = "Income group"
-  # ) +
-  # labs(
-  #   x = "Share of respondents",
-  #   y = "Economy"
-  # )
+  scale_color_expand(n_group = 11)
 
 ggsave(
-  here("figs", "fig_share_merit.png"),
+  here("figs", "gsps", "01-fig_share_merit.png"),
   width = 12,
   height = 8,
   bg = "white"
@@ -87,19 +58,9 @@ gsps_institutional |>
     indicator_group == "Recruitment standard: written examination" &
       country_code != "ROU"
   ) |>
-  left_join(
-    gsps_national_merit |> select(country_code, economy_fct, country_mean = mean),
-    by = c("country_code")
-  ) |>
-  group_by(
-    country_code
-  ) |>
-  mutate(
-    upper_ci = max(mean),
-    lower_ci = min(mean)
-  ) |>
-  ggplot_pointrange(
-    country_mean, economy,
+  left_join_national(gsps_national_merit) |>
+  ggplot_boxplot(
+    mean, economy,
     color = economy_fct
   ) +
   geom_jitter(
@@ -109,16 +70,79 @@ gsps_institutional |>
     ),
     alpha = 0.6
   ) +
-  scale_color_manual(
-    values = colorRampPalette(brewer.pal(name = "Paired", n = 8))(11)
-  ) +
+  scale_color_expand(n_group = 11) +
   theme(
     legend.position = "none"
   )
 
 ggsave(
-  here("figs", "fig_share_merit_institution.png"),
+  here("figs", "gsps", "02-fig_share_merit_institution.png"),
   width = 12,
   height = 8,
   bg = "white"
 )
+
+# performance management standards
+gsps_national_performance <-gsps_national |>
+  filter(
+    indicator_group == "Performance standard: evaluation" &
+      scale == "0--1"
+  ) |>
+  mutate(
+    economy_fct = fct_reorder(economy, mean)
+  )
+
+gsps_national_performance |>
+  ggplot_pointrange(
+    mean, economy,
+    color = economy_fct
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    labels = scales::percent_format()
+  ) +
+  scale_color_expand(6)
+
+ggsave(
+  here("figs", "gsps", "03-fig_share_performance_eval.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
+
+gsps_institutional |>
+  filter(
+    indicator_group == "Performance standard: evaluation" &
+      scale == "0--1"
+  ) |>
+  left_join_national(
+    gsps_national_performance
+  ) |>
+  ggplot_boxplot(
+    mean, economy,
+    color = economy_fct
+  ) +
+  geom_jitter(
+    aes(
+      x = mean, y = economy,
+      color = economy_fct
+    ),
+    alpha = 0.6
+  ) +
+  scale_color_expand(6) +
+  theme(
+    legend.position = "none"
+  )
+
+ggsave(
+  here("figs", "gsps", "04-fig_share_performance_eval_institution.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
+
+# correlation between performance evaluation and promotion
+

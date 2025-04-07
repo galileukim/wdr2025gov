@@ -20,6 +20,7 @@ Imports:
     labelled,
     openxlsx,
     pak,
+    RColorBrewer,
     readr,
     readxl,
     sinew
