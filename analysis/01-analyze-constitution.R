@@ -276,51 +276,20 @@ ggsave(
 # a reversal is defined as a constitutional mandate for merit is either
 # overturned or suspended
 constitution_subset |>
-  group_by(country) |>
-  distinct(
-    merit,
-    .keep_all = TRUE
-  ) |>
-  arrange(
-    country, year
-  ) |>
-  mutate(
-    merit_lag = lag(merit, order_by = year),
-    merit_change = case_when(
-      merit == "yes" & (merit_lag == "no" | (is.na(merit_lag) & !min(year))) ~ "meritocratic reform",
-      (merit == "no" | is.na(merit)) & merit_lag == "yes" ~ "meritocratic reversal",
-      T ~ NA_character_
-    )
-  ) |>
-  ungroup() |>
-  filter(
-    !is.na(merit_change)
-  ) |>
-  group_by(year) |>
-  summarise(
-    sum_merit_reform = sum(merit_change == "meritocratic reform"),
-    sum_merit_reversal = sum(merit_change == "meritocratic reversal"),
-    .groups = "drop"
-  ) |>
-  mutate(
-    `Meritocratic Reforms` = cumsum(sum_merit_reform),
-    `Meritocratic Reversals` = cumsum(sum_merit_reversal)
+  summarise_merit_reversal(
+    group_var = "year"
   ) |>
   pivot_longer(
     cols = c(starts_with("Meritocratic"))
   ) |>
-  ggplot(
-    aes(
-      year, value,
-      color = name
-    )
+  ggplot_line(
+    year, value,
+    color = name
   ) +
-  geom_point() +
-  geom_line() +
   theme(
     legend.position = "bottom"
   ) +
-  scale_colour_colorblind(
+  scale_color_solarized(
     name = ""
   ) +
   labs(
@@ -334,11 +303,69 @@ constitution_subset |>
   )
 
 ggsave(
-  here("figs", "constitution", "07-cumulative_meritocratic_reversals.png"),
+  here("figs", "constitution", "07-cumulative_merit_reversals.png"),
   height = 12,
   width = 14,
   bg = "white"
 )
+
+# reversal by region
+constitution_subset |>
+  summarise_merit_reversal(
+    group_var = c("year", "region")
+  ) |>
+  pivot_longer(
+    cols = c(starts_with("Meritocratic"))
+  ) |>
+  ggplot_line(
+    year, value,
+    color = name
+  ) +
+  theme(
+    legend.position = "bottom"
+  ) +
+  scale_color_solarized(
+    name = ""
+  ) +
+  facet_wrap(
+    vars(region)
+  ) +
+  labs(
+    x = "Year",
+    y = "Total Number of Countries",
+    caption = "Source: Comparative Constitutions Project"
+  ) +
+  ggtitle(
+    "Meritocratic reforms and reversals (1960-2023)",
+    subtitle = "Cumulative Number of Countries by Region"
+  )
+
+ggsave(
+  here("figs", "constitution", "08-cumulative_merit_reversals_region.png"),
+  height = 12,
+  width = 14,
+  bg = "white"
+)
+
+# net reforms
+constitution_subset |>
+  summarise_merit_reversal(
+    group_var = c("year", "region")
+  ) |>
+  mutate(
+    net_merit = sum_merit_reform - sum_merit_reversal,
+    color_net = if_else(net_merit > 0, "positive", "negative")
+  ) |>
+  ggplot() +
+  geom_col(
+    aes(year, net_merit, fill = color_net)
+  ) +
+  geom_hline(
+    yintercept = 0
+  ) +
+  scale_fill_solarized(
+    limits = rev
+  )
 
 # appendix ----------------------------------------------------------------
 constitution_subset |>

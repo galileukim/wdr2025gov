@@ -26,6 +26,44 @@ summarise_merit <- function(data, group_var, agg_fun = "sum"){
     )
 }
 
+summarise_merit_reversal <- function(data, group_var){
+  data |>
+    group_by(country) |>
+    distinct(
+      merit,
+      .keep_all = TRUE
+    ) |>
+    arrange(
+      country, year
+    ) |>
+    mutate(
+      merit_lag = lag(merit, order_by = year),
+      merit_change = case_when(
+        merit == "yes" & (merit_lag == "no" | (is.na(merit_lag) & !min(year))) ~ "meritocratic reform",
+        (merit == "no" | is.na(merit)) & merit_lag == "yes" ~ "meritocratic reversal",
+        T ~ NA_character_
+      )
+    ) |>
+    ungroup() |>
+    filter(
+      !is.na(merit_change)
+    ) |>
+    group_by(
+      across(
+        all_of(group_var)
+      )
+    ) |>
+    summarise(
+      sum_merit_reform = sum(merit_change == "meritocratic reform"),
+      sum_merit_reversal = sum(merit_change == "meritocratic reversal"),
+      .groups = "drop"
+    ) |>
+    mutate(
+      `Meritocratic Reforms` = cumsum(sum_merit_reform),
+      `Meritocratic Reversals` = cumsum(sum_merit_reversal)
+    )
+}
+
 left_join_national <- function(data, national_data){
   data |>
     left_join(
