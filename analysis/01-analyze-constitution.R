@@ -9,13 +9,13 @@ theme_set(
   )
 )
 
-# visualize ---------------------------------------------------------------
 constitution_subset <- constitution |>
   filter(year >= 1960)
 
+# visualize ---------------------------------------------------------------
 constitution_subset |>
   summarise_merit(
-    "year",
+    group_var = c("year"),
     agg_fun = "mean"
   ) |>
   ggplot_line(
@@ -27,13 +27,13 @@ constitution_subset |>
   labs(
     x = "Year",
     y = "Percentage",
-    title = "Share of Countries with Merit-Based Recruitment",
-    subtitle = "Enshrined in the Constitution",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Share of Countries",
     caption = "Source: Comparative Constitutions Project"
   )
 
 ggsave(
-  here("figs", "constitution",  "1-share_countries_merit.png"),
+  here("figs", "constitution",  "01-share_countries_merit.png"),
   height = 12,
   width = 16,
   bg = "white"
@@ -48,16 +48,32 @@ constitution_subset |>
   ggplot_line(
     year, merit
   ) +
+  geom_line(
+    aes(year, total_countries),
+    linetype = "dashed"
+  ) +
+  annotate(
+    "text",
+    x = 2020,
+    y = 210,
+    label = "Countries with Data Available"
+  ) +
+  annotate(
+    "text",
+    x = 2020,
+    y = 70,
+    label = "Countries with Merit-Based Recruitment\n in Constitution"
+  ) +
   labs(
     x = "Year",
     y = "Number of Countries",
-    title = "Number of Countries with Merit-Based Recruitment",
-    subtitle = "Enshrined in the Constitution",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Number of Countries",
     caption = "Source: Comparative Constitutions Project"
   )
 
 ggsave(
-  here("figs", "constitution",  "2-number_countries_merit.png"),
+  here("figs", "constitution",  "02-number_countries_merit.png"),
   height = 12,
   width = 16,
   bg = "white"
@@ -77,6 +93,10 @@ constitution_subset |>
     year, merit,
     color = region
   ) +
+  geom_line(
+    aes(year, total_countries),
+    linetype = "dashed"
+  ) +
   facet_wrap(
     vars(region),
     nrow = 3
@@ -84,8 +104,8 @@ constitution_subset |>
   labs(
     x = "Year",
     y = "Number of Countries",
-    title = "Number of Countries with Merit-Based Recruitment",
-    subtitle = "Enshrined in the Constitution",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Number of Countries by Region",
     caption = "Source: Comparative Constitutions Project"
   ) +
   theme(
@@ -94,7 +114,7 @@ constitution_subset |>
   scale_colour_colorblind()
 
 ggsave(
-  here("figs", "constitution",  "3-number_countries_merit_by_region.png"),
+  here("figs", "constitution",  "03-number_countries_merit_by_region.png"),
   height = 16,
   width = 14,
   bg = "white"
@@ -124,8 +144,8 @@ constitution_subset |>
   labs(
     x = "Year",
     y = "Share of Countries",
-    title = "Share of Countries with Merit-Based Recruitment",
-    subtitle = "Enshrined in the Constitution",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Share of Countries by Region",
     caption = "Source: Comparative Constitutions Project"
   ) +
   theme(
@@ -134,7 +154,7 @@ constitution_subset |>
   scale_colour_colorblind()
 
 ggsave(
-  here("figs", "constitution", "4-share_countries_merit_by_region.png"),
+  here("figs", "constitution", "04-share_countries_merit_by_region.png"),
   height = 16,
   width = 14,
   bg = "white"
@@ -179,17 +199,17 @@ constitution_subset |>
   labs(
     x = "Year",
     y = "Share of Countries",
-    title = "Share of Countries with Merit-Based Recruitment",
-    subtitle = "Enshrined in the Constitution",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Share of Countries by Income Group",
     caption = "Source: Comparative Constitutions Project"
   ) +
   theme(
-    legend.position = "bottom"
+    legend.position = "none"
   ) +
   scale_colour_colorblind()
 
 ggsave(
-  here("figs", "constitution",  "5-share_countries_merit_by_income.png"),
+  here("figs", "constitution",  "05-share_countries_merit_by_income.png"),
   height = 12,
   width = 14,
   bg = "white"
@@ -224,6 +244,10 @@ constitution_subset |>
     year, merit,
     color = income_group
   ) +
+  geom_line(
+    aes(year, total_countries),
+    linetype = "dashed"
+  ) +
   facet_wrap(
     vars(income_group),
     nrow = 3
@@ -231,18 +255,47 @@ constitution_subset |>
   labs(
     x = "Year",
     y = "Number of Countries",
-    title = "Number of Countries with Merit-Based Recruitment",
-    subtitle = "Enshrined in the Constitution",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Total of Countries by Income Group",
     caption = "Source: Comparative Constitutions Project"
   ) +
   theme(
-    legend.position = "bottom"
+    legend.position = "none"
   ) +
   scale_colour_colorblind()
 
 ggsave(
-  here("figs", "constitution", "6-number_countries_merit_by_income.png"),
+  here("figs", "constitution", "06-number_countries_merit_by_income.png"),
   height = 12,
   width = 14,
   bg = "white"
 )
+
+# appendix ----------------------------------------------------------------
+constitution_subset |>
+  filter(
+    type_constitution != "Constitution"
+  ) |>
+  group_by(type_constitution) |>
+  slice_sample(n = 5)
+
+constitution_subset |>
+  summarise_merit(
+    group_var = c("type_constitution", "year"),
+    agg_fun = "mean"
+  ) |>
+  ggplot_line(
+    year, merit,
+    color = type_constitution
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  labs(
+    x = "Year",
+    y = "Percentage",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Share of Countries",
+    caption = "Source: Comparative Constitutions Project"
+  )
+

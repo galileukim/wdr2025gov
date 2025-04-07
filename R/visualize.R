@@ -67,7 +67,7 @@ ggplot_line <- function(data, x, y, ...){
 #' @param y Y-axis variable
 #' @param ... Any other arguments that can be placed in aes()
 #'
-#' @import ggplot
+#' @import ggplot2
 #' @return A plot
 #' @export
 ggplot_pointrange <- function(data, x, y, ...){
@@ -97,7 +97,7 @@ ggplot_pointrange <- function(data, x, y, ...){
 #' @param y Y-axis variable
 #' @param ... Any other arguments that can be placed in aes()
 #'
-#' @import ggplot
+#' @import ggplot2
 #' @return A plot
 #' @export
 ggplot_boxplot <- function(data, x, y, ...){
@@ -120,6 +120,16 @@ ggplot_boxplot <- function(data, x, y, ...){
     )
 }
 
+#' Generate ggplot scatterplot
+#'
+#' @param data Data
+#' @param x X-axis variable
+#' @param y Y-axis variable
+#' @param ... Any other arguments that can be placed in aes()
+#'
+#' @import ggplot2
+#' @return A plot
+#' @export
 ggplot_scatter <- function(data, x, y, ...){
   ggplot(data) +
     geom_point(
@@ -131,10 +141,6 @@ ggplot_scatter <- function(data, x, y, ...){
     ) +
     scale_x_continuous(
       labels = scales::percent_format()
-    ) +
-    labs(
-      x = "Performance Evaluation Conducted",
-      y = "Performance-Related Promotion"
     )
 }
 

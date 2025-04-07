@@ -48,6 +48,13 @@ constitution <- constitution_input |>
       civil == 2 ~ "no",
       civil == 96 ~ "other",
       T ~ NA_character_
+    ),
+    doctit = case_when(
+      doctit == 1 ~ "Constitution",
+      doctit == 2 ~ "Fundamental Law",
+      doctit == 3 ~ "Basic Law",
+      doctit == 96 ~ "Other",
+      doctit == 98 ~ NA_character_
     )
   ) |>
   rename_at(
