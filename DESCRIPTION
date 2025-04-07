@@ -23,7 +23,8 @@ Imports:
     RColorBrewer,
     readr,
     readxl,
-    sinew
+    sinew,
+    tidyr
 Depends: 
     dplyr,
     here,

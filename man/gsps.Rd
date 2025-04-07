@@ -9,6 +9,7 @@ A data frame with 229467 rows and 10 variables:
 \describe{
 \item{\code{country_code}}{World Bank country code}
 \item{\code{economy}}{character Country name}
+\item{\code{category}}{character Category name}
 \item{\code{year}}{double Year}
 \item{\code{region}}{character World Bank region}
 \item{\code{income_group}}{character World Bank income group}

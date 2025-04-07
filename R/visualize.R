@@ -193,7 +193,7 @@ ggplot_scatter <- function(data, x, y, ...){
 scale_color_expand <- function(n_group){
   scale_color_manual(
     values = colorRampPalette(
-      RColorBrewer::brewer.pal(name = "Paired", n = 8)
+      colorblind_pal()(8)
     )(n_group)
   )
 }

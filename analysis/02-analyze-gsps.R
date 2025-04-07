@@ -2,10 +2,11 @@
 library(ggplot2)
 library(ggthemes)
 library(forcats)
+library(tidyr)
 
 theme_set(
   theme_few(
-    base_size = 18
+    base_size = 24
   )
 )
 
@@ -82,6 +83,106 @@ ggsave(
   bg = "white"
 )
 
+gsps_national |>
+  filter(
+    (indicator_group == "Recruitment standard: written examination" |
+      indicator_group == "Recruitment standard: interview") &
+      country_code != "ROU" &
+    # there seems to be a coding error for Ghana w.r.t. interview
+    country_code != "GHA"
+  ) |>
+  select(
+    country_code, economy, year,
+    indicator_group, mean
+  ) |>
+  pivot_wider(
+    names_from = indicator_group,
+    values_from = mean
+  ) |>
+  ggplot() +
+  geom_text(
+    aes(
+      `Recruitment standard: written examination`,
+      `Recruitment standard: interview`,
+      label = economy,
+      color = economy
+    )
+  ) +
+  scale_color_expand(12) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  ggtitle(
+    "Countries apply both written exams\n and interviews",
+    subtitle = "Share of Public Servants"
+  ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+ggsave(
+  here("figs", "gsps", "03-cor_exam_interview.png"),
+  width = 10,
+  height = 10,
+  bg = "white"
+)
+
+gsps_institutional |>
+  filter(
+    (indicator_group == "Recruitment standard: written examination" |
+       indicator_group == "Recruitment standard: interview") &
+      country_code != "ROU" &
+      # there seems to be a coding error for Ghana w.r.t. interview
+      country_code != "GHA" &
+      response_rate >= 0.1
+  ) |>
+  select(
+    economy, year,
+    category,
+    indicator_group,
+    mean
+  ) |>
+  pivot_wider(
+    names_from = indicator_group,
+    values_from = mean
+  ) |>
+  ggplot() +
+  geom_point(
+    aes(
+      `Recruitment standard: written examination`,
+      `Recruitment standard: interview`,
+      color = economy
+    )
+  ) +
+  scale_color_expand(12) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  theme(legend.position = "none") +
+  ggtitle(
+    "Countries apply both written exams\n and interviews",
+    subtitle = "Share of Public Servants per Institution"
+  ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+ggsave(
+  here("figs", "gsps", "03-cor_exam_interview_institution.png"),
+  width = 10,
+  height = 10,
+  bg = "white"
+)
+
 # performance management standards
 gsps_national_performance <- gsps_national |>
   filter(
@@ -145,5 +246,4 @@ ggsave(
 )
 
 # correlation between performance evaluation and performance-based promotion
-
 

@@ -5,7 +5,7 @@ library(tidyr)
 library(forcats)
 
 theme_set(
-  theme_classic(
+  theme_few(
     base_size = 24
   )
 )
@@ -152,7 +152,7 @@ constitution_subset |>
   theme(
     legend.position = "bottom"
   ) +
-  scale_colour_colorblind()
+  scale_color_sol()
 
 ggsave(
   here("figs", "constitution", "04-share_countries_merit_by_region.png"),
@@ -289,7 +289,7 @@ constitution_subset |>
   theme(
     legend.position = "bottom"
   ) +
-  scale_color_solarized(
+  scale_colour_colorblind(
     name = ""
   ) +
   labs(
@@ -324,7 +324,7 @@ constitution_subset |>
   theme(
     legend.position = "bottom"
   ) +
-  scale_color_solarized(
+  scale_colour_colorblind(
     name = ""
   ) +
   facet_wrap(
