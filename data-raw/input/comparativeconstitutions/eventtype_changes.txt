@@ -1,0 +1,411 @@
+      name:  Changes to evnttype from version 1.2 to version 1.3
+  log type:  text
+ opened on:  22 Apr 2020, 14:24:38
+
+       
+       +------------------------------------------------------------------------+
+       |                               country   year    old_etype    new_etype |
+       |------------------------------------------------------------------------|
+  152. |                           Afghanistan   1985          new    non-event |
+  281. |                               Albania   2007    non-event    amendment |
+  286. |                               Albania   2012    non-event    amendment |
+  312. |                               Algeria   1965    non-event   suspension |
+  323. |                               Algeria   1976    amendment          new |
+       |------------------------------------------------------------------------|
+  326. |                               Algeria   1979    non-event    amendment |
+  327. |                               Algeria   1980    non-event    amendment |
+  333. |                               Algeria   1986    non-event    amendment |
+  336. |                               Algeria   1989    amendment          new |
+  339. |                               Algeria   1992    non-event    amendment |
+       |------------------------------------------------------------------------|
+  343. |                               Algeria   1996    amendment   reinstated |
+  863. |                             Argentina   1997    amendment    non-event |
+ 1127. |                               Austria   2011    non-event    amendment |
+ 1128. |                               Austria   2012    non-event    amendment |
+ 1129. |                               Austria   2013    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 1382. |                               Bahamas   1977    amendment    non-event |
+ 1407. |                               Bahamas   2002    amendment    non-event |
+ 1566. |                              Barbados   2009    non-event    amendment |
+ 1567. |                              Barbados   2010    non-event    amendment |
+ 1909. |                                Belize   2011    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 2755. |            Burkina Faso (Upper Volta)   2013    non-event    amendment |
+ 2770. |                               Burundi   1970    amendment   samendment |
+ 2861. |                  Cambodia (Kampuchea)   1994    non-event    amendment |
+ 2868. |                  Cambodia (Kampuchea)   2001    non-event    amendment |
+ 2872. |                  Cambodia (Kampuchea)   2005    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 2873. |                  Cambodia (Kampuchea)   2006    non-event    amendment |
+ 2875. |                  Cambodia (Kampuchea)   2008    non-event    amendment |
+ 3135. |                            Cape Verde   2010    non-event    amendment |
+ 3198. |              Central African Republic   2013    non-event      interim |
+ 3236. |                                  Chad   1991    amendment   samendment |
+       |------------------------------------------------------------------------|
+ 3258. |                                  Chad   2013    non-event    amendment |
+ 3460. |                                 Chile   2013    non-event    amendment |
+ 3875. |                              Colombia   2007    non-event    amendment |
+ 3879. |                              Colombia   2011    non-event    amendment |
+ 3880. |                              Colombia   2012    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 3881. |                              Colombia   2013    non-event    amendment |
+ 3994. | Congo, Democratic Republic Of (Zaire)   1961      interim    amendment |
+ 3998. | Congo, Democratic Republic Of (Zaire)   1965    non-event    amendment |
+ 3999. | Congo, Democratic Republic Of (Zaire)   1966    non-event    amendment |
+ 4006. | Congo, Democratic Republic Of (Zaire)   1973    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 4011. | Congo, Democratic Republic Of (Zaire)   1978          new    amendment |
+ 4259. |                         Cote D'Ivoire   1986    non-event    amendment |
+ 4268. |                         Cote D'Ivoire   1995    non-event    amendment |
+ 4285. |                         Cote D'Ivoire   2012    non-event    amendment |
+ 4315. |                               Croatia   2013    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 4675. |                               Denmark   1863    non-event          new |
+ 5421. |                                 Egypt   2013    non-event   suspension |
+ 5428. |                           El Salvador   1840          new    non-event |
+ 5597. |                           El Salvador   2009    non-event    amendment |
+ 5638. |                     Equatorial Guinea   1998    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 5652. |                     Equatorial Guinea   2012    non-event    amendment |
+ 5726. |                               Estonia   2007    non-event    amendment |
+ 5730. |                               Estonia   2011    non-event    amendment |
+ 6275. |                                France   2007    non-event    amendment |
+ 6339. |                                 Gabon   2011    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 6365. |                                Gambia   1982    amendment   samendment |
+ 6370. |                                Gambia   1987    amendment   samendment |
+ 6377. |                                Gambia   1994    amendment   samendment |
+ 6386. |                                Gambia   2003    non-event    amendment |
+ 6389. |                                Gambia   2006    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 6390. |                                Gambia   2007    non-event    amendment |
+ 6392. |                                Gambia   2009    non-event    amendment |
+ 6605. |                     Germany (Prussia)   1849    non-event    amendment |
+ 6973. |                               Grenada   1980    amendment   samendment |
+ 6974. |                               Grenada   1981    amendment   samendment |
+       |------------------------------------------------------------------------|
+ 7231. |                                Guinea   1996    non-event    amendment |
+ 7237. |                                Guinea   2002    non-event    amendment |
+ 7339. |                                Guyana   2004    non-event    amendment |
+ 7341. |                                Guyana   2006    non-event    amendment |
+ 7344. |                                Guyana   2009    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 7911. |                              Honduras   2008    non-event    amendment |
+ 7914. |                              Honduras   2011    non-event    amendment |
+ 7916. |                              Honduras   2013    non-event    amendment |
+ 8014. |                               Hungary   2009    non-event    amendment |
+ 8015. |                               Hungary   2010    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 8017. |                               Hungary   2012    non-event    amendment |
+ 8018. |                               Hungary   2013    non-event    amendment |
+ 8094. |                               Iceland   2013    non-event    amendment |
+ 8513. |                                  Iraq   1965    non-event    amendment |
+ 8660. |                               Ireland   2013    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 8668. |                                Israel   1949    non-event      interim |
+ 8678. |                                Israel   1959    non-event    amendment |
+ 8686. |                                Israel   1967    non-event    amendment |
+ 8688. |                                Israel   1969    non-event    amendment |
+ 8692. |                                Israel   1973    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 8693. |                                Israel   1974    non-event    amendment |
+ 8698. |                                Israel   1979    non-event    amendment |
+ 8701. |                                Israel   1982    non-event    amendment |
+ 8704. |                                Israel   1985    non-event    amendment |
+ 8706. |                                Israel   1987    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 8709. |                                Israel   1990    non-event    amendment |
+ 8710. |                                Israel   1991    non-event    amendment |
+ 8714. |                                Israel   1995    non-event    amendment |
+ 8715. |                                Israel   1996    non-event    amendment |
+ 8716. |                                Israel   1997    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 8717. |                                Israel   1998    non-event    amendment |
+ 8719. |                                Israel   2000    non-event    amendment |
+ 8721. |                                Israel   2002    non-event    amendment |
+ 8723. |                                Israel   2004    non-event    amendment |
+ 8724. |                                Israel   2005    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 8725. |                                Israel   2006    non-event    amendment |
+ 8727. |                                Israel   2008    non-event    amendment |
+ 8729. |                                Israel   2010    non-event    amendment |
+ 8731. |                                Israel   2012    non-event    amendment |
+ 8898. |                        Italy/Sardinia   1948    amendment    non-event |
+       |------------------------------------------------------------------------|
+ 8903. |                        Italy/Sardinia   1953    amendment    non-event |
+ 9353. |                            Kazakhstan   2011    non-event    amendment |
+ 9453. |                              Kiribati   2013    non-event    amendment |
+ 9646. |           Korea, People'S Republic Of   2012    non-event    amendment |
+ 9647. |           Korea, People'S Republic Of   2013    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 9730. |                                Kosovo   2012    non-event    amendment |
+ 9731. |                                Kosovo   2013    non-event    amendment |
+ 9738. |                                Kuwait   1961      interim    non-event |
+ 9829. |                                  Laos   1957    non-event    amendment |
+ 9933. |                                Latvia   2009    non-event    amendment |
+       |------------------------------------------------------------------------|
+ 9937. |                                Latvia   2013    non-event    amendment |
+10025. |                               Lesotho   1971    amendment   samendment |
+10026. |                               Lesotho   1972    amendment   samendment |
+10027. |                               Lesotho   1973    amendment   samendment |
+10028. |                               Lesotho   1974    amendment   samendment |
+       |------------------------------------------------------------------------|
+10029. |                               Lesotho   1975    amendment   samendment |
+10044. |                               Lesotho   1990    amendment   samendment |
+10045. |                               Lesotho   1991    amendment   samendment |
+10065. |                               Lesotho   2011    non-event    amendment |
+10208. |                               Liberia   1981    amendment   samendment |
+       |------------------------------------------------------------------------|
+10328. |                                 Libya   2013    non-event    amendment |
+10534. |                         Liechtenstein   2005    non-event    amendment |
+10536. |                         Liechtenstein   2007    non-event    amendment |
+10537. |                         Liechtenstein   2008    non-event    amendment |
+10538. |                         Liechtenstein   2009    non-event    amendment |
+       |------------------------------------------------------------------------|
+10539. |                         Liechtenstein   2010    non-event    amendment |
+10540. |                         Liechtenstein   2011    non-event    amendment |
+10886. |                 Madagascar (Malagasy)   1982    non-event    amendment |
+10892. |                 Madagascar (Malagasy)   1988    non-event    amendment |
+10911. |                 Madagascar (Malagasy)   2007    non-event    amendment |
+       |------------------------------------------------------------------------|
+10972. |                                Malawi   2012    non-event    amendment |
+11341. |                             Mauritius   2001    non-event    amendment |
+12163. |                            Montenegro   2013    non-event    amendment |
+12468. |                       Myanmar (Burma)   1951    non-event    amendment |
+12478. |                       Myanmar (Burma)   1961    non-event    amendment |
+       |------------------------------------------------------------------------|
+12841. |                                 Nepal   2011    non-event    amendment |
+12842. |                                 Nepal   2012    non-event    amendment |
+12875. |                           Netherlands   1814    non-event          new |
+12876. |                           Netherlands   1815          new    amendment |
+13008. |                           Netherlands   1947    amendment    non-event |
+       |------------------------------------------------------------------------|
+13081. |                           New Zealand   1907    non-event    amendment |
+13083. |                           New Zealand   1909    non-event    amendment |
+13084. |                           New Zealand   1910    non-event    amendment |
+13085. |                           New Zealand   1911    non-event    amendment |
+13087. |                           New Zealand   1913    non-event    amendment |
+       |------------------------------------------------------------------------|
+13091. |                           New Zealand   1917    non-event    amendment |
+13097. |                           New Zealand   1923    non-event    amendment |
+13099. |                           New Zealand   1925    non-event    amendment |
+13101. |                           New Zealand   1927    non-event    amendment |
+13102. |                           New Zealand   1928    non-event    amendment |
+       |------------------------------------------------------------------------|
+13104. |                           New Zealand   1930    non-event    amendment |
+13107. |                           New Zealand   1933    non-event    amendment |
+13109. |                           New Zealand   1935    non-event    amendment |
+13110. |                           New Zealand   1936    non-event    amendment |
+13123. |                           New Zealand   1949    non-event    amendment |
+       |------------------------------------------------------------------------|
+13124. |                           New Zealand   1950    non-event    amendment |
+13126. |                           New Zealand   1952    non-event    amendment |
+13127. |                           New Zealand   1953    non-event    amendment |
+13128. |                           New Zealand   1954    non-event    amendment |
+13129. |                           New Zealand   1955    non-event    amendment |
+       |------------------------------------------------------------------------|
+13130. |                           New Zealand   1956    non-event    amendment |
+13131. |                           New Zealand   1957    non-event    amendment |
+13132. |                           New Zealand   1958    non-event    amendment |
+13133. |                           New Zealand   1959    non-event    amendment |
+13134. |                           New Zealand   1960    non-event    amendment |
+       |------------------------------------------------------------------------|
+13135. |                           New Zealand   1961    non-event    amendment |
+13137. |                           New Zealand   1963    non-event    amendment |
+13139. |                           New Zealand   1965    non-event    amendment |
+13142. |                           New Zealand   1968    non-event    amendment |
+13143. |                           New Zealand   1969    non-event    amendment |
+       |------------------------------------------------------------------------|
+13146. |                           New Zealand   1972    non-event    amendment |
+13148. |                           New Zealand   1974    non-event    amendment |
+13149. |                           New Zealand   1975    non-event    amendment |
+13151. |                           New Zealand   1977    non-event    amendment |
+13152. |                           New Zealand   1978    non-event    amendment |
+       |------------------------------------------------------------------------|
+13153. |                           New Zealand   1979    non-event    amendment |
+13154. |                           New Zealand   1980    non-event    amendment |
+13155. |                           New Zealand   1981    non-event    amendment |
+13156. |                           New Zealand   1982    non-event    amendment |
+13157. |                           New Zealand   1983    non-event    amendment |
+       |------------------------------------------------------------------------|
+13159. |                           New Zealand   1985    non-event    amendment |
+13162. |                           New Zealand   1988    non-event    amendment |
+13163. |                           New Zealand   1989    non-event    amendment |
+13165. |                           New Zealand   1991    non-event    amendment |
+13166. |                           New Zealand   1992    non-event    amendment |
+       |------------------------------------------------------------------------|
+13167. |                           New Zealand   1993    non-event    amendment |
+13168. |                           New Zealand   1994    non-event    amendment |
+13169. |                           New Zealand   1995    non-event    amendment |
+13170. |                           New Zealand   1996    non-event    amendment |
+13171. |                           New Zealand   1997    non-event    amendment |
+       |------------------------------------------------------------------------|
+13172. |                           New Zealand   1998    non-event    amendment |
+13174. |                           New Zealand   2000    non-event    amendment |
+13175. |                           New Zealand   2001    non-event    amendment |
+13176. |                           New Zealand   2002    non-event    amendment |
+13177. |                           New Zealand   2003    non-event    amendment |
+       |------------------------------------------------------------------------|
+13178. |                           New Zealand   2004    non-event    amendment |
+13180. |                           New Zealand   2006    non-event    amendment |
+13181. |                           New Zealand   2007    non-event    amendment |
+13182. |                           New Zealand   2008    non-event    amendment |
+13183. |                           New Zealand   2009    non-event    amendment |
+       |------------------------------------------------------------------------|
+13184. |                           New Zealand   2010    non-event    amendment |
+13185. |                           New Zealand   2011    non-event    amendment |
+13186. |                           New Zealand   2012    non-event    amendment |
+13187. |                           New Zealand   2013    non-event    amendment |
+13358. |                             Nicaragua   2004    non-event    amendment |
+       |------------------------------------------------------------------------|
+13364. |                             Nicaragua   2010    non-event    amendment |
+13397. |                                 Niger   1983    amendment   samendment |
+13425. |                                 Niger   2011    non-event    amendment |
+13441. |                               Nigeria   1967    amendment   samendment |
+13459. |                               Nigeria   1985    amendment   samendment |
+       |------------------------------------------------------------------------|
+13484. |                               Nigeria   2010    amendment    non-event |
+13485. |                               Nigeria   2011    non-event    amendment |
+13564. |                                Norway   1975    non-event    amendment |
+13929. |                              Pakistan   1979    amendment   samendment |
+13930. |                              Pakistan   1980    amendment   samendment |
+       |------------------------------------------------------------------------|
+13931. |                              Pakistan   1981    amendment   samendment |
+13932. |                              Pakistan   1982    amendment   samendment |
+13933. |                              Pakistan   1983    amendment   samendment |
+13934. |                              Pakistan   1984    amendment   samendment |
+14200. |                      Papua New Guinea   1980    non-event    amendment |
+       |------------------------------------------------------------------------|
+14202. |                      Papua New Guinea   1982    amendment    non-event |
+14203. |                      Papua New Guinea   1983    non-event    amendment |
+14217. |                      Papua New Guinea   1997    non-event    amendment |
+14218. |                      Papua New Guinea   1998    non-event    amendment |
+14221. |                      Papua New Guinea   2001    non-event    amendment |
+       |------------------------------------------------------------------------|
+14222. |                      Papua New Guinea   2002    non-event    amendment |
+14223. |                      Papua New Guinea   2003    non-event    amendment |
+14224. |                      Papua New Guinea   2004    non-event    amendment |
+14226. |                      Papua New Guinea   2006    amendment    non-event |
+14227. |                      Papua New Guinea   2007    non-event    amendment |
+       |------------------------------------------------------------------------|
+14230. |                      Papua New Guinea   2010    non-event    amendment |
+14231. |                      Papua New Guinea   2011    non-event    amendment |
+14232. |                      Papua New Guinea   2012    non-event    amendment |
+14233. |                      Papua New Guinea   2013    non-event    amendment |
+14718. |                           Philippines   1946    amendment    non-event |
+       |------------------------------------------------------------------------|
+14855. |                                Poland   1976          new    amendment |
+14885. |                                Poland   2006    non-event    amendment |
+14888. |                                Poland   2009    non-event    amendment |
+14944. |                              Portugal   1834    non-event   reinstated |
+14946. |                              Portugal   1836    non-event   reinstated |
+       |------------------------------------------------------------------------|
+14948. |                              Portugal   1838   reinstated          new |
+15085. |                              Portugal   1975    amendment   samendment |
+15481. |                 Russia (Soviet Union)   1949    non-event    amendment |
+15679. |                                 Samoa   2013    non-event    amendment |
+15792. |                          Saudi Arabia   1993    non-event    amendment |
+       |------------------------------------------------------------------------|
+15802. |                          Saudi Arabia   2003    non-event    amendment |
+15806. |                          Saudi Arabia   2007    non-event    amendment |
+15812. |                          Saudi Arabia   2013    non-event    amendment |
+15938. |                               Senegal   2012    non-event    amendment |
+16006. |                          Sierra Leone   1971    amendment          new |
+       |------------------------------------------------------------------------|
+16048. |                          Sierra Leone   2013    non-event    amendment |
+16122. |                              Slovakia   2005    non-event    amendment |
+16123. |                              Slovakia   2006    non-event    amendment |
+16127. |                              Slovakia   2010    non-event    amendment |
+16128. |                              Slovakia   2011    non-event    amendment |
+       |------------------------------------------------------------------------|
+16129. |                              Slovakia   2012    non-event    amendment |
+16158. |                              Slovenia   2013    non-event    amendment |
+16210. |                               Somalia   1963    non-event    amendment |
+16290. |                          South Africa   1933    non-event    amendment |
+16291. |                          South Africa   1934    non-event    amendment |
+       |------------------------------------------------------------------------|
+16303. |                          South Africa   1946    non-event    amendment |
+16391. |                           South Sudan   2013    non-event    amendment |
+16635. |                    Sri Lanka (Ceylon)   1954    non-event    amendment |
+16651. |                    Sri Lanka (Ceylon)   1970    non-event    amendment |
+16652. |                    Sri Lanka (Ceylon)   1971    non-event    amendment |
+       |------------------------------------------------------------------------|
+16808. |                                 Sudan   1962    amendment   samendment |
+16837. |                                 Sudan   1991    amendment   samendment |
+16839. |                                 Sudan   1993    amendment   samendment |
+16841. |                                 Sudan   1995    amendment   samendment |
+16843. |                                 Sudan   1997    amendment   samendment |
+       |------------------------------------------------------------------------|
+17410. |                           Switzerland   2004    non-event    amendment |
+17411. |                           Switzerland   2005    non-event    amendment |
+17412. |                           Switzerland   2006    non-event    amendment |
+17413. |                           Switzerland   2007    non-event    amendment |
+17414. |                           Switzerland   2008    non-event    amendment |
+       |------------------------------------------------------------------------|
+17415. |                           Switzerland   2009    non-event    amendment |
+17416. |                           Switzerland   2010    non-event    amendment |
+17417. |                           Switzerland   2011    non-event    amendment |
+17418. |                           Switzerland   2012    non-event    amendment |
+17419. |                           Switzerland   2013    non-event    amendment |
+       |------------------------------------------------------------------------|
+17517. |                                Taiwan   1966    non-event    amendment |
+17550. |                                Taiwan   1999    non-event    amendment |
+17603. |                   Tanzania/Tanganyika   1964    non-event    amendment |
+17612. |                   Tanzania/Tanganyika   1973    non-event    amendment |
+17618. |                   Tanzania/Tanganyika   1979    non-event    amendment |
+       |------------------------------------------------------------------------|
+17619. |                   Tanzania/Tanganyika   1980    non-event    amendment |
+17621. |                   Tanzania/Tanganyika   1982    non-event    amendment |
+17624. |                   Tanzania/Tanganyika   1985    amendment    non-event |
+17629. |                   Tanzania/Tanganyika   1990    non-event    amendment |
+17630. |                   Tanzania/Tanganyika   1991    amendment    non-event |
+       |------------------------------------------------------------------------|
+17632. |                   Tanzania/Tanganyika   1993    non-event    amendment |
+17639. |                   Tanzania/Tanganyika   2000    non-event    amendment |
+17644. |                   Tanzania/Tanganyika   2005    non-event    amendment |
+18257. |                               Tunisia   1965    non-event    amendment |
+18259. |                               Tunisia   1967    non-event    amendment |
+       |------------------------------------------------------------------------|
+18273. |                               Tunisia   1981    non-event    amendment |
+18287. |                               Tunisia   1995    non-event    amendment |
+18289. |                               Tunisia   1997    non-event    amendment |
+18290. |                               Tunisia   1998    non-event    amendment |
+18291. |                               Tunisia   1999    non-event    amendment |
+       |------------------------------------------------------------------------|
+18295. |                               Tunisia   2003    non-event    amendment |
+18657. |                                Tuvalu   1990    amendment    non-event |
+18659. |                                Tuvalu   1992    non-event    amendment |
+18667. |                                Tuvalu   2000    non-event    amendment |
+18669. |                                Tuvalu   2002    non-event    amendment |
+       |------------------------------------------------------------------------|
+18674. |                                Tuvalu   2007    non-event    amendment |
+18677. |                                Tuvalu   2010    non-event    amendment |
+18770. |                                Uganda   1972    amendment   samendment |
+18771. |                                Uganda   1973    amendment   samendment |
+18773. |                                Uganda   1975    amendment   samendment |
+       |------------------------------------------------------------------------|
+18774. |                                Uganda   1976    amendment   samendment |
+18775. |                                Uganda   1977    amendment   samendment |
+18778. |                                Uganda   1980    amendment   samendment |
+18820. |                               Ukraine   1993    non-event    amendment |
+18821. |                               Ukraine   1994    non-event    amendment |
+       |------------------------------------------------------------------------|
+18837. |                               Ukraine   2010    non-event    amendment |
+18838. |                               Ukraine   2011    non-event    amendment |
+18840. |                               Ukraine   2013    non-event    amendment |
+18848. |                  United Arab Emirates   1972    non-event    amendment |
+18852. |                  United Arab Emirates   1976    non-event    amendment |
+       |------------------------------------------------------------------------|
+18857. |                  United Arab Emirates   1981    non-event    amendment |
+18862. |                  United Arab Emirates   1986    non-event    amendment |
+18867. |                  United Arab Emirates   1991    non-event    amendment |
+19618. |                               Vanuatu   2004    non-event    amendment |
+19620. |                               Vanuatu   2006    non-event    amendment |
+       |------------------------------------------------------------------------|
+19627. |                               Vanuatu   2013    non-event    amendment |
+19962. |       Vietnam, Democratic Republic Of   2013    non-event    amendment |
+20232. |                            Yugoslavia   1929    amendment   suspension |
+20296. |                            Yugoslavia   1993    amendment    non-event |
+20297. |                            Yugoslavia   1994    amendment    non-event |
+       +------------------------------------------------------------------------+
+

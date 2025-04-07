@@ -83,7 +83,7 @@ ggsave(
 )
 
 # performance management standards
-gsps_national_performance <-gsps_national |>
+gsps_national_performance <- gsps_national |>
   filter(
     indicator_group == "Performance standard: evaluation" &
       scale == "0--1"
@@ -144,5 +144,6 @@ ggsave(
   bg = "white"
 )
 
-# correlation between performance evaluation and promotion
+# correlation between performance evaluation and performance-based promotion
+
 

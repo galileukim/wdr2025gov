@@ -1,6 +1,7 @@
 # set-up ------------------------------------------------------------------
 library(ggplot2)
 library(ggthemes)
+library(tidyr)
 library(forcats)
 
 theme_set(
@@ -271,6 +272,74 @@ ggsave(
   bg = "white"
 )
 
+# measuring reversals:
+# a reversal is defined as a constitutional mandate for merit is either
+# overturned or suspended
+constitution_subset |>
+  group_by(country) |>
+  distinct(
+    merit,
+    .keep_all = TRUE
+  ) |>
+  arrange(
+    country, year
+  ) |>
+  mutate(
+    merit_lag = lag(merit, order_by = year),
+    merit_change = case_when(
+      merit == "yes" & (merit_lag == "no" | (is.na(merit_lag) & !min(year))) ~ "meritocratic reform",
+      (merit == "no" | is.na(merit)) & merit_lag == "yes" ~ "meritocratic reversal",
+      T ~ NA_character_
+    )
+  ) |>
+  ungroup() |>
+  filter(
+    !is.na(merit_change)
+  ) |>
+  group_by(year) |>
+  summarise(
+    sum_merit_reform = sum(merit_change == "meritocratic reform"),
+    sum_merit_reversal = sum(merit_change == "meritocratic reversal"),
+    .groups = "drop"
+  ) |>
+  mutate(
+    `Meritocratic Reforms` = cumsum(sum_merit_reform),
+    `Meritocratic Reversals` = cumsum(sum_merit_reversal)
+  ) |>
+  pivot_longer(
+    cols = c(starts_with("Meritocratic"))
+  ) |>
+  ggplot(
+    aes(
+      year, value,
+      color = name
+    )
+  ) +
+  geom_point() +
+  geom_line() +
+  theme(
+    legend.position = "bottom"
+  ) +
+  scale_colour_colorblind(
+    name = ""
+  ) +
+  labs(
+    x = "Year",
+    y = "Total Number of Countries",
+    caption = "Source: Comparative Constitutions Project"
+  ) +
+  ggtitle(
+    "Meritocratic reforms and reversals (1960-2023)",
+    subtitle = "Cumulative Number of Countries"
+  )
+
+ggsave(
+  here("figs", "constitution", "07-cumulative_meritocratic_reversals.png"),
+  height = 12,
+  width = 14,
+  bg = "white"
+)
+
 # appendix ----------------------------------------------------------------
 constitution_subset |>
   filter(
@@ -280,6 +349,9 @@ constitution_subset |>
   slice_sample(n = 5)
 
 constitution_subset |>
+  filter(
+    !is.na(type_constitution)
+  ) |>
   summarise_merit(
     group_var = c("type_constitution", "year"),
     agg_fun = "mean"
@@ -288,6 +360,9 @@ constitution_subset |>
     year, merit,
     color = type_constitution
   ) +
+  facet_wrap(
+    vars(type_constitution)
+  ) +
   scale_y_continuous(
     labels = scales::percent_format()
   ) +
@@ -295,7 +370,33 @@ constitution_subset |>
     x = "Year",
     y = "Percentage",
     title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Share of Countries",
+    subtitle = "Share of Countries by Type of Constitution",
     caption = "Source: Comparative Constitutions Project"
-  )
+  ) +
+  scale_colour_colorblind()
+
+constitution_subset |>
+  filter(
+    !is.na(type_constitution)
+  ) |>
+  summarise_merit(
+    group_var = c("type_constitution", "year"),
+    agg_fun = "sum"
+  ) |>
+  ggplot_line(
+    year, merit,
+    color = type_constitution
+  ) +
+  facet_wrap(
+    vars(type_constitution)
+  ) +
+  labs(
+    x = "Year",
+    y = "Percentage",
+    title = "Constitutional Mandate for Merit-Based Recruitment",
+    subtitle = "Number of Countries by Type of Constitution",
+    caption = "Source: Comparative Constitutions Project"
+  ) +
+  theme(legend.position = "none") +
+  scale_colour_colorblind()
 

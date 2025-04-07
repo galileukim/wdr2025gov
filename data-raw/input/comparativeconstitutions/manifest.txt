@@ -1,14 +1,12 @@
-Manifest for the Comparative Constitutions Project's Characteristics of National Constitutions, Version 5.0
+Manifest for the Comparative Constitutions Project's Chronology of Constitutional Events, Version 1.3
 
-Contents of ccpcnc_v5.zip:
+Contents of ccpcce_v1_3.zip:
 
 Codebook
- - ccpcnc\codebook_v5.pdf
+ - ccpcce\codebook.pdf
 
-Stata Data
- - ccpcnc\ccpcnc_v5.dta
- - ccpcnc\ccpcnc_v5_small.dta
+Tab-Delimited Data
+ - ccpcce\ccpcce_v1_3.txt
 
-Comma-Separated Data
- - ccpcnc\ccpcnc_v5.csv
- - ccpcnc\ccpcnc_v5_small.csv
+Log of Changes to Evnttype between Versions 1.2 and 1.3
+- ccpcce\evnttype_changes.txt

@@ -2,30 +2,57 @@
 library(readr)
 library(dplyr)
 library(countrycode)
+library(purrr)
 library(stringr)
 library(here)
 
 # accessed in: 4/1/2025
-src <- "https://www.comparativeconstitutionsproject.org/data/ccpcnc_v5.zip"
+# constitutional characteristics
+src <- c(
+  "https://www.comparativeconstitutionsproject.org/data/ccpcnc_v5.zip",
+  "https://comparativeconstitutionsproject.org/data/ccpcce_v1_3.zip"
+)
+
 lcl <- "data-raw/input/comparativeconstitutions"
 
 if (!file.exists(lcl)) {
-  tmp <- tempfile(fileext = ".zip")
-  download.file(src, tmp, method = "wininet")
-
   dir.create(lcl)
-  unzip(tmp, exdir = lcl, junkpaths = TRUE)
+
+  src |>
+    map(
+      \(src){
+        tmp <- tempfile(fileext = ".zip")
+        files <- download.file(src, tmp, method = "wininet")
+
+        unzip(tmp, exdir = lcl, junkpaths = TRUE)
+      }
+    )
+  # tmp <- tempfile(fileext = ".zip")
+  # files <- src |>
+  #   map(
+  #     \(x) download.file(x, tmp, method = "curl")
+  #   )
+  #
+  # dir.create(lcl)
+  # tmp |>
+  #   map(
+  #     \(x) unzip(tmp, exdir = lcl, junkpaths = TRUE)
+  #   )
 }
 
-constitution_input <- read_csv(
-  here(lcl, "ccpcnc_v5.csv"),
-  col_select = c(
-    cowcode, country, year, systid, systyear,
-    evntid, evnttype,
-    doctit,
-    civil, civil_article, civil_comments
-  )
-)
+# constitutional events
+# src <-
+# lcl <- "data-raw/input/comparativeconstitutions"
+#
+# constitution_input <- read_csv(
+#   here(lcl, "ccpcnc_v5.csv"),
+#   col_select = c(
+#     cowcode, country, year, systid, systyear,
+#     evntid, evnttype,
+#     doctit,
+#     civil, civil_article, civil_comments
+#   )
+# )
 
 constitution <- constitution_input |>
   filter(
