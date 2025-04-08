@@ -11,7 +11,23 @@ theme_set(
 )
 
 constitution_subset <- constitution |>
-  filter(year >= 1960)
+  filter(
+    year >= 1960 & !is.na(country_code)
+  )
+
+classify_merit_change <- function(data){
+  data |>
+    group_by(country_code) |>
+    mutate(
+      merit_lag = lag(merit, order_by = year),
+      merit_change = case_when(
+        merit == "yes" & (merit_lag == "no" | (is.na(merit_lag) & !min(year))) ~ "meritocratic reform",
+        (merit == "no" | is.na(merit)) & merit_lag == "yes" ~ "meritocratic reversal",
+        T ~ "no change"
+      )
+    ) |>
+    ungroup()
+}
 
 # visualize ---------------------------------------------------------------
 constitution_subset |>
@@ -347,7 +363,46 @@ ggsave(
   bg = "white"
 )
 
-#
+# evolution of GDP per capita with the onset of reform
+constitution_subset |>
+  filter(
+    year >= 1990
+  ) |>
+  left_join(
+    wdi_gdp_pc,
+    by = c("country_code", "year")
+  ) |>
+  classify_merit_change() |>
+  group_by(country_code) |>
+  mutate(
+    treat = if_else(
+      merit_change == "meritocratic reform",
+      1, 0
+    ),
+    treat_status = cumsum(treat)
+  ) |>
+  arrange(country_code, year) |>
+  fill(
+    treat,
+    .direction = "down"
+  ) |>
+  mutate(
+    cum_year = cumsum(treat_status) - 1
+  ) |>
+  ungroup() |>
+  group_by(cum_year) |>
+  summarise(
+    mean_gdp_per_capita = mean(gdp_per_capita_ppp_2017, na.rm = T)
+  ) |>
+  mutate(
+    normalized_gdp_per_capita = mean_gdp_per_capita/mean_gdp_per_capita[cum_year == 0] * 100
+  ) |>
+  filter(cum_year >= 0) |>
+  ggplot(
+    aes(cum_year, normalized_gdp_per_capita)
+  ) +
+  geom_point() +
+  geom_line()
 
 # net reforms
 constitution_subset |>
