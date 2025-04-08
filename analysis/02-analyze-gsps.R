@@ -26,7 +26,6 @@ gsps_regional <- gsps |>
     respondent_group == "Region"
   )
 
-# analysis ----------------------------------------------------------------
 # recruitment standards
 gsps_national_merit <- gsps_national |>
   filter(
@@ -37,6 +36,22 @@ gsps_national_merit <- gsps_national |>
     economy_fct = fct_reorder(economy, mean)
   )
 
+# performance
+gsps_national_performance <- gsps_national |>
+  filter(
+    indicator_group == "Performance standard: evaluation" &
+      scale == "0--1"
+  )
+
+gsps_national_performance_comp <- gsps_national |>
+  filter(
+    indicator_group == "Performance standard: compensation"
+  ) |>
+  mutate(
+    economy_fct = fct_reorder(economy, mean)
+  )
+
+# analysis ----------------------------------------------------------------
 gsps_national_merit |>
   ggplot_pointrange(
     mean, economy,
@@ -184,16 +199,7 @@ ggsave(
 )
 
 # performance management standards
-gsps_national_performance <- gsps_national |>
-  filter(
-    indicator_group == "Performance standard: evaluation" &
-      scale == "0--1"
-  ) |>
-  mutate(
-    economy_fct = fct_reorder(economy, mean)
-  )
-
-gsps_national_performance |>
+gsps_national_performance_comp |>
   ggplot_pointrange(
     mean, economy,
     color = economy_fct
@@ -205,10 +211,16 @@ gsps_national_performance |>
     limits = c(0, 1),
     labels = scales::percent_format()
   ) +
-  scale_color_expand(6)
+  scale_color_expand(13) +
+  ggtitle(
+    "The implementation of performance-based pays is uneven across countries"
+  ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
 
 ggsave(
-  here("figs", "gsps", "03-fig_share_performance_eval.png"),
+  here("figs", "gsps", "03-fig_share_performance_comp.png"),
   width = 12,
   height = 8,
   bg = "white"
@@ -246,4 +258,43 @@ ggsave(
 )
 
 # correlation between performance evaluation and performance-based promotion
-
+gsps_national |>
+  filter(
+    (indicator_group == "Performance standard: evaluation" |
+       indicator_group == "Performance standard: compensation")
+    & country_code != "URY"
+  ) |>
+  select(
+    country_code, economy, year,
+    indicator_group, mean
+  ) |>
+  pivot_wider(
+    names_from = indicator_group,
+    values_from = mean
+  ) |>
+  ggplot() +
+  geom_text(
+    aes(
+      `Performance standard: evaluation`,
+      `Performance standard: compensation`,
+      label = economy,
+      color = economy
+    )
+  ) +
+  # scale_color_expand(12) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  # ggtitle(
+  #   "Countries apply both written exams\n and interviews",
+  #   subtitle = "Share of Public Servants"
+  # ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
