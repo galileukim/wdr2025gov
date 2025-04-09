@@ -355,22 +355,27 @@ constitution_subset |>
   summarise_merit_reversal(
     group_var = "year"
   ) |>
-  pivot_longer(
-    cols = c(starts_with("Meritocratic"))
-  ) |>
+  invert_merit_reversal() |>
   ggplot_line(
     year, value,
     color = name
   ) +
+  scale_y_continuous(
+    labels = abs
+  ) +
   theme(
     legend.position = "bottom"
   ) +
-  scale_colour_colorblind(
+  scale_color_solarized(
     name = ""
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
   ) +
   labs(
     x = "Year",
-    y = "Total Number of Countries",
+    y = "Number of Countries (Cumulative)",
     caption = "Source: Comparative Constitutions Project"
   ) +
   ggtitle(
@@ -393,30 +398,37 @@ constitution_subset |>
   summarise_merit_reversal(
     group_var = c("year", "region")
   ) |>
-  pivot_longer(
-    cols = c(starts_with("Meritocratic"))
+  invert_merit_reversal(
+    c("year", "region")
   ) |>
   ggplot_line(
     year, value,
     color = name
   ) +
+  scale_y_continuous(
+    labels = abs
+  ) +
   theme(
     legend.position = "bottom"
   ) +
-  scale_colour_colorblind(
+  scale_color_solarized(
     name = ""
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
   ) +
   facet_wrap(
     vars(region)
   ) +
   labs(
     x = "Year",
-    y = "Total Number of Countries",
+    y = "Number of Countries (Cumulative)",
     caption = "Source: Comparative Constitutions Project"
   ) +
   ggtitle(
     "Meritocratic reforms and reversals (1960-2023)",
-    subtitle = "Cumulative Number of Countries by Region"
+    subtitle = "Cumulative Number of Countries"
   )
 
 ggsave(

@@ -86,6 +86,25 @@ summarise_merit_reversal <- function(data, group_var){
     )
 }
 
+invert_merit_reversal <- function(data, vars = "year"){
+  data |>
+    select(
+      all_of(vars),
+      `Meritocratic Reforms`,
+      `Meritocratic Reversals`
+    ) |>
+    pivot_longer(
+      cols = -c(all_of(vars))
+    ) |>
+    mutate(
+      value = if_else(
+        name == "Meritocratic Reforms",
+        value,
+        -1 * value
+      )
+    )
+}
+
 left_join_national <- function(data, national_data){
   data |>
     left_join(
