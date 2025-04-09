@@ -22,29 +22,51 @@ summarise_merit <- function(data, group_var, agg_fun = "sum"){
     ) |>
     summarise(
       merit = switch_function(.data[["merit"]] == "yes", na.rm = T),
-      total_countries = n()
+      total_obs = n()
     )
 }
 
-summarise_merit_reversal <- function(data, group_var){
+#' Classify a change in merit
+#'
+#' @param data
+#'
+#' @import dplyr
+#'
+#' @return A classified dataset
+#' @export
+classify_merit_change <- function(data){
   data |>
-    group_by(country) |>
-    distinct(
-      merit,
-      .keep_all = TRUE
-    ) |>
-    arrange(
-      country, year
-    ) |>
+    group_by(country_code) |>
     mutate(
       merit_lag = lag(merit, order_by = year),
       merit_change = case_when(
         merit == "yes" & (merit_lag == "no" | (is.na(merit_lag) & !min(year))) ~ "meritocratic reform",
         (merit == "no" | is.na(merit)) & merit_lag == "yes" ~ "meritocratic reversal",
-        T ~ NA_character_
+        T ~ "no change"
       )
     ) |>
-    ungroup() |>
+    ungroup()
+}
+
+#' Aggregate merit reversals by group
+#'
+#' @param data
+#' @param group_var
+#'
+#' @import dplyr
+#'
+#' @return A summarised dataset with the change in merit-systems
+#' @export
+summarise_merit_reversal <- function(data, group_var){
+  data |>
+    distinct(
+      country, merit,
+      .keep_all = TRUE
+    ) |>
+    arrange(
+      country, year
+    ) |>
+    classify_merit_change() |>
     filter(
       !is.na(merit_change)
     ) |>

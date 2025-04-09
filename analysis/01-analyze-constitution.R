@@ -13,21 +13,11 @@ theme_set(
 constitution_subset <- constitution |>
   filter(
     year >= 1960 & !is.na(country_code)
+  ) |>
+  left_join(
+    wdi_gdp_pc,
+    by = c("country_code", "year")
   )
-
-classify_merit_change <- function(data){
-  data |>
-    group_by(country_code) |>
-    mutate(
-      merit_lag = lag(merit, order_by = year),
-      merit_change = case_when(
-        merit == "yes" & (merit_lag == "no" | (is.na(merit_lag) & !min(year))) ~ "meritocratic reform",
-        (merit == "no" | is.na(merit)) & merit_lag == "yes" ~ "meritocratic reversal",
-        T ~ "no change"
-      )
-    ) |>
-    ungroup()
-}
 
 # visualize ---------------------------------------------------------------
 constitution_subset |>
@@ -35,11 +25,30 @@ constitution_subset |>
     group_var = c("year"),
     agg_fun = "mean"
   ) |>
+  mutate(
+    decade = year - year %% 10
+  ) |>
+  # group_by(decade) |>
+  # mutate(
+  #   total_obs_decade = total_obs[year == decade]
+  # ) |>
+  # ungroup() |>
   ggplot_line(
     year, merit
   ) +
+  # geom_text(
+  #   aes(
+  #     x = decade,
+  #     y = 0.35,
+  #     label = total_obs_decade
+  #   )
+  # ) +
   scale_y_continuous(
     labels = scales::percent_format()
+  ) +
+  scale_x_continuous(
+    breaks = seq(1960, 2020, 10),
+    labels = seq(1960, 2020, 10)
   ) +
   labs(
     x = "Year",
@@ -66,7 +75,7 @@ constitution_subset |>
     year, merit
   ) +
   geom_line(
-    aes(year, total_countries),
+    aes(year, total_obs),
     linetype = "dashed"
   ) +
   annotate(
@@ -80,6 +89,10 @@ constitution_subset |>
     x = 2020,
     y = 70,
     label = "Countries with Merit-Based Recruitment\n in Constitution"
+  ) +
+  scale_x_continuous(
+    breaks = seq(1960, 2020, 10),
+    labels = seq(1960, 2020, 10)
   ) +
   labs(
     x = "Year",
@@ -111,7 +124,7 @@ constitution_subset |>
     color = region
   ) +
   geom_line(
-    aes(year, total_countries),
+    aes(year, total_obs),
     linetype = "dashed"
   ) +
   facet_wrap(
@@ -168,7 +181,7 @@ constitution_subset |>
   theme(
     legend.position = "bottom"
   ) +
-  scale_color_sol()
+  scale_color_colorblind()
 
 ggsave(
   here("figs", "constitution", "04-share_countries_merit_by_region.png"),
@@ -262,7 +275,7 @@ constitution_subset |>
     color = income_group
   ) +
   geom_line(
-    aes(year, total_countries),
+    aes(year, total_obs),
     linetype = "dashed"
   ) +
   facet_wrap(
@@ -287,6 +300,53 @@ ggsave(
   width = 14,
   bg = "white"
 )
+
+# by deciles of logged gdp per capita
+constitution_subset |>
+  filter(
+    year >= 1990 & !is.na(gdp_per_capita_ppp_2017)
+  ) |>
+  mutate(
+    decade = (year - year %% 10),
+    bin_gdp_per_capita = cut(
+      log(gdp_per_capita_ppp_2017),
+      5,
+      labels = 1:5,
+      include.lowest = TRUE
+    )
+  ) |>
+  summarise_merit(
+    c("decade", "bin_gdp_per_capita")
+  ) |>
+  mutate(
+    share_merit = merit/total_obs,
+    se = sqrt(share_merit * (1 - share_merit)/total_obs),
+    # Wald confidence intervals
+    lower_ci = share_merit - qnorm(1 - 0.05/2) * se,
+    upper_ci = share_merit + qnorm(1 - 0.05/2) * se
+  ) |>
+  ungroup() |>
+  ggplot() +
+  geom_pointrange(
+    aes(
+      bin_gdp_per_capita, share_merit,
+      ymin = lower_ci,
+      ymax = upper_ci,
+      color = as.character(decade)
+    )
+  ) +
+  facet_wrap(vars(decade)) +
+  scale_color_colorblind() +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  labs(
+    x = "Logged GDP per Capita PPP in 2017USD (decile)",
+    y = "Share of Countries"
+  ) +
+  theme(
+    legend.position = "bottom"
+  )
 
 # measuring reversals:
 # a reversal is defined as a constitutional mandate for merit is either
@@ -327,6 +387,9 @@ ggsave(
 
 # reversal by region
 constitution_subset |>
+  filter(
+    region != "North America"
+  ) |>
   summarise_merit_reversal(
     group_var = c("year", "region")
   ) |>
@@ -368,10 +431,6 @@ constitution_subset |>
   filter(
     year >= 1990
   ) |>
-  left_join(
-    wdi_gdp_pc,
-    by = c("country_code", "year")
-  ) |>
   classify_merit_change() |>
   group_by(country_code) |>
   mutate(
@@ -402,27 +461,43 @@ constitution_subset |>
     aes(cum_year, normalized_gdp_per_capita)
   ) +
   geom_point() +
-  geom_line()
+  geom_line() +
+  geom_hline(
+    yintercept = 100,
+    linetype = "dashed"
+  ) +
+  coord_cartesian(
+    xlim = c(0, 20)
+  )
 
 # net reforms
 constitution_subset |>
   summarise_merit_reversal(
-    group_var = c("year", "region")
+    group_var = c("year")
+  ) |>
+  select(
+    year,
+    `Meritocratic Reforms` = sum_merit_reform,
+    `Meritocratic Reversals` = sum_merit_reversal
+  ) |>
+  pivot_longer(
+    cols = -c(year)
   ) |>
   mutate(
-    net_merit = sum_merit_reform - sum_merit_reversal,
-    color_net = if_else(net_merit > 0, "positive", "negative")
+    value = if_else(
+      name == "Meritocratic Reforms",
+      value,
+      -1 * value
+    )
   ) |>
-  ggplot() +
-  geom_col(
-    aes(year, net_merit, fill = color_net)
+  ggplot(
+    aes(year, value, fill = name)
   ) +
+  geom_col() +
   geom_hline(
     yintercept = 0
   ) +
-  scale_fill_solarized(
-    limits = rev
-  )
+  scale_fill_solarized()
 
 # appendix ----------------------------------------------------------------
 constitution_subset |>
