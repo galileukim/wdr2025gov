@@ -41,6 +41,9 @@ gsps_national_performance <- gsps_national |>
   filter(
     indicator_group == "Performance standard: evaluation" &
       scale == "0--1"
+  ) |>
+  mutate(
+    economy_fct = fct_reorder(economy, mean)
   )
 
 gsps_national_performance_comp <- gsps_national |>
@@ -192,13 +195,79 @@ gsps_institutional |>
   )
 
 ggsave(
-  here("figs", "gsps", "03-cor_exam_interview_institution.png"),
+  here("figs", "gsps", "04-cor_exam_interview_institution.png"),
   width = 10,
   height = 10,
   bg = "white"
 )
 
 # performance management standards
+gsps_national_performance |>
+  ggplot_pointrange(
+    mean, economy,
+    color = economy_fct
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    labels = scales::percent_format()
+  ) +
+  scale_color_expand(6) +
+  # ggtitle(
+  #   "The implementation of performance-based pays is uneven across countries"
+  # ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+ggsave(
+  here("figs", "gsps", "05-fig_share_performance.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
+
+gsps_institutional |>
+  filter(
+    indicator_group == "Performance standard: evaluation" &
+      scale == "0--1"
+  ) |>
+  left_join_national(gsps_national_performance) |>
+  ggplot_boxplot(
+    mean, economy,
+    color = economy_fct
+  ) +
+  geom_jitter(
+    aes(
+      x = mean, y = economy,
+      color = economy_fct
+    ),
+    alpha = 0.6
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    labels = scales::percent_format()
+  ) +
+  scale_color_expand(6) +
+  # ggtitle(
+  #   "The implementation of performance-based pays is uneven across countries"
+  # ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+ggsave(
+  here("figs", "gsps", "06-fig_share_performance_institution.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
+
 gsps_national_performance_comp |>
   ggplot_pointrange(
     mean, economy,
@@ -212,15 +281,15 @@ gsps_national_performance_comp |>
     labels = scales::percent_format()
   ) +
   scale_color_expand(13) +
-  ggtitle(
-    "The implementation of performance-based pays is uneven across countries"
-  ) +
+  # ggtitle(
+  #   "The implementation of performance-based pays is uneven across countries"
+  # ) +
   labs(
     caption = "Source: Global Survey of Public Servants"
   )
 
 ggsave(
-  here("figs", "gsps", "03-fig_share_performance_comp.png"),
+  here("figs", "gsps", "07-fig_share_performance_comp.png"),
   width = 12,
   height = 8,
   bg = "white"
@@ -228,11 +297,10 @@ ggsave(
 
 gsps_institutional |>
   filter(
-    indicator_group == "Performance standard: evaluation" &
-      scale == "0--1"
+    indicator_group == "Performance standard: compensation"
   ) |>
   left_join_national(
-    gsps_national_performance
+    gsps_national_performance_comp
   ) |>
   ggplot_boxplot(
     mean, economy,
@@ -245,13 +313,13 @@ gsps_institutional |>
     ),
     alpha = 0.6
   ) +
-  scale_color_expand(6) +
+  scale_color_expand(13) +
   theme(
     legend.position = "none"
   )
 
 ggsave(
-  here("figs", "gsps", "04-fig_share_performance_eval_institution.png"),
+  here("figs", "gsps", "08-fig_share_performance_comp_institution.png"),
   width = 12,
   height = 8,
   bg = "white"
