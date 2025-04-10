@@ -1,10 +1,10 @@
 ## code to prepare `wwbi` dataset goes here
 wwbi <- fetch_prosperitydata360_data(
   "WB.WWBI",
-  WB+WWBI+BI+PWK+PUBS+NO
   "WB.WWBI.BI.PWK.PUBS.NO"
 ) |>
   as_tibble()
+
 
 wdi_gdp_pc <- wdi_gdp_pc_input |>
   select(

@@ -16,7 +16,7 @@ fetch_prosperitydata360_data <- function(dataset_id, indicator_ids) {
   count_response <- GET(count_url)
 
   # Check for HTTP errors
-  if (http_error(count_response)) {
+  if (httr::http_error(count_response)) {
     print(paste("Error fetching data for dataset", dataset_id, ":", content(count_response, "text")))
     return(NULL)
   }
@@ -49,7 +49,7 @@ fetch_prosperitydata360_data <- function(dataset_id, indicator_ids) {
     response <- GET(fetch_url)
 
     # Check for HTTP errors
-    if (http_error(response)) {
+    if (httr::http_error(response)) {
       print(paste("Error fetching data for dataset", dataset_id, ":", content(response, "text")))
       return(NULL)
     }
