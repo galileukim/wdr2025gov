@@ -80,12 +80,14 @@ constitution_subset |>
   ) +
   annotate(
     "text",
+    size = 16,
     x = 2020,
     y = 210,
     label = "Countries with Data Available"
   ) +
   annotate(
     "text",
+    size = 16,
     x = 2020,
     y = 70,
     label = "Countries with Merit-Based Recruitment\n in Constitution"
@@ -97,8 +99,8 @@ constitution_subset |>
   labs(
     x = "Year",
     y = "Number of Countries",
-    title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Number of Countries",
+    # title = "Constitutional Mandate for Merit-Based Recruitment",
+    # subtitle = "Number of Countries",
     caption = "Source: Comparative Constitutions Project"
   )
 
