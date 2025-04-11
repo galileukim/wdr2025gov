@@ -80,17 +80,17 @@ constitution_subset |>
   ) +
   annotate(
     "text",
-    size = 16,
-    x = 2020,
-    y = 210,
-    label = "Countries with Data Available"
+    size = 8,
+    x = 2018,
+    y = 175,
+    label = "Countries with Data\n Available"
   ) +
   annotate(
     "text",
-    size = 16,
-    x = 2020,
-    y = 70,
-    label = "Countries with Merit-Based Recruitment\n in Constitution"
+    size = 8,
+    x = 2016,
+    y = 75,
+    label = "Countries with Merit-Based \nRecruitment in Constitution"
   ) +
   scale_x_continuous(
     breaks = seq(1960, 2020, 10),
