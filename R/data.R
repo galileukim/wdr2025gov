@@ -61,3 +61,33 @@
 #'}
 #' @source <https://www.globalsurveyofpublicservants.org/data-downloads>
 "gsps"
+
+#' @title Worldwide Bureaucracy Indicators
+#' @description The Worldwide Bureaucracy Indicators (WWBI) are a unique cross-national dataset on public sector employment and wages developed by the World Bank's `Bureaucracy Lab'. They aim to help researchers, development practitioners, and policymakers gain a better understanding of the personnel dimensions of state capability, the footprint of the public sector within the overall labor market, and the fiscal implications of the public sector wage bill.
+#' @source Prosperity Data 360
+#'
+#' @format A data frame with 1050 rows and 6 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{double Year}
+#'   \item{\code{share_public_sector}}{double Public sector employment, as a share of total employment}
+#'   \item{\code{economy}}{character Economy name}
+#'   \item{\code{region}}{character World Bank region}
+#'   \item{\code{income_group}}{character World Bank income group}
+#'}
+#' @details https://prosperitydata360.worldbank.org/en/indicator/WB+WWBI+BI+EMP+TOTL+PB+ZS
+"wwbi"
+
+#' @title Labor statistics
+#' @description A combination of labor statistics from the UN SDG and the Education Statistics
+#' @source Prosperity Data 360
+#' @format A data frame with 6170 rows and 4 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank Country Code}
+#'   \item{\code{year}}{double Year}
+#'   \item{\code{total_labor_force}}{double Labor force, Total. Source: Education Statistics}
+#'   \item{\code{unemployment_rate}}{double Unemployment, total (% of total labor force) (national estimate). Source: UN SDG.}
+#'}
+#' @details URLs: https://prosperitydata360.worldbank.org/en/indicator/WB+EDSTATS+SL+TLF+TOTL+IN; https://prosperitydata360.worldbank.org/en/indicator/UN+SDG+SL+UEM+TOTL+NE+ZS
+"labor"
+

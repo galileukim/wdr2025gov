@@ -7,7 +7,9 @@
 summarise_merit_reversal(data, group_var)
 }
 \arguments{
-\item{group_var}{}
+\item{data}{A dataset}
+
+\item{group_var}{A grouping variable}
 }
 \value{
 A summarised dataset with the change in merit-systems

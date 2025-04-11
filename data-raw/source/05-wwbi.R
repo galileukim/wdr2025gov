@@ -3,9 +3,10 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 
+# accessed 2025.04.11
 wwbi_input <- fetch_prosperitydata360_data(
   "WB.WWBI",
-  "WB.WWBI.BI.PWK.PUBS.NO"
+  "WB.WWBI.BI.EMP.TOTL.PB.ZS"
 ) |>
   as_tibble()
 
@@ -24,7 +25,7 @@ wwbi <- wwbi_input |>
     values_from = value
   ) |>
   rename(
-    public_paid_employee = `WB.WWBI.BI.PWK.PUBS.NO`
+    share_public_sector = `WB.WWBI.BI.EMP.TOTL.PB.ZS`
   ) |>
   mutate(
     year = as.numeric(

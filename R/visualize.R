@@ -50,8 +50,8 @@ classify_merit_change <- function(data){
 
 #' Aggregate merit reversals by group
 #'
-#' @param data
-#' @param group_var
+#' @param data A dataset
+#' @param group_var A grouping variable
 #'
 #' @import dplyr
 #'
