@@ -54,6 +54,14 @@ gsps_national_performance_comp <- gsps_national |>
     economy_fct = fct_reorder(economy, mean)
   )
 
+gsps_national_performance_promotion <- gsps_national |>
+  filter(
+    indicator_group == "Performance standard: promotion"
+  ) |>
+  mutate(
+    economy_fct = fct_reorder(economy, mean)
+  )
+
 # analysis ----------------------------------------------------------------
 gsps_national_merit |>
   ggplot_pointrange(

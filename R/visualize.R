@@ -165,7 +165,7 @@ ggplot_pointrange <- function(data, x, y, ...){
     ) +
     labs(
       x = "Share of Public Servants",
-      y = "Economy"
+      y = ""
     )
 }
 
@@ -195,7 +195,7 @@ ggplot_boxplot <- function(data, x, y, ...){
     ) +
     labs(
       x = "Share of Public Servants",
-      y = "Economy"
+      y = ""
     )
 }
 
