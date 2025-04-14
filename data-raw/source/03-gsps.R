@@ -28,7 +28,7 @@ gsps_input <- read_xlsx(
   ) |>
   clean_names()
 
-# gsps <- gsps_input |>
+gsps <- gsps_input |>
   mutate(
     topic_group = case_when(
       str_detect(topic, "(?i)Recruitment") ~ "Recruitment",
