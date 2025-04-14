@@ -10,7 +10,7 @@ A data frame with 6170 rows and 4 variables:
 \item{\code{country_code}}{character World Bank Country Code}
 \item{\code{year}}{double Year}
 \item{\code{total_labor_force}}{double Labor force, Total. Source: Education Statistics}
-\item{\code{unemployment_rate}}{double COLUMN_DESCRIPTION}
+\item{\code{unemployment_rate}}{double Unemployment, total (\% of total labor force) (national estimate). Source: UN SDG.}
 }
 }
 \source{

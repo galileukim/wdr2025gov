@@ -135,20 +135,22 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Number of Countries",
-    title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Number of Countries by Region",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Number of Countries"
+    # title = "Constitutional Mandate for Merit-Based Recruitment",
+    # subtitle = "Number of Countries by Region",
+    # caption = "Source: Comparative Constitutions Project"
   ) +
   theme(
     legend.position = "bottom"
   ) +
-  scale_colour_colorblind()
+  scale_colour_colorblind(
+    name = ""
+  )
 
 ggsave(
   here("figs", "constitution",  "03-number_countries_merit_by_region.png"),
-  height = 16,
-  width = 14,
+  height = 14,
+  width = 16,
   bg = "white"
 )
 

@@ -15,6 +15,7 @@ A data frame with 229467 rows and 10 variables:
 \item{\code{income_group}}{character World Bank income group}
 \item{\code{respondent_group}}{character Respondent group}
 \item{\code{topic_group}}{character Topic grouping}
+\item{\code{indicator}}{character Indicator}
 \item{\code{indicator_group}}{character Indicator grouping}
 \item{\code{question_text}}{character Survey question}
 \item{\code{mean}}{double Average for the group. See scale}

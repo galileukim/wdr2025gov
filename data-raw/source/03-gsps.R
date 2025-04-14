@@ -60,6 +60,7 @@ gsps <- gsps_input |>
     income_group,
     respondent_group = group,
     topic_group,
+    indicator,
     indicator_group,
     question_text,
     mean,
