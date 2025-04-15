@@ -338,6 +338,8 @@ ggsave(
   bg = "white"
 )
 
+
+
 # performance related promotion
 gsps_national_performance_promotion |>
   ggplot_pointrange(
@@ -363,6 +365,35 @@ ggsave(
   bg = "white"
 )
 
+gsps_institutional |>
+  filter(
+    indicator_group == "Performance standard: promotion"
+  ) |>
+  left_join_national(
+    gsps_national_performance_promotion
+  ) |>
+  ggplot_boxplot(
+    mean, economy,
+    color = economy_fct
+  ) +
+  geom_jitter(
+    aes(
+      x = mean, y = economy,
+      color = economy_fct
+    ),
+    alpha = 0.6
+  ) +
+  scale_color_expand(4) +
+  theme(
+    legend.position = "none"
+  )
+
+ggsave(
+  here("figs", "gsps", "08-fig_share_performance_comp_institution.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
 
 # correlation between performance evaluation and performance-based promotion
 gsps_national |>

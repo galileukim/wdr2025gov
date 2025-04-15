@@ -41,7 +41,7 @@ gsps <- gsps_input |>
       indicator %in% c("Criteria (professional experience)", "Criteria (professional experience)  [respondent]") ~ "Recruitment standard: professional experience",
       indicator == "Assessment (none)" ~ "Recruitment standard: none",
       indicator %in% c("Performance evaluation (performance evaluated)", "Performance evaluation (last 2 years)", "Performance evaluated") ~ "Performance standard: evaluation",
-      indicator == "Performance evaluation (promotion)" | indicator == "Getting a promotion (job performance)" | (topic_group == "Performance" & str_detect(question_text, "promotion") & !str_detect(question_text, "transparent and fair")) ~ "Performance standard: promotion",
+      indicator == "Performance evaluation (promotion)" | indicator == "Performance incentives (promotions)" | indicator == "Getting a promotion (job performance)" | (topic_group == "Performance" & str_detect(question_text, "promotion") & !str_detect(question_text, "transparent and fair")) ~ "Performance standard: promotion",
       indicator == "Salary (performance-based)" ~ "Performance standard: compensation",
       T ~ "Other"
     )
