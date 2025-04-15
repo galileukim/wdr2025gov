@@ -92,3 +92,14 @@
 #' @details URLs: https://prosperitydata360.worldbank.org/en/indicator/WB+EDSTATS+SL+TLF+TOTL+IN; https://prosperitydata360.worldbank.org/en/indicator/UN+SDG+SL+UEM+TOTL+NE+ZS
 "labor"
 
+#' @title Varieties of Democracy
+#' @description V-Dem provides a multidimensional and disaggregated dataset that reflects the complexity of the concept of democracy as a system of rule that goes beyond the simple presence of elections.
+#' @format A data frame with 6204 rows and 4 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{double Year}
+#'   \item{\code{merit_criteria}}{double Criteria for appointment decisions in the state administration. Question: To what extent are appointment decisions in the state administration based on personal and political connections, as opposed to skills and merit?}
+#'   \item{\code{impartial}}{double Rigorous and impartial public administration. Question: Are public officials rigorous and impartial in the performance of their duties}
+#'}
+#' @details DETAILS
+"vdem"

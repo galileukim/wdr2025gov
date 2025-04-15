@@ -112,10 +112,17 @@ ggsave(
 gsps_national |>
   filter(
     (indicator_group == "Recruitment standard: written examination" |
-      indicator_group == "Recruitment standard: interview") &
+      indicator == "Work motivation") &
       country_code != "ROU" &
     # there seems to be a coding error for Ghana w.r.t. interview
     country_code != "GHA"
+  ) |>
+  mutate(
+    indicator_group = if_else(
+      indicator == "Work motivation",
+      "Work motivation",
+      indicator_group
+    )
   ) |>
   select(
     country_code, economy, year,
@@ -129,12 +136,12 @@ gsps_national |>
   geom_text(
     aes(
       `Recruitment standard: written examination`,
-      `Recruitment standard: interview`,
+      `Work motivation`,
       label = economy,
       color = economy
     )
   ) +
-  scale_color_expand(12) +
+  scale_color_expand(16) +
   scale_x_continuous(
     labels = scales::percent_format()
   ) +
@@ -276,6 +283,7 @@ ggsave(
   bg = "white"
 )
 
+# performance related pay
 gsps_national_performance_comp |>
   ggplot_pointrange(
     mean, economy,
@@ -289,9 +297,6 @@ gsps_national_performance_comp |>
     labels = scales::percent_format()
   ) +
   scale_color_expand(13) +
-  # ggtitle(
-  #   "The implementation of performance-based pays is uneven across countries"
-  # ) +
   labs(
     caption = "Source: Global Survey of Public Servants"
   )
@@ -332,6 +337,32 @@ ggsave(
   height = 8,
   bg = "white"
 )
+
+# performance related promotion
+gsps_national_performance_promotion |>
+  ggplot_pointrange(
+    mean, economy,
+    color = economy_fct
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    labels = scales::percent_format()
+  ) +
+  scale_color_expand(13) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+ggsave(
+  here("figs", "gsps", "09-fig_share_performance_promotion.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
+
 
 # correlation between performance evaluation and performance-based promotion
 gsps_national |>
