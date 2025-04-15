@@ -19,6 +19,9 @@ vdem |>
     countryclass,
     by = c("country_code")
   ) |>
+  filter(
+    !is.na(region)
+  ) |>
   mutate(
     decade = year - year %% 10
   ) |>
@@ -80,6 +83,9 @@ vdem |>
   left_join(
     countryclass,
     by = c("country_code")
+  ) |>
+  filter(
+    !is.na(region)
   ) |>
   mutate(
     decade = year - year %% 10
