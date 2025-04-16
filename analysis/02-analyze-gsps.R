@@ -3,6 +3,8 @@ library(ggplot2)
 library(ggthemes)
 library(forcats)
 library(tidyr)
+library(broom)
+library(stringr)
 
 theme_set(
   theme_few(
@@ -58,8 +60,56 @@ gsps_national_performance_promotion <- gsps_national |>
   filter(
     indicator_group == "Performance standard: promotion"
   ) |>
+  filter(
+    # only present one value for country. exceptions: Uruguay, Armenia, and Chile for similarly
+    # worded questions
+    !(economy %in% c("Chile", "Uruguay", "Armenia")) |
+      (
+        (economy == "Chile" & str_detect(question_text, "A positive evaluation")) |
+          (economy == "Uruguay" & str_detect(question_text, "On a scale of 1 to 5")) |
+          (economy == "Armenia" & str_detect(question_text, "What do you think"))
+      )
+  ) |>
   mutate(
     economy_fct = fct_reorder(economy, mean)
+  )
+
+gsps_institutional_performance <- gsps_institutional |>
+  filter(
+    indicator_group == "Performance standard: promotion"
+  ) |>
+  filter(
+    # only present one value for country. exceptions: Uruguay and Chile for similarly
+    # worded questions
+    !(economy %in% c("Chile", "Uruguay", "Armenia")) |
+      (
+        (economy == "Chile" & str_detect(question_text, "A positive evaluation")) |
+          (economy == "Uruguay" & str_detect(question_text, "On a scale of 1 to 5")) |
+          (economy == "Armenia" & str_detect(question_text, "What do you think"))
+      )
+  ) |>
+  bind_rows(
+    gsps_institutional |>
+      filter(
+        indicator_group == "Performance standard: compensation" |
+          indicator == "Work motivation" |
+          indicator == "Clear link between work and mission"
+      )
+  ) |>
+  mutate(
+    indicator_group = case_when(
+      indicator == "Work motivation" ~ "Work motivation",
+      indicator == "Clear link between work and mission" ~ "Mission orientation",
+      T ~ indicator_group
+    )
+  ) |>
+  select(
+    country_code, category, economy, year,
+    indicator_group, mean
+  ) |>
+  pivot_wider(
+    names_from = indicator_group,
+    values_from = mean
   )
 
 # analysis ----------------------------------------------------------------
@@ -109,6 +159,8 @@ ggsave(
   bg = "white"
 )
 
+
+# recruitment -------------------------------------------------------------
 gsps_national |>
   filter(
     (indicator_group == "Recruitment standard: written examination" |
@@ -216,7 +268,7 @@ ggsave(
   bg = "white"
 )
 
-# performance management standards
+# performance -------------------------------------------------------------
 gsps_national_performance |>
   ggplot_pointrange(
     mean, economy,
@@ -338,8 +390,6 @@ ggsave(
   bg = "white"
 )
 
-
-
 # performance related promotion
 gsps_national_performance_promotion |>
   ggplot_pointrange(
@@ -353,7 +403,7 @@ gsps_national_performance_promotion |>
     limits = c(0, 1),
     labels = scales::percent_format()
   ) +
-  scale_color_expand(13) +
+  scale_color_expand(16) +
   labs(
     caption = "Source: Global Survey of Public Servants"
   )
@@ -383,7 +433,7 @@ gsps_institutional |>
     ),
     alpha = 0.6
   ) +
-  scale_color_expand(4) +
+  scale_color_expand(16) +
   theme(
     legend.position = "none"
   )
@@ -436,3 +486,139 @@ gsps_national |>
   labs(
     caption = "Source: Global Survey of Public Servants"
   )
+
+gsps_institutional_performance |>
+  ggplot(
+    aes(
+      `Performance standard: compensation`,
+      `Work motivation`
+    )
+  ) +
+  geom_point(
+    aes(
+      color = economy
+    ),
+    alpha = 0.6
+  ) +
+  # scale_color_expand(12) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  geom_smooth(
+    method = "lm"
+  ) +
+  # ggtitle(
+  #   "Countries apply both written exams\n and interviews",
+  #   subtitle = "Share of Public Servants"
+  # ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+gsps_institutional_performance |>
+  ggplot(
+    aes(
+      `Performance standard: promotion`,
+      `Work motivation`,
+    )
+  ) +
+  geom_point(
+    aes(
+      color = economy
+    ),
+    alpha = 0.6
+  ) +
+  geom_smooth(
+    method = "lm"
+  ) +
+  # scale_color_expand(12) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  labs(
+    caption = "Source: Global Survey of Public Servants"
+  )
+
+# regression analysis -----------------------------------------------------
+lm_performance_promotion_motivation <- lm(
+  `Work motivation` ~ `Performance standard: promotion` + as.factor(economy),
+  data = gsps_institutional_performance
+) |>
+  tidy(conf.int = TRUE)
+
+lm_performance_promotion_mission <-  lm(
+  `Mission orientation` ~ `Performance standard: promotion` + as.factor(economy),
+  data = gsps_institutional_performance
+) |>
+  tidy(conf.int = TRUE)
+
+lm_performance_compensation_motivation <- lm(
+  `Work motivation` ~ `Performance standard: compensation` + as.factor(economy),
+  data = gsps_institutional_performance
+) |>
+  tidy(conf.int = TRUE)
+
+lm_performance_compensation_mission <-  lm(
+  `Mission orientation` ~ `Performance standard: compensation` + as.factor(economy),
+  data = gsps_institutional_performance
+) |>
+  tidy(conf.int = TRUE)
+
+list(
+  "Work motivation" = lm_performance_promotion_motivation,
+  "Work motivation" = lm_performance_compensation_motivation,
+  "Mission orientation" = lm_performance_promotion_mission,
+  "Mission orientation" = lm_performance_compensation_mission
+  ) |>
+  bind_rows(
+    .id = "model"
+  ) |>
+  filter(
+    str_detect(term, "Performance")
+  ) |>
+  mutate(
+    term = str_replace_all(term, "`" , "")
+  ) |>
+  ggplot(
+    aes(term, estimate, color = model)
+  ) +
+  geom_pointrange(
+    aes(ymin = conf.low, ymax = conf.high),
+    position = position_dodge(width = 0.5)
+
+  ) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
+  ) +
+  scale_color_colorblind(
+    name = "Outcome"
+  ) +
+  coord_cartesian(
+    ylim = c(-0.05, 0.2)
+  ) +
+  theme(
+    legend.position = "bottom"
+  ) +
+  labs(
+    x = "", y = "Coefficient"
+  )
+
+ggsave(
+  here("figs", "gsps", "10-fig_reg_performance_institution.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)

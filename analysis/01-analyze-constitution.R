@@ -381,16 +381,12 @@ constitution_subset |>
     x = "Year",
     y = "Number of Countries (Cumulative)",
     caption = "Source: Comparative Constitutions Project"
-  ) +
-  ggtitle(
-    "Meritocratic reforms and reversals (1960-2023)",
-    subtitle = "Cumulative Number of Countries"
   )
 
 ggsave(
   here("figs", "constitution", "07-cumulative_merit_reversals.png"),
-  height = 12,
-  width = 14,
+  height = 8,
+  width = 12,
   bg = "white"
 )
 
@@ -429,16 +425,12 @@ constitution_subset |>
     x = "Year",
     y = "Number of Countries (Cumulative)",
     caption = "Source: Comparative Constitutions Project"
-  ) +
-  ggtitle(
-    "Meritocratic reforms and reversals (1960-2023)",
-    subtitle = "Cumulative Number of Countries"
   )
 
 ggsave(
   here("figs", "constitution", "08-cumulative_merit_reversals_region.png"),
-  height = 12,
-  width = 14,
+  height = 10,
+  width = 12,
   bg = "white"
 )
 
