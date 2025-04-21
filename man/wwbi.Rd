@@ -16,15 +16,12 @@ A data frame with 1050 rows and 6 variables:
 }
 }
 \source{
-Prosperity Data 360
+\url{https://prosperitydata360.worldbank.org/en/indicator/WB+WWBI+BI+EMP+TOTL+PB+ZS}
 }
 \usage{
 wwbi
 }
 \description{
 The Worldwide Bureaucracy Indicators (WWBI) are a unique cross-national dataset on public sector employment and wages developed by the World Bank's `Bureaucracy Lab'. They aim to help researchers, development practitioners, and policymakers gain a better understanding of the personnel dimensions of state capability, the footprint of the public sector within the overall labor market, and the fiscal implications of the public sector wage bill.
-}
-\details{
-https://prosperitydata360.worldbank.org/en/indicator/WB+WWBI+BI+EMP+TOTL+PB+ZS
 }
 \keyword{datasets}
