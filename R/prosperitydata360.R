@@ -182,3 +182,32 @@ fetch_and_merge_world_bank_data <- function(dataset_ids, indicator_ids_list) {
   # Return merged data and metadata
   return(list(data = merged_data, dataset_metadata = merged_dataset_metadata, indicator_metadata = merged_indicator_metadata))
 }
+
+#' Pivot Prosperity Data 360 data into longer
+#'
+#' @param data
+#'
+#' @return A long-format dataset.
+#' @export
+pivot_wider_data360 <- function(data){
+  data |>
+    select(
+      country_code = COUNTRY_CODE,
+      indicator_id = INDICATOR_ID,
+      year = CAL_YEAR,
+      value = IND_VALUE
+    ) |>
+    filter(
+      country_code != "AGGREGATE"
+    ) |>
+    pivot_wider(
+      names_from = indicator_id,
+      values_from = value
+    ) |>
+    mutate(
+      year = as.numeric(
+        str_sub(year, -4, -1)
+      )
+    )
+}
+

@@ -4,28 +4,6 @@ library(tidyr)
 library(janitor)
 library(stringr)
 
-pivot_wider_data360 <- function(data){
-  data |>
-    select(
-      country_code = COUNTRY_CODE,
-      indicator_id = INDICATOR_ID,
-      year = CAL_YEAR,
-      value = IND_VALUE
-    ) |>
-    filter(
-      country_code != "AGGREGATE"
-    ) |>
-    pivot_wider(
-      names_from = indicator_id,
-      values_from = value
-    ) |>
-    mutate(
-      year = as.numeric(
-        str_sub(year, -4, -1)
-      )
-    )
-}
-
 labor_force_input <- fetch_prosperitydata360_data(
   "WB.EDSTATS",
   "WB.EDSTATS.SL.TLF.TOTL.IN"
