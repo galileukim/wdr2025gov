@@ -103,3 +103,25 @@
 #'}
 #' @details DETAILS
 "vdem"
+
+#' @title Cash Surplus as Percentage of GDP
+#' @description Cash surplus or deficit is revenue (including grants) minus expense, minus net acquisition of nonfinancial assets. In the 1986 GFS manual nonfinancial assets were included under revenue and expenditure in gross terms. This cash surplus or deficit is closest to the earlier overall budget balance (still missing is lending minus repayments, which are now a financing item under net acquisition of financial assets).
+#' @format A data frame with 2284 rows and 3 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{double Year}
+#'   \item{\code{cash_surplus_pct_gdp}}{double Cash Surplus/Deficit as Percentage of GDP}
+#'}
+#' @details DETAILS
+"cash_surplus"
+
+#' @title Open Budget Survey: Legislature and Super Audit Institution Oversight Score
+#' @description The role that legislatures and supreme audit institutions play in the budget process and the extent to which they are able to provide robust oversight of the budget.
+#' @format A data frame with 500 rows and 3 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{character Year}
+#'   \item{\code{oversight_score}}{double Legislature and Super Audit Institution Oversight Score}
+#'}
+#' @details DETAILS
+"open_budget"
