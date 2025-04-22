@@ -7,7 +7,7 @@
 \format{
 A data frame with 6170 rows and 4 variables:
 \describe{
-\item{\code{country_code}}{character World Bank Country Code}
+\item{\code{country_code}}{character World Bank country code}
 \item{\code{year}}{double Year}
 \item{\code{total_labor_force}}{double Labor force, Total. Source: Education Statistics}
 \item{\code{unemployment_rate}}{double Unemployment, total (\% of total labor force) (national estimate). Source: UN SDG.}

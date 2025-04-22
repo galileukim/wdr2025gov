@@ -78,12 +78,25 @@
 #'}
 "wwbi"
 
+#' @title Worldwide Bureaucracy Indicators: Occupational Breakdown
+#' @description A breakdown of the occupational composition of each public sector, by country. Occupational classifications are based on the International Standard Classification of Occupations (ISCO).
+#' @format A data frame with 125 rows and 5 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{professional_and_technical}}{double Share of public sector employment in professional and technical occupations}
+#'   \item{\code{managerial}}{double Share of public sector employmentmanagerial occupations}
+#'   \item{\code{clerical}}{double Share of public sector employment in clerical occupations}
+#'   \item{\code{other}}{double Share of public sector employment in other occupations}
+#'}
+#' @source Shared by the Bureaucracy Lab.
+"wwbi_occupation"
+
 #' @title Labor statistics
 #' @description A combination of labor statistics from the UN SDG and the Education Statistics
 #' @source Prosperity Data 360
 #' @format A data frame with 6170 rows and 4 variables:
 #' \describe{
-#'   \item{\code{country_code}}{character World Bank Country Code}
+#'   \item{\code{country_code}}{character World Bank country code}
 #'   \item{\code{year}}{double Year}
 #'   \item{\code{total_labor_force}}{double Labor force, Total. Source: Education Statistics}
 #'   \item{\code{unemployment_rate}}{double Unemployment, total (% of total labor force) (national estimate). Source: UN SDG.}

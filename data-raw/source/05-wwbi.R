@@ -1,5 +1,7 @@
 ## code to prepare `wwbi` dataset goes here
 library(dplyr)
+library(readxl)
+library(janitor)
 library(tidyr)
 library(stringr)
 
@@ -9,6 +11,10 @@ wwbi_input <- fetch_prosperitydata360_data(
   "WB.WWBI.BI.EMP.TOTL.PB.ZS"
 ) |>
   as_tibble()
+
+wwbi_occupation_input <- read_xlsx(
+  here("data-raw", "input", "wwbi", "wwbi_occupation.xlsx")
+)
 
 wwbi <- wwbi_input |>
   select(
@@ -33,6 +39,13 @@ wwbi <- wwbi_input |>
     )
   )
 
+wwbi_occupation <- wwbi_occupation_input |>
+  select(
+    country_code = ccode,
+    everything()
+  ) |>
+  clean_names()
+
 wwbi <- wwbi |>
   left_join(
     countryclass,
@@ -40,3 +53,4 @@ wwbi <- wwbi |>
   )
 
 usethis::use_data(wwbi, overwrite = TRUE)
+usethis::use_data(wwbi_occupation, overwrite = TRUE)
