@@ -3,12 +3,16 @@ library(ggplot2)
 library(ggthemes)
 library(scales)
 library(ggrepel)
+library(tidyr)
+library(forcats)
+library(tidytext)
 
 theme_set(
   theme_few(
     base_size = 18
   )
 )
+
 # analysis ----------------------------------------------------------------
 wwbi_public_sector <- wwbi |>
   filter(
@@ -174,5 +178,78 @@ ggsave(
   here("figs", "wwbi", "03-fig_public_sector_gdp.png"),
   width = 12,
   height = 8,
+  bg = "white"
+)
+
+wwbi_occupation |>
+  left_join(
+    countryclass,
+    by = c("country_code")
+  ) |>
+  filter(
+    !is.na(income_group)
+  ) |>
+  mutate(
+    country_code = reorder_within(
+      country_code,
+      professional_and_technical,
+      within = income_group
+    )
+  ) |>
+  pivot_longer(
+    cols = c(professional_and_technical, managerial, clerical, other),
+    names_to = "occupation",
+    values_to = "share"
+  ) |>
+  mutate(
+    occupation = fct_relevel(
+      occupation,
+      c("professional_and_technical", "managerial", "clerical", "other") |> rev()
+    ) |>
+      fct_recode(
+        "Professional and Technical" = "professional_and_technical",
+        "Managerial" = "managerial",
+        "Clerical" = "clerical",
+        "Other" = "other"
+      ),
+    income_group = fct_relevel(
+      income_group,
+      c("Low income", "Lower middle income", "Upper middle income", "High income")
+    )
+  ) |>
+  ggplot(
+    aes(share, country_code)
+  ) +
+  geom_col(
+    aes(fill = occupation)
+  ) +
+  facet_wrap(
+    vars(income_group),
+    scales = "free_y"
+  ) +
+  scale_y_reordered() +
+  scale_fill_brewer(
+    name = "Occupation",
+    palette = "Paired"
+  ) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
+  labs(
+    x = "Share of Public Sector Employment",
+    y = ""
+  ) +
+  guides(
+    fill = guide_legend(reverse = TRUE)
+  ) +
+  theme(
+    legend.position = "bottom"
+  )
+
+
+ggsave(
+  here("figs", "wwbi", "04-fig_public_sector_occupation.png"),
+  width = 14,
+  height = 16,
   bg = "white"
 )

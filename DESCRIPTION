@@ -28,7 +28,8 @@ Imports:
     readr,
     readxl,
     sinew,
-    tidyr
+    tidyr,
+    tidytext
 Depends: 
     dplyr,
     here,
