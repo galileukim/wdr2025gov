@@ -12,12 +12,12 @@ library(here)
 # circumvent firewall for download
 options(download.file.method ="curl", download.file.extra ="-k -L")
 
-lcl <-  here("data-raw", "input", "gsps_macro.xlsx")
+lcl <-  here("data-raw", "input", "gsps", "gsps_macro.xlsx")
 
 if(!file.exists(lcl)){
   download.file(
     "https://www.globalsurveyofpublicservants.org/sites/default/files/2023-11/GSPS_Indicators_Dataset_11_10_23.xlsx",
-    destfile = here("data-raw", "input", "gsps_macro.xlsx"),
+    destfile = here("data-raw", "input", "gsps", "gsps_macro.xlsx"),
     overwrite = TRUE
   )
 }

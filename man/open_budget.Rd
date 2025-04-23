@@ -9,7 +9,8 @@ A data frame with 500 rows and 3 variables:
 \describe{
 \item{\code{country_code}}{character World Bank country code}
 \item{\code{year}}{character Year}
-\item{\code{oversight_score}}{double Legislature and Super Audit Institution Oversight Score}
+\item{\code{budget_transparency_score}}{double Budget transparency score Budget transparency score (previously known as the Open Budget Index): assesses the public availability of the eight key budget documents, which taken together provide a complete view of how public resources have been raised, planned, and spent during the budget year. To be considered "publicly available", documents must be published online, in a timely manner, and must include information that is comprehensive and useful. A score of 61 or above indicates a country is likely publishing enough material to support informed public debate on the budget.}
+\item{\code{oversight_score}}{double Legislature and Super Audit Institution Oversight Score: The role that legislatures and supreme audit institutions play in the budget process and the extent to which they are able to provide robust oversight of the budget.}
 }
 }
 \usage{

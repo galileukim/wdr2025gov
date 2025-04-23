@@ -6,7 +6,7 @@ library(janitor)
 library(countrycode)
 
 vdem_input <- read_csv(
-  here("data-raw", "input", "V-Dem-CY-FullOthers-v15_csv.zip")
+  here("data-raw", "input", "vdem", "V-Dem-CY-FullOthers-v15_csv.zip")
 )
 
 vdem <- vdem_input |>
