@@ -4,6 +4,8 @@ library(ggthemes)
 library(tidyr)
 library(forcats)
 
+devtools::load_all()
+
 theme_set(
   theme_few(
     base_size = 24
@@ -362,7 +364,8 @@ constitution_subset |>
   invert_merit_reversal() |>
   ggplot_line(
     year, value,
-    color = name
+    color = name,
+    linetype = name
   ) +
   scale_y_continuous(
     labels = abs
@@ -370,8 +373,20 @@ constitution_subset |>
   theme(
     legend.position = "bottom"
   ) +
-  scale_color_solarized(
-    name = ""
+  scale_color_manual(
+    name = "",
+    values = c(
+      "Meritocratic Reforms" = "#268bd2",
+      "Meritocratic Reversals" = "#dc322f",
+      "Net Change" = "grey25"
+    )
+  ) +
+  scale_linetype_manual(
+    values = c(
+      "Meritocratic Reforms" = "solid",
+      "Meritocratic Reversals" = "solid",
+      "Net Change" = "dotted"
+    )
   ) +
   geom_hline(
     yintercept = 0,
@@ -403,7 +418,8 @@ constitution_subset |>
   ) |>
   ggplot_line(
     year, value,
-    color = name
+    color = name,
+    linetype = name
   ) +
   scale_y_continuous(
     labels = abs
@@ -411,15 +427,30 @@ constitution_subset |>
   theme(
     legend.position = "bottom"
   ) +
-  scale_color_solarized(
-    name = ""
+  scale_color_manual(
+    name = "",
+    values = c(
+      "Meritocratic Reforms" = "#268bd2",
+      "Meritocratic Reversals" = "#dc322f",
+      "Net Change" = "grey25"
+    )
+  ) +
+  scale_linetype_manual(
+    values = c(
+      "Meritocratic Reforms" = "solid",
+      "Meritocratic Reversals" = "solid",
+      "Net Change" = "dotted"
+    )
+  ) +
+  facet_wrap(
+    vars(region)
   ) +
   geom_hline(
     yintercept = 0,
     linetype = "dashed"
   ) +
-  facet_wrap(
-    vars(region)
+  theme(
+    legend.position = "none"
   ) +
   labs(
     x = "Year",

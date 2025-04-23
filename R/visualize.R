@@ -82,7 +82,8 @@ summarise_merit_reversal <- function(data, group_var){
     ) |>
     mutate(
       `Meritocratic Reforms` = cumsum(sum_merit_reform),
-      `Meritocratic Reversals` = cumsum(sum_merit_reversal)
+      `Meritocratic Reversals` = cumsum(sum_merit_reversal),
+      `Net Change` = `Meritocratic Reforms` - `Meritocratic Reversals`
     )
 }
 
@@ -91,16 +92,17 @@ invert_merit_reversal <- function(data, vars = "year"){
     select(
       all_of(vars),
       `Meritocratic Reforms`,
-      `Meritocratic Reversals`
+      `Meritocratic Reversals`,
+      `Net Change`
     ) |>
     pivot_longer(
       cols = -c(all_of(vars))
     ) |>
     mutate(
       value = if_else(
-        name == "Meritocratic Reforms",
-        value,
-        -1 * value
+        name == "Meritocratic Reversals",
+        -1 * value,
+        value
       )
     )
 }
