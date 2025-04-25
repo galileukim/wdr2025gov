@@ -149,3 +149,15 @@
 #'   \item{\code{budget_execution_rate}}{double Primary government expenditure (%)}
 #'}
 "budget_execution"
+
+#' @title Gender Statistics
+#' @description Women in ministerial level positions is the proportion of women in ministerial or equivalent positions (including deputy prime ministers) in the government. Prime Ministers/Heads of Government are included when they hold ministerial portfolios. Vice-Presidents and heads of governmental or public agencies are excluded.
+#' @format A data frame with 5035 rows and 3 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{double Year}
+#'   \item{\code{prop_women_ministry}}{double Proportion of women in ministerial level positions}
+#'}
+#' @source <https://data360.worldbank.org/en/indicator/WB_GS_SG_GEN_MNST_ZS>
+"women_ministry"
+

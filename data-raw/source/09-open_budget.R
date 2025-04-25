@@ -8,9 +8,6 @@ open_budget_input <- read_csv(
   "https://data360files.worldbank.org/data360-data/data/IBP_OBS/IBP_OBS.csv"
 )
 
-open_budget_input |>
-  count(INDICATOR_ID, sort = TRUE)
-
 open_budget <- open_budget_input |>
   pivot_wider(
     id_cols = c(REF_AREA_ID, TIME_PERIOD),
