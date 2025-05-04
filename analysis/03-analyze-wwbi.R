@@ -246,10 +246,78 @@ wwbi_occupation |>
     legend.position = "bottom"
   )
 
-
 ggsave(
   here("figs", "wwbi", "04-fig_public_sector_occupation.png"),
   width = 14,
   height = 16,
+  bg = "white"
+)
+
+wwbi_occupation |>
+  left_join(
+    wdi_gdp_pc |> group_by(country_code) |> slice_max(year, n = 1) |> ungroup(),
+    by = c("country_code")
+  ) |>
+  left_join(
+    countryclass,
+    by = c("country_code")
+  ) |>
+  filter(
+    !is.na(income_group)
+  ) |>
+  pivot_longer(
+    cols = c(professional_and_technical, managerial, clerical, other),
+    names_to = "occupation",
+    values_to = "share"
+  ) |>
+  mutate(
+    occupation = fct_relevel(
+      occupation,
+      c("professional_and_technical", "managerial", "clerical", "other") |> rev()
+    ) |>
+      fct_recode(
+        "Professional and Technical" = "professional_and_technical",
+        "Managerial" = "managerial",
+        "Clerical" = "clerical",
+        "Other" = "other"
+      )
+  ) |>
+  filter(
+    occupation == "Professional and Technical"
+  ) |>
+  ggplot(
+    aes(gdp_per_capita_ppp_2017, share)
+  ) +
+  geom_text(
+    aes(label = country_code, color = region)
+  ) +
+  geom_smooth(
+    method = "lm",
+    se = FALSE,
+    linetype = "dashed",
+    color = "grey15"
+  ) +
+  scale_color_colorblind(
+    name = "Region"
+  ) +
+  scale_x_continuous(
+    trans = "log10",
+    label = comma
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  labs(
+    x = "GDP per capita (PPP, in 2017 USD)",
+    y = "Share of Public Employees (Professional and Technical)"
+  ) +
+  theme(
+    legend.position = "bottom"
+  )
+
+ggsave(
+  here("figs", "wwbi", "05-fig_public_sector_occupation_gdp.png"),
+  width = 12,
+  height = 8,
   bg = "white"
 )

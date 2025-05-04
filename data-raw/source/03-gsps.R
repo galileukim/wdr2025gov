@@ -14,6 +14,7 @@ options(download.file.method ="curl", download.file.extra ="-k -L")
 
 lcl <-  here("data-raw", "input", "gsps", "gsps_macro.xlsx")
 
+# accessed in: 4/1/2025
 if(!file.exists(lcl)){
   download.file(
     "https://www.globalsurveyofpublicservants.org/sites/default/files/2023-11/GSPS_Indicators_Dataset_11_10_23.xlsx",
