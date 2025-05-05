@@ -56,8 +56,7 @@ constitution_subset |>
     x = "Year",
     y = "Percentage",
     title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Share of Countries",
-    caption = "Source: Comparative Constitutions Project"
+    subtitle = "Share of Countries"
   )
 
 ggsave(
@@ -100,10 +99,7 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Number of Countries",
-    # title = "Constitutional Mandate for Merit-Based Recruitment",
-    # subtitle = "Number of Countries",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Number of Countries"
   )
 
 ggsave(
@@ -179,10 +175,7 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Share of Countries",
-    title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Share of Countries by Region",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Share of Countries"
   ) +
   theme(
     legend.position = "bottom"
@@ -234,10 +227,7 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Share of Countries",
-    title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Share of Countries by Income Group",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Share of Countries"
   ) +
   theme(
     legend.position = "none"
@@ -290,10 +280,7 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Number of Countries",
-    title = "Constitutional Mandate for Merit-Based Recruitment",
-    subtitle = "Total of Countries by Income Group",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Number of Countries"
   ) +
   theme(
     legend.position = "none"
@@ -394,8 +381,7 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Number of Countries (Cumulative)",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Number of Countries (Cumulative)"
   )
 
 ggsave(
@@ -454,8 +440,7 @@ constitution_subset |>
   ) +
   labs(
     x = "Year",
-    y = "Number of Countries (Cumulative)",
-    caption = "Source: Comparative Constitutions Project"
+    y = "Number of Countries (Cumulative)"
   )
 
 ggsave(
