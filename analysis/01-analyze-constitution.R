@@ -16,10 +16,7 @@ constitution_subset <- constitution |>
   filter(
     year >= 1960 & !is.na(country_code)
   ) |>
-  left_join(
-    wdi_gdp_pc,
-    by = c("country_code", "year")
-  )
+  classify_income_group()
 
 # visualize ---------------------------------------------------------------
 constitution_subset |>
@@ -243,24 +240,8 @@ ggsave(
 
 # by income group: sum
 constitution_subset |>
-  inner_join(
-    countryclass,
-    by = "country_code"
-  ) |>
   filter(
-    !is.na(country_code) &
-      !is.na(income_group)
-  ) |>
-  mutate(
-    income_group = fct_relevel(
-      income_group,
-      c(
-        "High income",
-        "Upper middle income",
-        "Lower middle income",
-        "Low income"
-      )
-    )
+    !is.na(income_group)
   ) |>
   summarise_merit(
     c("year", "income_group"),
