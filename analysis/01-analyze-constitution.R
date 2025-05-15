@@ -275,6 +275,42 @@ ggsave(
   bg = "white"
 )
 
+# by income group: share
+constitution_subset |>
+  filter(
+    !is.na(income_group)
+  ) |>
+  summarise_merit(
+    c("year", "income_group"),
+    agg_fun = "mean"
+  ) |>
+  ggplot_line(
+    year, merit,
+    color = income_group
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  facet_wrap(
+    vars(income_group),
+    nrow = 2
+  ) +
+  labs(
+    x = "Year",
+    y = "Share of Countries"
+  ) +
+  theme(
+    legend.position = "none"
+  ) +
+  scale_colour_colorblind()
+
+ggsave(
+  here("figs", "constitution", "07-share_countries_merit_by_income.png"),
+  height = 12,
+  width = 14,
+  bg = "white"
+)
+
 # by deciles of logged gdp per capita
 constitution_subset |>
   filter(
@@ -366,23 +402,24 @@ constitution_subset |>
   )
 
 ggsave(
-  here("figs", "constitution", "07-cumulative_merit_reversals.png"),
+  here("figs", "constitution", "08-cumulative_merit_reversals.png"),
   height = 8,
   width = 12,
   bg = "white"
 )
 
-# reversal by region
+# reversal by income group
 constitution_subset |>
   filter(
-    region != "North America"
+    !is.na(income_group)
   ) |>
   summarise_merit_reversal(
-    group_var = c("year", "region")
+    group_var = c("year", "income_group")
   ) |>
   invert_merit_reversal(
-    c("year", "region")
+    c("income_group", "year")
   ) |>
+  ungroup() |>
   ggplot_line(
     year, value,
     color = name,
@@ -410,7 +447,7 @@ constitution_subset |>
     )
   ) +
   facet_wrap(
-    vars(region)
+    vars(income_group)
   ) +
   geom_hline(
     yintercept = 0,
@@ -425,7 +462,7 @@ constitution_subset |>
   )
 
 ggsave(
-  here("figs", "constitution", "08-cumulative_merit_reversals_region.png"),
+  here("figs", "constitution", "09-cumulative_merit_reversals_by_income.png"),
   height = 10,
   width = 12,
   bg = "white"

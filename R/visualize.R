@@ -53,7 +53,7 @@ classify_merit_change <- function(data){
 #' @param data A dataset
 #' @param group_var A grouping variable
 #'
-#' @import dplyr
+#' @import dplyr stringr
 #'
 #' @return A summarised dataset with the change in merit-systems
 #' @export
@@ -78,15 +78,32 @@ summarise_merit_reversal <- function(data, group_var){
     summarise(
       sum_merit_reform = sum(merit_change == "meritocratic reform"),
       sum_merit_reversal = sum(merit_change == "meritocratic reversal"),
-      .groups = "drop"
+      .groups = "keep"
+    ) |>
+    group_by(
+      across(
+        # remove year from grouping
+        all_of(group_var |> str_subset("year", negate = TRUE))
+      )
     ) |>
     mutate(
       `Meritocratic Reforms` = cumsum(sum_merit_reform),
       `Meritocratic Reversals` = cumsum(sum_merit_reversal),
       `Net Change` = `Meritocratic Reforms` - `Meritocratic Reversals`
-    )
+    ) |>
+    ungroup()
 }
 
+#' Aggregate merit reversals
+#'
+#' @param data A dataset
+#' @param vars A character vector of grouping variables
+#'
+#' @import dplyr tidyr
+#'
+#' @returns A dataset with the change in merit-systems
+#' @export
+#'
 invert_merit_reversal <- function(data, vars = "year"){
   data |>
     select(

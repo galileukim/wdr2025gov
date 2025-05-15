@@ -5,6 +5,7 @@ library(scales)
 library(ggrepel)
 library(tidyr)
 library(forcats)
+library(gghighlight)
 library(tidytext)
 
 theme_set(
@@ -13,7 +14,6 @@ theme_set(
   )
 )
 
-# analysis ----------------------------------------------------------------
 wwbi_public_sector <- wwbi |>
   filter(
     region != "North America"
@@ -31,6 +31,7 @@ wwbi_public_sector <- wwbi |>
     total_public_employees = (share_public_sector) *((100 - unemployment_rate)/100 * total_labor_force)
   )
 
+# analysis ----------------------------------------------------------------
 wwbi_public_sector |>
   filter(country_code != "CHN") |>
   group_by(year) |>
@@ -72,54 +73,38 @@ wwbi_public_sector |>
     n = 1
   ) |>
   ungroup() |>
-  group_by(region) |>
+  group_by(income_group) |>
   mutate(
     avg_share = mean(total_public_employees, na.rm = T),
     max_share = max(total_public_employees, na.rm = T),
     min_share = min(total_public_employees, na.rm = T)
   ) |>
+  ungroup() |>
   ggplot(
     aes(
       total_public_employees,
-      region,
-      color = region
+      country_code,
+      fill = income_group
     )
   ) +
-  geom_pointrange(
-    aes(
-      xmin = min_share,
-      xmax = max_share
-    )
-  ) +
-  geom_text_repel(
-    aes(
-      y = region,
-      x = total_public_employees,
-      label = country_code
-    ),
-    size = 3, # Font size
-    # nudge_x = -0.2, # Left aligned
-    segment.color = NA,   # Delete connectors or arrows
-    box.padding = 0.15, # Min Space between tags
-    max.overlaps = 40
-  ) +
-  # facet_wrap(vars(region), scales = 'free') +
+  geom_col() +
+  facet_wrap(vars(income_group), scales = 'free_y') +
   labs(
-    y = "Region",
+    y = "Income Group",
     x = "Total public sector employees"
   ) +
   scale_x_continuous(
     labels = label_number(scale_cut = cut_short_scale())
   ) +
   scale_color_colorblind(
-    name = "Region"
+    name = "Income Group"
   ) +
   theme(
     legend.position = "none"
   )
 
 ggsave(
-  here("figs", "wwbi", "02-fig_total_public_sector_region.png"),
+  here("figs", "wwbi", "02-fig_total_public_sector_income_group.png"),
   width = 12,
   height = 8,
   bg = "white"
@@ -144,9 +129,9 @@ wwbi_public_sector |>
       share_public_sector
     )
   ) +
-  geom_text(
+  geom_point(
     aes(
-      label = country_code,
+      # label = country_code,
       color = region
     )
   ) +
@@ -176,6 +161,68 @@ wwbi_public_sector |>
 
 ggsave(
   here("figs", "wwbi", "03-fig_public_sector_gdp.png"),
+  width = 12,
+  height = 8,
+  bg = "white"
+)
+
+# correlation between economic development and absolute size of the public sector
+wwbi_public_sector |>
+  # extract most recent year by country
+  group_by(country_code) |>
+  slice_max(
+    order_by = year,
+    n = 1
+  ) |>
+  ungroup() |>
+  left_join(
+    wdi_gdp_pc,
+    by = c("country_code", "year")
+  ) |>
+  ggplot(
+    aes(
+      gdp_per_capita_ppp_2017,
+      total_public_employees
+    )
+  ) +
+  geom_point(
+    aes(
+      color = region
+    )
+  ) +
+  geom_text(
+    data = . %>% filter(country_code %in% c("CHN", "MDG", "IND", "BRA")),
+    aes(
+      label = economy
+    )
+  ) +
+  geom_smooth(
+    method = "lm",
+    se = FALSE,
+    linetype = "dashed",
+    color = "grey15"
+  ) +
+  labs(
+    y = "Public sector employees (total employment)",
+    x = "GDP per capita (PPP, in 2017 USD)"
+  ) +
+  scale_x_continuous(
+    trans = "log10",
+    label = comma
+  ) +
+  scale_y_continuous(
+    trans = "log10",
+    label = comma
+  ) +
+  scale_color_colorblind(
+    name = "Region"
+  ) +
+  theme(
+    legend.position = "bottom"
+  )
+
+ggsave(
+  here("figs", "wwbi", "03-fig_share_public_sector_gdp.png"),
   width = 12,
   height = 8,
   bg = "white"
@@ -288,8 +335,8 @@ wwbi_occupation |>
   ggplot(
     aes(gdp_per_capita_ppp_2017, share)
   ) +
-  geom_text(
-    aes(label = country_code, color = region)
+  geom_point(
+    aes(color = region)
   ) +
   geom_smooth(
     method = "lm",
