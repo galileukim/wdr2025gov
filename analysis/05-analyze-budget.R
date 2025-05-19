@@ -3,6 +3,7 @@ library(ggplot2)
 library(ggthemes)
 library(scales)
 library(ggrepel)
+library(gghighlight)
 
 theme_set(
   theme_few(
@@ -29,11 +30,16 @@ budget_execution |>
       budget_execution_rate
     )
   ) +
-  geom_text(
+  geom_point(
     aes(
-      label = country_code,
+      # label = country_code,
       color = region
       )
+  ) +
+  gghighlight(
+    label_key = economy,
+    unhighlighted_params = list(colour = NULL),
+    country_code %in% c("SAU", "SOM", "COL", "GHA", "IND", "HUN", "IRL")
   ) +
   geom_smooth(
     method = "lm",
@@ -88,7 +94,7 @@ cash_surplus |>
     aes(color = region)
   ) +
   coord_cartesian(
-    ylim = c(-50, 50)
+    ylim = c(-25, 25)
   ) +
   geom_hline(
     yintercept = 0,
@@ -127,12 +133,17 @@ cash_surplus |>
   ) |>
   ggplot(
     aes(
-      legislative_oversight_score,
+      supreme_audit_oversight_score,
       cash_surplus_pct_gdp
     )
   ) +
-  geom_text(
+  geom_point(
     aes(label = country_code, color = region)
+  ) +
+  gghighlight(
+    label_key = economy,
+    unhighlighted_params = list(colour = NULL),
+    country_code %in% c("GNQ", "SWZ", "SAU", "FJI", "ARG", "MYS", "IND", "ZAF")
   ) +
   coord_cartesian(
     ylim = c(-50, 50)
@@ -142,7 +153,7 @@ cash_surplus |>
     linetype = "dashed"
   ) +
   labs(
-    x = "Legislature Oversight Score",
+    x = "Supreme Audit Oversight Score",
     y = "Cash Surplus as Percentage of GDP"
   ) +
   scale_color_brewer(
@@ -151,6 +162,10 @@ cash_surplus |>
   theme(
     legend.position = "bottom"
   )
+
+ggsave(
+  here("figs", "budget", "03-fig_cor_budget_oversight_vs_cash_surplus.png"),
+)
 
 # correlation between budget transparency and GDP
 wdi_gdp_pc |>
@@ -171,14 +186,15 @@ wdi_gdp_pc |>
       gdp_per_capita_ppp_2017
     )
   ) +
-  geom_text(
+  geom_point(
     aes(
-      label = country_code,
+      # label = country_code,
       color = region
     )
   ) +
   geom_smooth(
     method = "lm",
+    linetype = "dashed",
     se = FALSE
   ) +
   labs(
@@ -197,7 +213,7 @@ wdi_gdp_pc |>
   )
 
 ggsave(
-  here("figs", "budget", "03-fig_cor_budget_transparency_vs_gdp_per_capita.png"),
+  here("figs", "budget", "04-fig_cor_budget_transparency_vs_gdp_per_capita.png"),
   width = 12,
   height = 8,
   bg = "white"

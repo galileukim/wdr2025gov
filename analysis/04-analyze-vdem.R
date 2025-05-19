@@ -38,9 +38,8 @@ vdem |>
       gdp_per_capita_ppp_2017
     )
   ) +
-  geom_text(
+  geom_point(
     aes(
-      label = country_code,
       color = region
     )
   ) +

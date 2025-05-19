@@ -206,9 +206,6 @@ gsps_national |>
   ggtitle(
     "Countries apply both written exams\n and interviews",
     subtitle = "Share of Public Servants"
-  ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
   )
 
 ggsave(
@@ -256,9 +253,6 @@ gsps_institutional |>
   ggtitle(
     "Countries apply both written exams\n and interviews",
     subtitle = "Share of Public Servants per Institution"
-  ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
   )
 
 ggsave(
@@ -281,13 +275,7 @@ gsps_national_performance |>
     limits = c(0, 1),
     labels = scales::percent_format()
   ) +
-  scale_color_expand(6) +
-  # ggtitle(
-  #   "The implementation of performance-based pays is uneven across countries"
-  # ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
-  )
+  scale_color_expand(6)
 
 ggsave(
   here("figs", "gsps", "05-fig_share_performance.png"),
@@ -320,13 +308,7 @@ gsps_institutional |>
     limits = c(0, 1),
     labels = scales::percent_format()
   ) +
-  scale_color_expand(6) +
-  # ggtitle(
-  #   "The implementation of performance-based pays is uneven across countries"
-  # ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
-  )
+  scale_color_expand(6)
 
 ggsave(
   here("figs", "gsps", "06-fig_share_performance_institution.png"),
@@ -348,10 +330,7 @@ gsps_national_performance_comp |>
     limits = c(0, 1),
     labels = scales::percent_format()
   ) +
-  scale_color_expand(13) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
-  )
+  scale_color_expand(13)
 
 ggsave(
   here("figs", "gsps", "07-fig_share_performance_comp.png"),
@@ -403,10 +382,7 @@ gsps_national_performance_promotion |>
     limits = c(0, 1),
     labels = scales::percent_format()
   ) +
-  scale_color_expand(16) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
-  )
+  scale_color_expand(16)
 
 ggsave(
   here("figs", "gsps", "09-fig_share_performance_promotion.png"),
@@ -478,13 +454,6 @@ gsps_national |>
   ) +
   theme(
     legend.position = "none"
-  ) +
-  # ggtitle(
-  #   "Countries apply both written exams\n and interviews",
-  #   subtitle = "Share of Public Servants"
-  # ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
   )
 
 gsps_institutional_performance |>
@@ -512,13 +481,6 @@ gsps_institutional_performance |>
   ) +
   geom_smooth(
     method = "lm"
-  ) +
-  # ggtitle(
-  #   "Countries apply both written exams\n and interviews",
-  #   subtitle = "Share of Public Servants"
-  # ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
   )
 
 gsps_institutional_performance |>
@@ -546,9 +508,6 @@ gsps_institutional_performance |>
   ) +
   theme(
     legend.position = "none"
-  ) +
-  labs(
-    caption = "Source: Global Survey of Public Servants"
   )
 
 # regression analysis -----------------------------------------------------

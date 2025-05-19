@@ -14,12 +14,9 @@ theme_set(
 
 # analysis ----------------------------------------------------------------
 women_ministry |>
-  left_join(
-    countryclass,
-    by = c("country_code")
-  ) |>
+  classify_income_group() |>
   filter(
-    !(region %in% c("North America") | is.na(region))
+    !is.na(income_group)
   ) |>
   na.omit() |>
   group_by(country_code) |>
@@ -31,14 +28,14 @@ women_ministry |>
     country_code = reorder_within(
       country_code,
       by = prop_women_ministry,
-      within = region
+      within = income_group
     )
   ) |>
   ggplot(
     aes(
       x = prop_women_ministry,
       y = country_code,
-      fill = region
+      fill = income_group
     )
   ) +
   geom_col() +
@@ -47,7 +44,7 @@ women_ministry |>
     linetype = 'dashed'
   ) +
   facet_wrap(
-    vars(region),
+    vars(income_group),
     scales = "free_y"
   ) +
   scale_x_continuous(
