@@ -168,6 +168,8 @@ ggsave(
 )
 
 # correlation between budget transparency and GDP
+set.seed(052025)
+
 wdi_gdp_pc |>
   left_join(
     open_budget |> mutate(year = year - 1),
@@ -182,8 +184,8 @@ wdi_gdp_pc |>
   ) |>
   ggplot(
     aes(
-      budget_transparency_score,
-      gdp_per_capita_ppp_2017
+      x = gdp_per_capita_ppp_2017,
+      y = budget_transparency_score
     )
   ) +
   geom_point(
@@ -192,16 +194,34 @@ wdi_gdp_pc |>
       color = region
     )
   ) +
+  gghighlight(
+    label_key = economy,
+    unhighlighted_params = list(colour = NULL),
+    country_code %in% sample(country_code, 10)
+  ) +
   geom_smooth(
+    # override data default for gghighlight
+    data = wdi_gdp_pc |>
+      left_join(
+        open_budget |> mutate(year = year - 1),
+        by = c("country_code", "year")
+      ) |>
+      filter(
+        year == 2022
+      ) |>
+      left_join(
+        countryclass,
+        by = c("country_code")
+      ),
     method = "lm",
     linetype = "dashed",
     se = FALSE
   ) +
   labs(
-    x = "Budget Transparency Score",
-    y = "GDP per Capita (PPP, USD 2017)"
+    x = "GDP per Capita (PPP, USD 2017)",
+    y = "Budget Transparency Score"
   ) +
-  scale_y_continuous(
+  scale_x_continuous(
     transform = "log10",
     labels = scales::comma
   ) +

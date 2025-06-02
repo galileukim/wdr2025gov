@@ -136,17 +136,22 @@ gsps_institutional |>
       country_code != "ROU"
   ) |>
   left_join_national(gsps_national_merit) |>
-  ggplot_boxplot(
-    mean, economy,
-    color = economy_fct
-  ) +
-  geom_jitter(
+  group_by(economy) |>
+  summarise(
+    average = mean(mean),
+    upper = max(mean),
+    lower = min(mean)
+  ) |>
+  ggplot() +
+  geom_pointrange(
     aes(
-      x = mean, y = economy,
-      color = economy_fct
-    ),
-    alpha = 0.6
+      x = average,
+      y = reorder(economy, average),
+      xmin = lower,
+      xmax = upper
+    )
   ) +
+  labs(x = "Share of Public Servants", y = "") +
   scale_color_expand(n_group = 11) +
   theme(
     legend.position = "none"
@@ -346,17 +351,22 @@ gsps_institutional |>
   left_join_national(
     gsps_national_performance_comp
   ) |>
-  ggplot_boxplot(
-    mean, economy,
-    color = economy_fct
-  ) +
-  geom_jitter(
+  group_by(economy) |>
+  summarise(
+    average = mean(mean),
+    upper = max(mean),
+    lower = min(mean)
+  ) |>
+  ggplot() +
+  geom_pointrange(
     aes(
-      x = mean, y = economy,
-      color = economy_fct
-    ),
-    alpha = 0.6
+      x = average,
+      y = reorder(economy, average),
+      xmin = lower,
+      xmax = upper
+    )
   ) +
+  labs(x = "Share of Public Servants", y = "") +
   scale_color_expand(13) +
   theme(
     legend.position = "none"
