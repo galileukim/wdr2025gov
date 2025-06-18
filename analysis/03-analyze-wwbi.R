@@ -10,8 +10,14 @@ library(ggbreak)
 library(tidytext)
 
 theme_set(
-  theme_few(
-    base_size = 18
+  theme(
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "white",color='black'),
+    plot.title = element_text(hjust = 0.5),
+    legend.position='bottom',
+    legend.key = element_rect(fill = "white",color='white'),
+    text = element_text(size = 14),
+    legend.text=element_text(size=14)
   )
 )
 
@@ -132,17 +138,13 @@ wwbi_public_sector |>
       share_public_sector
     )
   ) +
-  geom_point(
-    aes(
-      # label = country_code,
-      color = region
-    )
-  ) +
+  geom_point() +
   geom_smooth(
     method = "lm",
-    se = FALSE,
-    linetype = "dashed",
-    color = "grey15"
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color='deepskyblue4',
+    fill='slategray2'
   ) +
   labs(
     y = "Public sector employees (Share of total employment)",
@@ -154,9 +156,6 @@ wwbi_public_sector |>
   ) +
   scale_y_continuous(
     labels = scales::percent_format()
-  ) +
-  scale_color_colorblind(
-    name = "Region"
   ) +
   theme(
     legend.position = "bottom"

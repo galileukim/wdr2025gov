@@ -6,8 +6,14 @@ library(ggrepel)
 library(gghighlight)
 
 theme_set(
-  theme_few(
-    base_size = 18
+  theme(
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "white",color='black'),
+    plot.title = element_text(hjust = 0.5),
+    legend.position='bottom',
+    legend.key = element_rect(fill = "white",color='white'),
+    text = element_text(size = 14),
+    legend.text=element_text(size=14)
   )
 )
 
@@ -30,15 +36,13 @@ budget_execution |>
       budget_execution_rate
     )
   ) +
-  geom_point(
-    aes(
-      # label = country_code,
-      # color = region
-      )
-  ) +
+  geom_point() +
   geom_smooth(
     method = "lm",
-    se = FALSE
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color='deepskyblue4',
+    fill='slategray2'
   ) +
   geom_hline(
     yintercept = 100,
