@@ -22,7 +22,7 @@ budget_execution |>
     by = c("country_code", "year")
   ) |>
   filter(
-    year == 2022
+    year == 2021
   ) |>
   ggplot(
     aes(
@@ -33,13 +33,8 @@ budget_execution |>
   geom_point(
     aes(
       # label = country_code,
-      color = region
+      # color = region
       )
-  ) +
-  gghighlight(
-    label_key = economy,
-    unhighlighted_params = list(colour = NULL),
-    country_code %in% c("SAU", "SOM", "COL", "GHA", "IND", "HUN", "IRL")
   ) +
   geom_smooth(
     method = "lm",
@@ -52,12 +47,6 @@ budget_execution |>
   scale_x_continuous(
     trans = "log10",
     labels = scales::comma
-  ) +
-  scale_color_colorblind(
-    name = "Region"
-  ) +
-  theme(
-    legend.position = "bottom"
   ) +
   coord_cartesian(
     ylim = c(50, 150)

@@ -6,6 +6,7 @@ library(ggrepel)
 library(tidyr)
 library(forcats)
 library(gghighlight)
+library(ggbreak)
 library(tidytext)
 
 theme_set(
@@ -66,6 +67,10 @@ ggsave(
 )
 
 wwbi_public_sector |>
+  filter(
+    !is.na(income_group) &
+      total_public_employees > 1
+  ) |>
   # extract most recent year by country
   group_by(country_code) |>
   slice_max(
@@ -73,30 +78,28 @@ wwbi_public_sector |>
     n = 1
   ) |>
   ungroup() |>
-  group_by(income_group) |>
-  mutate(
-    avg_share = mean(total_public_employees, na.rm = T),
-    max_share = max(total_public_employees, na.rm = T),
-    min_share = min(total_public_employees, na.rm = T)
+  slice_max(
+    n = 50,
+    order_by = total_public_employees
   ) |>
-  ungroup() |>
   ggplot(
     aes(
-      total_public_employees,
-      country_code,
-      fill = income_group
+      total_public_employees/1e6,
+      reorder(country_code, total_public_employees)
     )
   ) +
-  geom_col() +
-  facet_wrap(vars(income_group), scales = 'free_y') +
+  geom_col(
+    fill = "steelblue3"
+  ) +
+  scale_x_break(
+    c(40, 100),
+    ticklabels = seq(0, 130, by = 10)
+  ) +
   labs(
-    y = "Income Group",
-    x = "Total public sector employees"
+    y = "Economy",
+    x = "Total public sector employees (Millions)",
   ) +
-  scale_x_continuous(
-    labels = label_number(scale_cut = cut_short_scale())
-  ) +
-  scale_color_colorblind(
+  scale_fill_colorblind(
     name = "Income Group"
   ) +
   theme(
@@ -106,7 +109,7 @@ wwbi_public_sector |>
 ggsave(
   here("figs", "wwbi", "02-fig_total_public_sector_income_group.png"),
   width = 12,
-  height = 8,
+  height = 10,
   bg = "white"
 )
 
