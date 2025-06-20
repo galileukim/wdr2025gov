@@ -5,13 +5,20 @@ library(scales)
 library(ggrepel)
 
 theme_set(
-  theme_few(
-    base_size = 18
+  theme(
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "white",color='black'),
+    plot.title = element_text(hjust = 0.5),
+    legend.position='bottom',
+    legend.key = element_rect(fill = "white",color='white'),
+    text = element_text(size = 14),
+    legend.text=element_text(size=14)
   )
 )
+
 # analysis ----------------------------------------------------------------
 vdem |>
-  left_join(
+  inner_join(
     wdi_gdp_pc,
     by = c("country_code", "year")
   ) |>
@@ -20,51 +27,42 @@ vdem |>
     by = c("country_code")
   ) |>
   filter(
-    !is.na(region)
+    !is.na(region) &
+      year == max(year)
   ) |>
-  mutate(
-    decade = year - year %% 10
-  ) |>
-  group_by(region, country_code, decade) |>
-  summarise(
-    merit_criteria = mean(merit_criteria, na.rm = TRUE),
-    impartial = mean(impartial, na.rm = TRUE),
-    gdp_per_capita_ppp_2017 = mean(gdp_per_capita_ppp_2017, na.rm = TRUE),
-    .groups = "drop"
-  ) |>
+  # mutate(
+  #   decade = year - year %% 10
+  # ) |>
+  # group_by(region, country_code, decade) |>
+  # summarise(
+  #   merit_criteria = mean(merit_criteria, na.rm = TRUE),
+  #   impartial = mean(impartial, na.rm = TRUE),
+  #   gdp_per_capita_ppp_2017 = mean(gdp_per_capita_ppp_2017, na.rm = TRUE),
+  #   .groups = "drop"
+  # ) |>
   ggplot(
     aes(
-      merit_criteria,
-      gdp_per_capita_ppp_2017
-    )
-  ) +
-  geom_point(
-    aes(
-      color = region
+      gdp_per_capita_ppp_2017,
+      merit_criteria
     )
   ) +
   geom_smooth(
     method = "lm",
-    se = FALSE,
-    linetype = "dashed",
-    color = "grey15"
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color='deepskyblue4',
+    fill='slategray2'
   ) +
   labs(
-    x = "Meritocratic criteria for appointment",
-    y = "GDP per capita (PPP, in 2017 USD)"
+    y = "Meritocratic criteria for appointment",
+    x = "GDP per capita (PPP, in 2017 USD)"
   ) +
-  scale_y_continuous(
+  scale_x_continuous(
     trans = "log10",
     label = scales::comma
   ) +
   scale_color_colorblind(
     name = "Region"
-  ) +
-  theme(
-    legend.position = "bottom"
-  ) +
-  facet_wrap(
-    vars(decade)
   )
 
 ggsave(

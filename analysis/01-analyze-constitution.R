@@ -4,11 +4,15 @@ library(ggthemes)
 library(tidyr)
 library(forcats)
 
-devtools::load_all()
-
 theme_set(
-  theme_few(
-    base_size = 24
+  theme(
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "white",color='black'),
+    plot.title = element_text(hjust = 0.5),
+    legend.position='bottom',
+    legend.key = element_rect(fill = "white",color='white'),
+    text = element_text(size = 14),
+    legend.text=element_text(size=14)
   )
 )
 
@@ -262,8 +266,9 @@ constitution_subset |>
   ggplot() +
   geom_col(
     aes(
-      rev(income_group), merit
-    )
+      income_group, merit
+    ),
+    width = 0.5
   ) +
   labs(
     x = "Income Group",
@@ -275,9 +280,9 @@ constitution_subset |>
 
 ggsave(
   here("figs", "constitution",  "06-share_countries_merit_by_income_latest.png"),
-  height = 12,
-  width = 14,
-  bg = "white"
+  height = 6,
+  width = 8,
+  dpi = 300
 )
 
 # by income group: sum
