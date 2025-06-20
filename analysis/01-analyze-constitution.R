@@ -188,10 +188,6 @@ ggsave(
 
 # by income group: share
 constitution_subset |>
-  inner_join(
-    countryclass,
-    by = "country_code"
-  ) |>
   filter(
     !is.na(country_code) &
       !is.na(income_group)
@@ -215,10 +211,10 @@ constitution_subset |>
     year, merit,
     color = income_group
   ) +
-  facet_wrap(
-    vars(income_group),
-    nrow = 3
-  ) +
+  # facet_wrap(
+  #   vars(income_group),
+  #   nrow = 3
+  # ) +
   scale_y_continuous(
     labels = scales::percent_format()
   ) +
@@ -227,12 +223,58 @@ constitution_subset |>
     y = "Share of Countries"
   ) +
   theme(
-    legend.position = "none"
+    legend.position = "bottom"
   ) +
   scale_colour_colorblind()
 
 ggsave(
   here("figs", "constitution",  "05-share_countries_merit_by_income.png"),
+  height = 12,
+  width = 14,
+  bg = "white"
+)
+
+# by income group: latest year
+constitution_subset |>
+  filter(
+    !is.na(country_code) &
+      !is.na(income_group)
+  ) |>
+  mutate(
+    income_group = fct_relevel(
+      income_group,
+      c(
+        "High income",
+        "Upper middle income",
+        "Lower middle income",
+        "Low income"
+      ) |> rev()
+    )
+  ) |>
+  summarise_merit(
+    c("year", "income_group"),
+    agg_fun = "mean"
+  ) |>
+  ungroup() |>
+  filter(
+    year == max(year)
+  ) |>
+  ggplot() +
+  geom_col(
+    aes(
+      rev(income_group), merit
+    )
+  ) +
+  labs(
+    x = "Income Group",
+    y = "Share of Countries"
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  )
+
+ggsave(
+  here("figs", "constitution",  "06-share_countries_merit_by_income_latest.png"),
   height = 12,
   width = 14,
   bg = "white"
@@ -314,39 +356,31 @@ ggsave(
 # by deciles of logged gdp per capita
 constitution_subset |>
   filter(
-    year >= 1990 & !is.na(gdp_per_capita_ppp_2017)
+    year == 2022
+  ) |>
+  left_join(
+    wdi_gdp_pc |> filter(year == 2022),
+    by = c("country_code", "year")
   ) |>
   mutate(
-    decade = (year - year %% 10),
     bin_gdp_per_capita = cut(
-      log(gdp_per_capita_ppp_2017),
-      5,
-      labels = 1:5,
+      gdp_per_capita_ppp_2017,
+      10,
+      labels = 1:10,
       include.lowest = TRUE
     )
   ) |>
   summarise_merit(
-    c("decade", "bin_gdp_per_capita")
+    c("bin_gdp_per_capita"),
+    agg_fun = "mean"
   ) |>
-  mutate(
-    share_merit = merit/total_obs,
-    se = sqrt(share_merit * (1 - share_merit)/total_obs),
-    # Wald confidence intervals
-    lower_ci = share_merit - qnorm(1 - 0.05/2) * se,
-    upper_ci = share_merit + qnorm(1 - 0.05/2) * se
-  ) |>
-  ungroup() |>
   ggplot() +
-  geom_pointrange(
+  geom_point(
     aes(
-      bin_gdp_per_capita, share_merit,
-      ymin = lower_ci,
-      ymax = upper_ci,
-      color = as.character(decade)
+      bin_gdp_per_capita,
+      merit
     )
   ) +
-  facet_wrap(vars(decade)) +
-  scale_color_colorblind() +
   scale_y_continuous(
     labels = scales::percent_format()
   ) +
