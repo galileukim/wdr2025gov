@@ -62,9 +62,9 @@ budget_execution |>
 
 ggsave(
   here("figs", "budget", "01-fig_cor_gdp_vs_budgetexecution.png"),
-  width = 12,
-  height = 8,
-  bg = "white"
+  width = 8,
+  height = 6,
+  dpi = 300
 )
 
 # correlation between budget transparency and cash surplus
@@ -181,34 +181,12 @@ wdi_gdp_pc |>
       y = budget_transparency_score
     )
   ) +
-  geom_point(
-    aes(
-      # label = country_code,
-      color = region
-    )
-  ) +
-  gghighlight(
-    label_key = economy,
-    unhighlighted_params = list(colour = NULL),
-    country_code %in% sample(country_code, 10)
-  ) +
   geom_smooth(
-    # override data default for gghighlight
-    data = wdi_gdp_pc |>
-      left_join(
-        open_budget |> mutate(year = year - 1),
-        by = c("country_code", "year")
-      ) |>
-      filter(
-        year == 2022
-      ) |>
-      left_join(
-        countryclass,
-        by = c("country_code")
-      ),
     method = "lm",
-    linetype = "dashed",
-    se = FALSE
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color='deepskyblue4',
+    fill='slategray2'
   ) +
   labs(
     x = "GDP per Capita (PPP, USD 2017)",
@@ -227,9 +205,9 @@ wdi_gdp_pc |>
 
 ggsave(
   here("figs", "budget", "04-fig_cor_budget_transparency_vs_gdp_per_capita.png"),
-  width = 12,
-  height = 8,
-  bg = "white"
+  width = 8,
+  height = 6,
+  dpi = 300
 )
 
 # correlation between budget execution and budget transparency
