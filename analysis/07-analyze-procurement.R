@@ -67,8 +67,8 @@ procurement |>
     method = "lm",
     formula = y ~ x + I(x^2),
     se = TRUE,
-    color='deepskyblue4',
-    fill='slategray2'
+    color = 'deepskyblue4',
+    fill = 'slategray2'
   ) +
   scale_x_continuous(
     trans = "log10",
@@ -85,3 +85,75 @@ ggsave(
   height = 6,
   dpi = 300
 )
+
+# correlation between standards and practices
+procurement |>
+  ggplot(
+    aes(
+      transparency_p,
+      transparency_l
+    )
+  ) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color = 'deepskyblue4',
+    fill = 'slategray2'
+  ) +
+  labs(
+    x = "Procurement Standards",
+    y = "Procurement Practice"
+  )
+
+ggsave(
+  here("figs", "procurement", "03-correlation_procurement_law_practices.png"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
+# correlation between standards and efficiency
+procurement |>
+  ggplot(
+    aes(
+      laws,
+      quality
+    )
+  ) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color = 'deepskyblue4',
+    fill = 'slategray2'
+  ) +
+  labs(
+    x = "Procurement Standards",
+    y = "Procurement Quality"
+  )
+
+ggsave(
+  here("figs", "procurement", "04-correlation_procurement_law_quality.png"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
+# regression between standards and practices
+procurement %>%
+  lm(practices ~ laws + I(laws^2) + loggdp, data = .) |>
+  summary()
+
+# regression between quality (y) on laws and practices (x)
+procurement %>%
+  lm(quality ~ laws + practices + loggdp, data = .) |>
+  summary()
+
+# regression between quality (y) on laws and practices (x)
+procurement %>%
+  lm(integrity ~ laws + practices + loggdp, data = .) |>
+  summary()
+

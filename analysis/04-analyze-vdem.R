@@ -46,6 +46,7 @@ vdem |>
       merit_criteria
     )
   ) +
+  geom_point() +
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
@@ -54,22 +55,19 @@ vdem |>
     fill='slategray2'
   ) +
   labs(
-    y = "Meritocratic criteria for appointment",
+    y = "Meritocratic appointment",
     x = "GDP per capita (PPP, in 2017 USD)"
   ) +
   scale_x_continuous(
     trans = "log10",
     label = scales::comma
-  ) +
-  scale_color_colorblind(
-    name = "Region"
   )
 
 ggsave(
   here("figs", "vdem", "01-fig_cor_merit_gdp.png"),
-  width = 12,
-  height = 8,
-  bg = "white"
+  width = 8,
+  height = 6,
+  dpi = 300
 )
 
 vdem |>
@@ -139,3 +137,18 @@ ggsave(
   height = 8,
   bg = "white"
 )
+
+# countries that enshrine meritocratic recruitment into their constitution
+# score better in meritocratic appointment?
+vdem |>
+  filter(year == 2023 & !is.na(country_code)) |>
+  inner_join(
+    constitution |> filter(year == 2023),
+    by = c("country_code", "year")
+  ) |>
+  ggplot(
+    aes(
+      merit_criteria,
+      constitution_meritocratic_recruitment
+    )
+  )

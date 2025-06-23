@@ -7,10 +7,18 @@ library(broom)
 library(stringr)
 
 theme_set(
-  theme_few(
-    base_size = 24
+  theme(
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "white",color='black'),
+    plot.title = element_text(hjust = 0.5),
+    legend.position='bottom',
+    legend.key = element_rect(fill = "white",color='white'),
+    text = element_text(size = 14),
+    legend.text=element_text(size=14)
   )
 )
+
+set.seed(2025)
 
 # read-in data ------------------------------------------------------------
 gsps_national <- gsps |>
@@ -137,31 +145,54 @@ gsps_institutional |>
   ) |>
   left_join_national(gsps_national_merit) |>
   group_by(economy) |>
-  summarise(
+  mutate(
     average = mean(mean),
     upper = max(mean),
     lower = min(mean)
   ) |>
-  ggplot() +
-  geom_pointrange(
+  ggplot(
+    aes(y = reorder(economy, average), color = economy)
+  ) +
+  geom_linerange(
     aes(
-      x = average,
-      y = reorder(economy, average),
       xmin = lower,
       xmax = upper
     )
   ) +
+  geom_point(
+    aes(x = upper),
+    size = 5
+  ) +
+  geom_point(
+    aes(x = lower),
+    size = 5
+  ) +
+  geom_point(
+    aes(x = average),
+    shape = 15,
+    size = 5
+  ) +
+  geom_jitter(
+    aes(
+      x = mean
+    ),
+    height = 0.2,
+    shape = 1
+  ) +
   labs(x = "Share of Public Servants", y = "") +
   scale_color_expand(n_group = 11) +
+  scale_x_continuous(
+    labels = scales::percent_format()
+  ) +
   theme(
     legend.position = "none"
   )
 
 ggsave(
   here("figs", "gsps", "02-fig_share_merit_institution.png"),
-  width = 12,
-  height = 8,
-  bg = "white"
+  width = 8,
+  height = 6,
+  dpi = 300
 )
 
 
