@@ -184,5 +184,16 @@
 #' @source https://www.openicpsr.org/openicpsr/project/153181/version/V1/view
 "procurement"
 
+#' @title GovTech Dataset (2022)
+#' @description The WBG launched the GovTech Maturity Index (GTMI) in 2020 as a composite index that uses 48 key indicators to measure critical aspects of four GovTech focus areas in 198 economies: supporting core government systems, enhancing service delivery, mainstreaming citizen engagement, and fostering GovTech enablers.
+#' @format A data frame with 198 rows and 4 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{hrmis_year_est}}{double Year of the Human Resource Management Information System (HRMIS) launch}
+#'   \item{\code{egp_year_est}}{double Year of the e-Government Procurement Management Information System (eGP) launch}
+#'   \item{\code{fmis_year_est}}{double Year of the Financial Management Information System (FMIS) launch}
+#'}
+#' @source https://datacatalog.worldbank.org/int/search/dataset/0037889/govtech-dataset
+"gtmi"
 
 

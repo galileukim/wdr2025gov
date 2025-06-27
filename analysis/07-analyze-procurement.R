@@ -142,6 +142,132 @@ ggsave(
   dpi = 300
 )
 
+# correlation between standards, practice, and quality
+procurement |>
+  select(
+    Standards = laws,
+    Practices = practices,
+    Quality = quality
+  ) |>
+  pivot_longer(
+    c(Standards, Practices)
+  ) |>
+  ggplot(
+    aes(
+      value,
+      Quality,
+      color = name
+    )
+  ) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    # color = 'deepskyblue4',
+    fill = 'slategray2'
+  ) +
+  scale_color_colorblind(
+    name = ""
+  ) +
+  labs(
+    x = "Score",
+    y = "Procurement Quality"
+  )
+
+ggsave(
+  here("figs", "procurement", "05-correlation_procurement_law_practices_quality.png"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
+# correlation between standards, practice, and integrity
+procurement |>
+  select(
+    Standards = laws,
+    Practices = practices,
+    Integrity = integrity
+  ) |>
+  pivot_longer(
+    c(Standards, Practices)
+  ) |>
+  ggplot(
+    aes(
+      value,
+      Integrity,
+      color = name
+    )
+  ) +
+  geom_point(
+    shape = 1
+  ) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    # color = 'deepskyblue4',
+    fill = 'slategray2'
+  ) +
+  scale_color_colorblind(
+    name = ""
+  ) +
+  labs(
+    x = "Score",
+    y = "Procurement Integrity"
+  )
+
+# correlation between integrity and quality
+procurement |>
+  ggplot(
+    aes(
+      integrity,
+      quality
+    )
+  ) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color = 'deepskyblue4',
+    fill = 'slategray2'
+  ) +
+  labs(
+    x = "Procurement Integrity",
+    y = "Procurement Quality"
+  )
+
+# compliance gap: laws minus practices
+procurement |>
+  mutate(
+    compliance_gap = scale(practices) - scale(laws)
+  ) |>
+  ggplot(
+    aes(
+      compliance_gap,
+      quality
+    )
+  ) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = TRUE,
+    color = 'deepskyblue4',
+    fill = 'slategray2'
+  ) +
+  labs(
+    x = "Compliance Gap (Practices - Standards)",
+    y = "Procurement Quality"
+  )
+
+ggsave(
+  here("figs", "procurement", "06-compliance_gap_procurement.png"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
 # regression between standards and practices
 procurement %>%
   lm(practices ~ laws + I(laws^2) + loggdp, data = .) |>
