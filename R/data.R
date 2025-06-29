@@ -196,4 +196,14 @@
 #' @source https://datacatalog.worldbank.org/int/search/dataset/0037889/govtech-dataset
 "gtmi"
 
+#' @title Enterprise Surveys
+#' @description World Bank Enterprise Surveys (WBES) are nationally representative firm-level surveys with top managers and owners of businesses in over 160 economies, reaching 180 in upcoming years, that provide insight into many business environment topics such as access to finance, corruption, infrastructure, and performance, among others.
+#' @format A data frame with 116 rows and 3 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{double Year}
+#'   \item{\code{management_practices_index}}{double Management Practices Index is a composite metric combining eight individual management practices indicators that assess various aspects of organizational behavior, including decision-making processes, goal-setting, and personnel evaluation.}
+#'}
+#' @details Considers management practices in the economy as a whole
+"enterprise_surveys"
 
