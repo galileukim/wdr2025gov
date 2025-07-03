@@ -553,25 +553,14 @@ gsps_institutional_performance |>
 
 # correlations between performance and motivation/mission -----------------
 gsps_institutional_performance |>
-  pivot_longer(
-    cols = c(`Work motivation`, `Mission orientation`),
-    names_to = "Outcome",
-    values_to = "Value"
-  ) |>
   ggplot(
     aes(
       x = `Performance standard: promotion`,
-      y = Value,
-      color = Outcome,
+      y = `Work motivation`
     )
   ) +
   geom_smooth(
-    method = "lm",
-    formula = y ~ x + I(x^2),
-    se = TRUE,
-    fill ='slategray2'
-  ) +
-  geom_smooth(
+    color = "deepskyblue4",
     method = "lm",
     formula = y ~ x + I(x^2),
     se = TRUE,
@@ -583,14 +572,7 @@ gsps_institutional_performance |>
   scale_y_continuous(
     labels = scales::percent_format()
   ) +
-  scale_color_manual(
-    values = c(
-      "Work motivation" = "deepskyblue4",
-      "Mission orientation" = "orangered"
-    ),
-    name = "Type of engagement"
-  ) +
-  labs(x = "Performance-related promotion", y = "Engagement")
+  labs(x = "Performance-related promotion", y = "Work motivation")
 
 ggsave(
   here("figs", "gsps", "11-fig_performance_motivation_mission.png"),
