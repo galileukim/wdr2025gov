@@ -225,4 +225,19 @@
 #' @details The dataset was constructed by merging data from multiple official sources, including the IBGE (Brazilian Institute of Geography and Statistics), INEP (National Institute of Educational Studies), and RAIS (Annual Report of Social Information). All monetary values are adjusted to constant prices. Data is cleaned and harmonized to ensure consistency across years and municipalities.
 "mides"
 
+#' @title RAIS Municipal Dataset
+#' @description Summary statistics on headcount, hiring and dismissals at the municipality-year level
+#' @format A data frame with 107076 rows and 7 variables:
+#' \describe{
+#'   \item{\code{id_municipio}}{character Municipality identifier (IBGE code)}
+#'   \item{\code{ano}}{integer Year}
+#'   \item{\code{total_headcount}}{integer Total headcount}
+#'   \item{\code{total_new_hire}}{double Total new hires}
+#'   \item{\code{total_dismissed}}{double Total dismissals}
+#'   \item{\code{share_new_hire}}{double Share of new hires}
+#'   \item{\code{share_dismissed}}{double Share of dismissals}
+#'}
+#' @details Data extracted from the Base dos Dados
+#' @source: https://basedosdados.org/dataset/3e7c4d58-96ba-448e-b053-d385a829ef00?table=dabe5ea8-3bb5-4a3e-9d5a-3c7003cd4a60
+"rais_mun"
 

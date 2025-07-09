@@ -572,7 +572,8 @@ gsps_institutional_performance |>
   scale_y_continuous(
     labels = scales::percent_format()
   ) +
-  labs(x = "Performance-related promotion", y = "Work motivation")
+  labs(x = "Performance-related promotion", y = "Work motivation") +
+  facet_wrap(vars(economy))
 
 ggsave(
   here("figs", "gsps", "11-fig_performance_motivation_mission.png"),
