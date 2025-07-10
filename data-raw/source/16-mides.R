@@ -8,7 +8,7 @@ library(janitor)
 library(here)
 
 mides_input <- read_csv(
-  here("data-raw", "input", "procurement_bra_mun", "full_budget_execution_index.csv")
+  here("data-raw", "input", "mides", "full_budget_execution_index.csv")
 )
 
 # download shape files
