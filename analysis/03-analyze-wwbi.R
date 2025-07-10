@@ -25,6 +25,11 @@ wwbi_public_sector <- wwbi |>
   filter(
     region != "North America"
   ) |>
+  select(-economy) |>
+  left_join(
+    countryclass |> select(country_code, economy),
+    by = c("country_code")
+  ) |>
   left_join(
     labor,
     by = c("country_code", "year")
