@@ -1,9 +1,8 @@
 ## code to prepare `countryclass` dataset goes here
 library(openxlsx)
 
-countryclass_input <- readxl::read_xlsx(
-  "https://ddh-openapi.worldbank.org/resources/DR0095333/download"
-  # here("data-raw", "input", "wb", "CLASS.xlsx")
+countryclass_input <- read.xlsx(
+  "https://ddh-openapi.worldbank.org/resources/DR0095333/download/"
 )
 
 countryclass <- countryclass_input |>
@@ -11,7 +10,7 @@ countryclass <- countryclass_input |>
     economy = Economy,
     country_code = Code,
     region = Region,
-    income_group = `Income group`
+    income_group = `Income.group`
   ) |>
   # fix country name
   mutate(

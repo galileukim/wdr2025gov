@@ -78,7 +78,7 @@ wwbi_public_sector |>
       total_public_employees > 1
   ) |>
   # extract most recent year by country
-  group_by(country_code) |>
+  group_by(economy) |>
   slice_max(
     order_by = year,
     n = 1
@@ -91,7 +91,7 @@ wwbi_public_sector |>
   ggplot(
     aes(
       total_public_employees/1e6,
-      reorder(country_code, total_public_employees)
+      reorder(economy, total_public_employees)
     )
   ) +
   geom_col(

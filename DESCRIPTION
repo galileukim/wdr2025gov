@@ -28,6 +28,7 @@ Imports:
     readr,
     readxl,
     sinew,
+    stringr,
     tidyr,
     tidytext
 Depends: 
