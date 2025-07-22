@@ -47,10 +47,7 @@ wwbi_occupation <- wwbi_occupation_input |>
   clean_names()
 
 wwbi <- wwbi |>
-  left_join(
-    countryclass,
-    by = c("country_code")
-  )
+  classify_income_group()
 
 usethis::use_data(wwbi, overwrite = TRUE)
 usethis::use_data(wwbi_occupation, overwrite = TRUE)

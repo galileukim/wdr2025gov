@@ -22,17 +22,13 @@ theme_set(
 )
 
 wwbi_public_sector <- wwbi |>
-  filter(
-    region != "North America"
-  ) |>
-  select(-economy) |>
-  left_join(
-    countryclass |> select(country_code, economy),
-    by = c("country_code")
-  ) |>
   left_join(
     labor,
     by = c("country_code", "year")
+  ) |>
+  left_join(
+    countryclass |> select(country_code, economy),
+    by = "country_code"
   ) |>
   filter(
     year <= 2018
@@ -100,7 +96,9 @@ wwbi_public_sector |>
     )
   ) +
   geom_col(
-    fill = "steelblue3"
+    aes(
+      fill = income_group
+    )
   ) +
   scale_x_break(
     c(40, 100),
@@ -110,11 +108,16 @@ wwbi_public_sector |>
     y = "Economy",
     x = "Total public sector employees (Millions)",
   ) +
-  scale_fill_colorblind(
+  scale_fill_tableau(
     name = "Income Group"
   ) +
+  guides(
+    fill = guide_legend(
+      nrow=2,byrow=TRUE
+    )
+  ) +
   theme(
-    legend.position = "none"
+    legend.position = "bottom"
   )
 
 ggsave(
