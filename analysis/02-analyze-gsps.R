@@ -553,12 +553,18 @@ gsps_institutional_performance |>
 
 # correlations between performance and motivation/mission -----------------
 gsps_institutional_performance |>
+  group_by(economy) |>
+  mutate(
+    `Performance standard: promotion` = scale(`Performance standard: compensation`),
+    `Work motivation` = scale(`Work motivation`)
+  ) |>
   ggplot(
     aes(
       x = `Performance standard: promotion`,
       y = `Work motivation`
     )
   ) +
+  geom_point() +
   geom_smooth(
     color = "deepskyblue4",
     method = "lm",
@@ -566,14 +572,7 @@ gsps_institutional_performance |>
     se = TRUE,
     fill ='slategray2'
   ) +
-  scale_x_continuous(
-    labels = scales::percent_format()
-  ) +
-  scale_y_continuous(
-    labels = scales::percent_format()
-  ) +
-  labs(x = "Performance-related promotion", y = "Work motivation") +
-  facet_wrap(vars(economy))
+  labs(x = "Performance-related promotion", y = "Work motivation")
 
 ggsave(
   here("figs", "gsps", "11-fig_performance_motivation_mission.png"),

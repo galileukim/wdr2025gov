@@ -241,3 +241,26 @@
 #' @source: https://basedosdados.org/dataset/3e7c4d58-96ba-448e-b053-d385a829ef00?table=dabe5ea8-3bb5-4a3e-9d5a-3c7003cd4a60
 "rais_mun"
 
+#' @title Brazilian Municipality Shapefiles
+#' @description Shapesfiles for municipal boundaries in Brazil (IBGE)
+#' @format A data frame with 5573 rows and 16 variables:
+#' \describe{
+#'   \item{\code{municipality_code}}{character Municipality code (IBGE)}
+#'   \item{\code{nm_mun}}{character Municipality name}
+#'   \item{\code{cd_rgi}}{character Region code}
+#'   \item{\code{nm_rgi}}{character Region name}
+#'   \item{\code{cd_rgint}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{nm_rgint}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{cd_uf}}{character State code}
+#'   \item{\code{nm_uf}}{character State name}
+#'   \item{\code{sigla_uf}}{character State acronym}
+#'   \item{\code{cd_regia}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{nm_regia}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{sigla_rg}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{cd_concu}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{nm_concu}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{area_km2}}{double COLUMN_DESCRIPTION}
+#'   \item{\code{geometry}}{list COLUMN_DESCRIPTION}
+#'}
+#' @details DETAILS
+"brazil_mun_shp"
