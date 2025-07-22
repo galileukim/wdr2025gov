@@ -181,6 +181,7 @@ wdi_gdp_pc |>
       y = budget_transparency_score
     )
   ) +
+  geom_point() +
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
