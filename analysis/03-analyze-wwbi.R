@@ -39,6 +39,34 @@ wwbi_public_sector <- wwbi |>
     total_public_employees = (share_public_sector) *((100 - unemployment_rate)/100 * total_labor_force)
   )
 
+# total public sector employment by country, leveraging latest available year
+wwbi_public_sector |>
+  group_by(economy) |>
+  slice_max(
+    order_by = year,
+    n = 1
+  ) |>
+  ungroup() |>
+  summarise(
+    sum(total_public_employees, na.rm = TRUE)
+  )
+
+# relative share of public sector employment of top 50
+wwbi_public_sector |>
+  group_by(economy) |>
+  slice_max(
+    order_by = year,
+    n = 1
+  ) |>
+  ungroup() |>
+  slice_max(
+    n = 50,
+    order_by = total_public_employees
+  ) |>
+  summarise(
+    sum(total_public_employees, na.rm = TRUE)
+  )
+
 # analysis ----------------------------------------------------------------
 wwbi_public_sector |>
   filter(country_code != "CHN") |>

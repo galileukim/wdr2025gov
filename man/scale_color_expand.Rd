@@ -8,8 +8,6 @@ scale_color_expand(n_group)
 }
 \arguments{
 \item{n_group}{Number of discrete groups}
-
-\item{plot}{Plot, must be a ggplot}
 }
 \value{
 An expanded scale

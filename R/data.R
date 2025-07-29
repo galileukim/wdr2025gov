@@ -72,8 +72,6 @@
 #'   \item{\code{country_code}}{character World Bank country code}
 #'   \item{\code{year}}{double Year}
 #'   \item{\code{share_public_sector}}{double Public sector employment, as a share of total employment}
-#'   \item{\code{economy}}{character Economy name}
-#'   \item{\code{region}}{character World Bank region}
 #'   \item{\code{income_group}}{character World Bank income group}
 #'}
 "wwbi"
@@ -129,12 +127,15 @@
 
 #' @title Open Budget Survey: Legislature and Super Audit Institution Oversight Score
 #' @description The role that legislatures and supreme audit institutions play in the budget process and the extent to which they are able to provide robust oversight of the budget.
-#' @format A data frame with 500 rows and 3 variables:
+#' @format A data frame with 918 rows and 8 variables:
 #' \describe{
 #'   \item{\code{country_code}}{character World Bank country code}
-#'   \item{\code{year}}{character Year}
+#'   \item{\code{year}}{double Year}
 #'   \item{\code{budget_transparency_score}}{double Budget transparency score Budget transparency score (previously known as the Open Budget Index): assesses the public availability of the eight key budget documents, which taken together provide a complete view of how public resources have been raised, planned, and spent during the budget year. To be considered "publicly available", documents must be published online, in a timely manner, and must include information that is comprehensive and useful. A score of 61 or above indicates a country is likely publishing enough material to support informed public debate on the budget.}
-#'   \item{\code{oversight_score}}{double Legislature and Super Audit Institution Oversight Score: The role that legislatures and supreme audit institutions play in the budget process and the extent to which they are able to provide robust oversight of the budget.}
+#'   \item{\code{supreme_audit_oversight_score}}{double Supreme Audit Institution Oversight Score: The role that supreme audit institutions play in the budget process and the extent to which they are able to provide robust oversight of the budget.}
+#'   \item{\code{oversight_score}}{double Legislature and Supreme Audit Institution Oversight Score: The role that legislatures and supreme audit institutions play in the budget process and the extent to which they are able to provide robust oversight of the budget.}
+#'   \item{\code{legislative_oversight_score}}{double Legislature oversight score: The role that legislatures play in the budget process and the extent to which they are able to provide robust oversight of the budget.}
+#'   \item{\code{public_participation_score}}{double Public participation score: The degree to which the executive, the legislature, and the supreme audit institution each provides opportunities for the public to engage during different cycles of the budget process.}
 #'}
 #' @details DETAILS
 "open_budget"
@@ -264,3 +265,14 @@
 #'}
 #' @details DETAILS
 "brazil_mun_shp"
+
+#' @title GDP per Capita
+#' @description GDP per capita, PPP (constant 2017 international $) is the gross domestic product converted to international dollars using purchasing power parity rates and divided by total population. It is a measure of the average economic output per person, adjusted for price level differences across countries.
+#' @format A data frame with 6100 rows and 3 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code}
+#'   \item{\code{year}}{double Tear}
+#'   \item{\code{gdp_per_capita_ppp_2017}}{double GDP per capita, PPP (constant 2017 international $)}
+#'}
+#' @source Prosperity Data 360
+"wdi_gdp_pc"

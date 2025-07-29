@@ -1,4 +1,4 @@
-Package: wdrhrm
+Package: wdr2025gov
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
@@ -11,11 +11,13 @@ RoxygenNote: 7.3.2
 Imports: 
     broom,
     countrycode,
+    dplyr,
     forcats,
     fs,
     ggplot2,
     ggrepel,
     ggthemes,
+    here,
     hrbrthemes,
     httr,
     httr2,
@@ -27,14 +29,14 @@ Imports:
     RColorBrewer,
     readr,
     readxl,
+    scales,
     sinew,
     stringr,
     tidyr,
     tidytext
-Depends: 
-    dplyr,
-    here,
+Depends:
     R (>= 3.5)
 LazyData: true
-URL: https://github.com/galileukim/wdrhrm
-BugReports: https://github.com/galileukim/wdrhrm/issues
+LazyDataCompression: xz
+URL: https://github.com/galileukim/wdr2025gov
+BugReports: https://github.com/galileukim/wdr2025gov/issues

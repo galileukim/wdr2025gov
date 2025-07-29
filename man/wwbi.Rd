@@ -10,8 +10,6 @@ A data frame with 1050 rows and 6 variables:
 \item{\code{country_code}}{character World Bank country code}
 \item{\code{year}}{double Year}
 \item{\code{share_public_sector}}{double Public sector employment, as a share of total employment}
-\item{\code{economy}}{character Economy name}
-\item{\code{region}}{character World Bank region}
 \item{\code{income_group}}{character World Bank income group}
 }
 }

@@ -3,7 +3,7 @@ library(readr)
 library(tidyr)
 library(here)
 
-# last accessed: 4/23/2025
+# last accessed: 7/29/2025
 open_budget_input <- read_csv(
   "https://data360files.worldbank.org/data360-data/data/IBP_OBS/IBP_OBS.csv"
 )
@@ -18,7 +18,6 @@ open_budget <- open_budget_input |>
     country_code = REF_AREA_ID,
     year = TIME_PERIOD,
     budget_transparency_score = IBP_OBS_OBI,
-    budget_transparency_rank = IBP_OBS_RANK,
     supreme_audit_oversight_score = IBP_OBS_SAI_OBI,
     oversight_score = IBP_OBS_OVERSIGHT_OBI,
     legislative_oversight_score = IBP_OBS_LEG_OBI,

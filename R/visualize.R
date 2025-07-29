@@ -244,7 +244,6 @@ ggplot_scatter <- function(data, x, y, ...){
 
 #' Expands color palette to number of groups
 #'
-#' @param plot Plot, must be a ggplot
 #' @param n_group Number of discrete groups
 #'
 #' @import ggplot2 RColorBrewer
