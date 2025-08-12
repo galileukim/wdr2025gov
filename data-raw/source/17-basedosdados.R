@@ -34,4 +34,4 @@ rais_query <- rais_input |>
 rais_mun <- rais_query |>
   bd_collect()
 
-use_this::use_data(rais_mun, overwrite = TRUE)
+usethis::use_data(rais_mun, overwrite = TRUE)
