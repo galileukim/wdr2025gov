@@ -40,9 +40,8 @@ budget_execution |>
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color='deepskyblue4',
-    fill='slategray2'
+    se = FALSE,
+    color='deepskyblue4'
   ) +
   geom_hline(
     yintercept = 100,
@@ -67,98 +66,105 @@ ggsave(
   dpi = 300
 )
 
-# correlation between budget transparency and cash surplus
-cash_surplus |>
-  left_join(
-    open_budget,
-    by = c("country_code", "year")
-  ) |>
-  left_join(
-    countryclass,
-    by = c("country_code")
-  ) |>
-  ggplot(
-    aes(
-      budget_transparency_score,
-      cash_surplus_pct_gdp
-    )
-  ) +
-  geom_point(
-    aes(color = region)
-  ) +
-  coord_cartesian(
-    ylim = c(-25, 25)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    linetype = "dashed"
-  ) +
-  labs(
-    x = "Budget Transparency Score",
-    y = "Cash Surplus as Percentage of GDP"
-  ) +
-  scale_color_brewer(
-    palette = "Paired"
-  ) +
-  theme(
-    legend.position = "bottom"
-  )
-
 ggsave(
-  here("figs", "budget", "02-fig_cor_budget_transparency_vs_cash_surplus.png"),
-  width = 12,
-  height = 8,
-  bg = "white"
+  here("figs", "budget", "01-fig_cor_gdp_vs_budgetexecution.eps"),
+  width = 8,
+  height = 6,
+  dpi = 300
 )
 
-# correlation between budget oversight and cash surplus
-cash_surplus |>
-  left_join(
-    open_budget |> mutate(year = year - 1),
-    by = c("country_code", "year")
-  ) |>
-  left_join(
-    countryclass,
-    by = c("country_code")
-  ) |>
-  filter(
-    year == 2020
-  ) |>
-  ggplot(
-    aes(
-      supreme_audit_oversight_score,
-      cash_surplus_pct_gdp
-    )
-  ) +
-  geom_point(
-    aes(label = country_code, color = region)
-  ) +
-  gghighlight(
-    label_key = economy,
-    unhighlighted_params = list(colour = NULL),
-    country_code %in% c("GNQ", "SWZ", "SAU", "FJI", "ARG", "MYS", "IND", "ZAF")
-  ) +
-  coord_cartesian(
-    ylim = c(-50, 50)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    linetype = "dashed"
-  ) +
-  labs(
-    x = "Supreme Audit Oversight Score",
-    y = "Cash Surplus as Percentage of GDP"
-  ) +
-  scale_color_brewer(
-    palette = "Paired"
-  ) +
-  theme(
-    legend.position = "bottom"
-  )
-
-ggsave(
-  here("figs", "budget", "03-fig_cor_budget_oversight_vs_cash_surplus.png"),
-)
+# # correlation between budget transparency and cash surplus
+# cash_surplus |>
+#   left_join(
+#     open_budget,
+#     by = c("country_code", "year")
+#   ) |>
+#   left_join(
+#     countryclass,
+#     by = c("country_code")
+#   ) |>
+#   ggplot(
+#     aes(
+#       budget_transparency_score,
+#       cash_surplus_pct_gdp
+#     )
+#   ) +
+#   geom_point(
+#     aes(color = region)
+#   ) +
+#   coord_cartesian(
+#     ylim = c(-25, 25)
+#   ) +
+#   geom_hline(
+#     yintercept = 0,
+#     linetype = "dashed"
+#   ) +
+#   labs(
+#     x = "Budget Transparency Score",
+#     y = "Cash Surplus as Percentage of GDP"
+#   ) +
+#   scale_color_brewer(
+#     palette = "Paired"
+#   ) +
+#   theme(
+#     legend.position = "bottom"
+#   )
+#
+# ggsave(
+#   here("figs", "budget", "02-fig_cor_budget_transparency_vs_cash_surplus.png"),
+#   width = 12,
+#   height = 8,
+#   bg = "white"
+# )
+#
+# # correlation between budget oversight and cash surplus
+# cash_surplus |>
+#   left_join(
+#     open_budget |> mutate(year = year - 1),
+#     by = c("country_code", "year")
+#   ) |>
+#   left_join(
+#     countryclass,
+#     by = c("country_code")
+#   ) |>
+#   filter(
+#     year == 2020
+#   ) |>
+#   ggplot(
+#     aes(
+#       supreme_audit_oversight_score,
+#       cash_surplus_pct_gdp
+#     )
+#   ) +
+#   geom_point(
+#     aes(label = country_code, color = region)
+#   ) +
+#   gghighlight(
+#     label_key = economy,
+#     unhighlighted_params = list(colour = NULL),
+#     country_code %in% c("GNQ", "SWZ", "SAU", "FJI", "ARG", "MYS", "IND", "ZAF")
+#   ) +
+#   coord_cartesian(
+#     ylim = c(-50, 50)
+#   ) +
+#   geom_hline(
+#     yintercept = 0,
+#     linetype = "dashed"
+#   ) +
+#   labs(
+#     x = "Supreme Audit Oversight Score",
+#     y = "Cash Surplus as Percentage of GDP"
+#   ) +
+#   scale_color_brewer(
+#     palette = "Paired"
+#   ) +
+#   theme(
+#     legend.position = "bottom"
+#   )
+#
+# ggsave(
+#   here("figs", "budget", "03-fig_cor_budget_oversight_vs_cash_surplus.png"),
+# )
 
 # correlation between budget transparency and GDP
 set.seed(052025)
@@ -185,9 +191,8 @@ wdi_gdp_pc |>
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color='deepskyblue4',
-    fill='slategray2'
+    se = FALSE,
+    color = 'deepskyblue4'
   ) +
   labs(
     x = "GDP per Capita (PPP, USD 2017)",
@@ -206,6 +211,13 @@ wdi_gdp_pc |>
 
 ggsave(
   here("figs", "budget", "04-fig_cor_budget_transparency_vs_gdp_per_capita.png"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
+ggsave(
+  here("figs", "budget", "04-fig_cor_budget_transparency_vs_gdp_per_capita.eps"),
   width = 8,
   height = 6,
   dpi = 300

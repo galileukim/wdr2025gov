@@ -32,13 +32,10 @@ enterprise_surveys |>
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color='deepskyblue4',
-    fill='slategray2'
+    se = FALSE,
+    color='deepskyblue4'
   ) +
-  geom_point(
-    shape = 1
-  ) +
+  geom_point() +
   labs(
     x = "GDP per Capita (PPP, USD 2017)",
     y = "Management Practices Index"
@@ -50,6 +47,13 @@ enterprise_surveys |>
 
 ggsave(
   here("figs", "enterprise-surveys", "correlation_gdp_management.png"),
+  dpi = 300,
+  height = 6,
+  width = 8
+)
+
+ggsave(
+  here("figs", "enterprise-surveys", "correlation_gdp_management.eps"),
   dpi = 300,
   height = 6,
   width = 8
