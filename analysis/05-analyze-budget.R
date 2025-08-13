@@ -4,6 +4,8 @@ library(ggthemes)
 library(scales)
 library(ggrepel)
 library(gghighlight)
+library(dplyr)
+library(here)
 
 theme_set(
   theme(
@@ -210,14 +212,14 @@ wdi_gdp_pc |>
   )
 
 ggsave(
-  here("figs", "budget", "04-fig_cor_budget_transparency_vs_gdp_per_capita.png"),
+  here("figs", "budget", "fig_7_07_cor_budget_transparency_vs_gdp_per_capita.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
 ggsave(
-  here("figs", "budget", "04-fig_cor_budget_transparency_vs_gdp_per_capita.eps"),
+  here("figs", "budget", "fig_7_07_cor_budget_transparency_vs_gdp_per_capita.eps"),
   width = 8,
   height = 6,
   dpi = 300
