@@ -141,7 +141,8 @@ wwbi_public_sector |>
   ) +
   guides(
     fill = guide_legend(
-      nrow=2,byrow=TRUE
+      nrow = 2,
+      byrow = TRUE
     )
   ) +
   theme(

@@ -1,4 +1,6 @@
 # set-up ------------------------------------------------------------------
+library(dplyr)
+library(here)
 library(ggplot2)
 library(ggthemes)
 library(scales)
@@ -32,9 +34,25 @@ procurement |>
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color='deepskyblue4',
-    fill='slategray2'
+    se = FALSE,
+    color = 'deepskyblue4'
+  ) +
+  geom_point(
+    aes(
+      mean_gdp,
+      mean_transparency
+    ),
+    data = procurement |>
+      mutate(
+        gdp_per_capita = exp(loggdp),
+        gdp_bin = cut_number(gdp_per_capita, n = 50)  # bin width in USD
+      ) |>
+      group_by(gdp_bin) |>
+      summarise(
+        mean_gdp = mean(gdp_per_capita, na.rm = TRUE),
+        mean_transparency = mean(transparency_l, na.rm = TRUE),
+        .groups = "drop"
+      )
   ) +
   scale_x_continuous(
     trans = "log10",
@@ -47,6 +65,13 @@ procurement |>
 
 ggsave(
   here("figs", "procurement", "01-procurement_transparency_standards.png"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
+ggsave(
+  here("figs", "procurement", "01-procurement_transparency_standards.eps"),
   width = 8,
   height = 6,
   dpi = 300
@@ -239,6 +264,14 @@ procurement |>
 
 # compliance gap: laws minus practices
 procurement |>
+  left_join(
+    countryclass,
+    by = c("country_code")
+  ) |>
+  # remove country observations missing an income group
+  filter(
+    !is.na(income_group)
+  ) |>
   mutate(
     compliance_gap = scale(practices) - scale(laws)
   ) |>
@@ -248,13 +281,28 @@ procurement |>
       quality
     )
   ) +
-  geom_point() +
+  geom_point(
+    aes(
+      color = income_group
+    )
+  ) +
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color = 'deepskyblue4',
-    fill = 'slategray2'
+    se = FALSE,
+    color = 'deepskyblue4'
+  ) +
+  scale_color_tableau(
+    name = "Income Group"
+  ) +
+  guides(
+    color = guide_legend(
+      nrow = 2,
+      byrow = TRUE
+    )
+  ) +
+  theme(
+    legend.position = "bottom"
   ) +
   labs(
     x = "Compliance Gap (Practices - Standards)",
@@ -262,24 +310,31 @@ procurement |>
   )
 
 ggsave(
-  here("figs", "procurement", "06-compliance_gap_procurement.png"),
+  here("figs", "procurement", "7_11_compliance_gap_procurement.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
-# regression between standards and practices
-procurement %>%
-  lm(practices ~ laws + I(laws^2) + loggdp, data = .) |>
-  summary()
+ggsave(
+  here("figs", "procurement", "7_11_compliance_gap_procurement.eps"),
+  width = 8,
+  height = 6,
+  dpi = 300
+)
 
-# regression between quality (y) on laws and practices (x)
-procurement %>%
-  lm(quality ~ laws + practices + loggdp, data = .) |>
-  summary()
-
-# regression between quality (y) on laws and practices (x)
-procurement %>%
-  lm(integrity ~ laws + practices + loggdp, data = .) |>
-  summary()
+# # regression between standards and practices
+# procurement %>%
+#   lm(practices ~ laws + I(laws^2) + loggdp, data = .) |>
+#   summary()
+#
+# # regression between quality (y) on laws and practices (x)
+# procurement %>%
+#   lm(quality ~ laws + practices + loggdp, data = .) |>
+#   summary()
+#
+# # regression between quality (y) on laws and practices (x)
+# procurement %>%
+#   lm(integrity ~ laws + practices + loggdp, data = .) |>
+#   summary()
 
