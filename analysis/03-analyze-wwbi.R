@@ -8,6 +8,7 @@ library(forcats)
 library(gghighlight)
 library(ggbreak)
 library(tidytext)
+library(dplyr)
 
 theme_set(
   theme(
@@ -150,7 +151,14 @@ wwbi_public_sector |>
   )
 
 ggsave(
-  here("figs", "wwbi", "02-fig_total_public_sector_income_group.png"),
+  here("figs", "wwbi", "fig_7_2_total_public_sector_income_group.png"),
+  width = 12,
+  height = 10,
+  bg = "white"
+)
+
+ggsave(
+  here("figs", "wwbi", "fig_7_2_total_public_sector_income_group.eps"),
   width = 12,
   height = 10,
   bg = "white"
@@ -179,9 +187,8 @@ wwbi_public_sector |>
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color='deepskyblue4',
-    fill='slategray2'
+    se = FALSE,
+    color = 'deepskyblue4'
   ) +
   labs(
     y = "Public sector employees (Share of total employment)",
@@ -199,211 +206,218 @@ wwbi_public_sector |>
   )
 
 ggsave(
-  here("figs", "wwbi", "03-fig_public_sector_gdp.png"),
+  here("figs", "wwbi", "fig_7_3_public_sector_gdp.png"),
   width = 12,
   height = 8,
   bg = "white"
 )
 
-# correlation between economic development and absolute size of the public sector
-wwbi_public_sector |>
-  # extract most recent year by country
-  group_by(country_code) |>
-  slice_max(
-    order_by = year,
-    n = 1
-  ) |>
-  ungroup() |>
-  left_join(
-    wdi_gdp_pc,
-    by = c("country_code", "year")
-  ) |>
-  ggplot(
-    aes(
-      gdp_per_capita_ppp_2017,
-      total_public_employees
-    )
-  ) +
-  geom_point(
-    aes(
-      color = region
-    )
-  ) +
-  geom_text(
-    data = . %>% filter(country_code %in% c("CHN", "MDG", "IND", "BRA")),
-    aes(
-      label = economy
-    )
-  ) +
-  geom_smooth(
-    method = "lm",
-    se = FALSE,
-    linetype = "dashed",
-    color = "grey15"
-  ) +
-  labs(
-    y = "Public sector employees (total employment)",
-    x = "GDP per capita (PPP, in 2017 USD)"
-  ) +
-  scale_x_continuous(
-    trans = "log10",
-    label = comma
-  ) +
-  scale_y_continuous(
-    trans = "log10",
-    label = comma
-  ) +
-  scale_color_colorblind(
-    name = "Region"
-  ) +
-  theme(
-    legend.position = "bottom"
-  )
-
 ggsave(
-  here("figs", "wwbi", "03-fig_share_public_sector_gdp.png"),
+  here("figs", "wwbi", "fig_7_3_public_sector_gdp.eps"),
   width = 12,
   height = 8,
   bg = "white"
 )
 
-wwbi_occupation |>
-  left_join(
-    countryclass,
-    by = c("country_code")
-  ) |>
-  filter(
-    !is.na(income_group)
-  ) |>
-  mutate(
-    country_code = reorder_within(
-      country_code,
-      professional_and_technical,
-      within = income_group
-    )
-  ) |>
-  pivot_longer(
-    cols = c(professional_and_technical, managerial, clerical, other),
-    names_to = "occupation",
-    values_to = "share"
-  ) |>
-  mutate(
-    occupation = fct_relevel(
-      occupation,
-      c("professional_and_technical", "managerial", "clerical", "other") |> rev()
-    ) |>
-      fct_recode(
-        "Professional and Technical" = "professional_and_technical",
-        "Managerial" = "managerial",
-        "Clerical" = "clerical",
-        "Other" = "other"
-      ),
-    income_group = fct_relevel(
-      income_group,
-      c("Low income", "Lower middle income", "Upper middle income", "High income")
-    )
-  ) |>
-  ggplot(
-    aes(share, country_code)
-  ) +
-  geom_col(
-    aes(fill = occupation)
-  ) +
-  facet_wrap(
-    vars(income_group),
-    scales = "free_y"
-  ) +
-  scale_y_reordered() +
-  scale_fill_brewer(
-    name = "Occupation",
-    palette = "Paired"
-  ) +
-  scale_x_continuous(
-    labels = scales::percent_format()
-  ) +
-  labs(
-    x = "Share of Public Sector Employment",
-    y = ""
-  ) +
-  guides(
-    fill = guide_legend(reverse = TRUE)
-  ) +
-  theme(
-    legend.position = "bottom"
-  )
-
-ggsave(
-  here("figs", "wwbi", "04-fig_public_sector_occupation.png"),
-  width = 14,
-  height = 16,
-  bg = "white"
-)
-
-wwbi_occupation |>
-  left_join(
-    wdi_gdp_pc |> group_by(country_code) |> slice_max(year, n = 1) |> ungroup(),
-    by = c("country_code")
-  ) |>
-  left_join(
-    countryclass,
-    by = c("country_code")
-  ) |>
-  filter(
-    !is.na(income_group)
-  ) |>
-  pivot_longer(
-    cols = c(professional_and_technical, managerial, clerical, other),
-    names_to = "occupation",
-    values_to = "share"
-  ) |>
-  mutate(
-    occupation = fct_relevel(
-      occupation,
-      c("professional_and_technical", "managerial", "clerical", "other") |> rev()
-    ) |>
-      fct_recode(
-        "Professional and Technical" = "professional_and_technical",
-        "Managerial" = "managerial",
-        "Clerical" = "clerical",
-        "Other" = "other"
-      )
-  ) |>
-  filter(
-    occupation == "Professional and Technical"
-  ) |>
-  ggplot(
-    aes(gdp_per_capita_ppp_2017, share)
-  ) +
-  geom_point(
-    aes(color = region)
-  ) +
-  geom_smooth(
-    method = "lm",
-    se = FALSE,
-    linetype = "dashed",
-    color = "grey15"
-  ) +
-  scale_color_colorblind(
-    name = "Region"
-  ) +
-  scale_x_continuous(
-    trans = "log10",
-    label = comma
-  ) +
-  scale_y_continuous(
-    labels = scales::percent_format()
-  ) +
-  labs(
-    x = "GDP per capita (PPP, in 2017 USD)",
-    y = "Share of Public Employees (Professional and Technical)"
-  ) +
-  theme(
-    legend.position = "bottom"
-  )
-
-ggsave(
-  here("figs", "wwbi", "05-fig_public_sector_occupation_gdp.png"),
-  width = 12,
-  height = 8,
-  bg = "white"
-)
+# # correlation between economic development and absolute size of the public sector
+# wwbi_public_sector |>
+#   # extract most recent year by country
+#   group_by(country_code) |>
+#   slice_max(
+#     order_by = year,
+#     n = 1
+#   ) |>
+#   ungroup() |>
+#   left_join(
+#     wdi_gdp_pc,
+#     by = c("country_code", "year")
+#   ) |>
+#   ggplot(
+#     aes(
+#       gdp_per_capita_ppp_2017,
+#       total_public_employees
+#     )
+#   ) +
+#   geom_point(
+#     aes(
+#       color = region
+#     )
+#   ) +
+#   geom_text(
+#     data = . %>% filter(country_code %in% c("CHN", "MDG", "IND", "BRA")),
+#     aes(
+#       label = economy
+#     )
+#   ) +
+#   geom_smooth(
+#     method = "lm",
+#     se = FALSE,
+#     linetype = "dashed",
+#     color = "grey15"
+#   ) +
+#   labs(
+#     y = "Public sector employees (total employment)",
+#     x = "GDP per capita (PPP, in 2017 USD)"
+#   ) +
+#   scale_x_continuous(
+#     trans = "log10",
+#     label = comma
+#   ) +
+#   scale_y_continuous(
+#     trans = "log10",
+#     label = comma
+#   ) +
+#   scale_color_colorblind(
+#     name = "Region"
+#   ) +
+#   theme(
+#     legend.position = "bottom"
+#   )
+#
+# ggsave(
+#   here("figs", "wwbi", "03-fig_share_public_sector_gdp.png"),
+#   width = 12,
+#   height = 8,
+#   bg = "white"
+# )
+#
+# wwbi_occupation |>
+#   left_join(
+#     countryclass,
+#     by = c("country_code")
+#   ) |>
+#   filter(
+#     !is.na(income_group)
+#   ) |>
+#   mutate(
+#     country_code = reorder_within(
+#       country_code,
+#       professional_and_technical,
+#       within = income_group
+#     )
+#   ) |>
+#   pivot_longer(
+#     cols = c(professional_and_technical, managerial, clerical, other),
+#     names_to = "occupation",
+#     values_to = "share"
+#   ) |>
+#   mutate(
+#     occupation = fct_relevel(
+#       occupation,
+#       c("professional_and_technical", "managerial", "clerical", "other") |> rev()
+#     ) |>
+#       fct_recode(
+#         "Professional and Technical" = "professional_and_technical",
+#         "Managerial" = "managerial",
+#         "Clerical" = "clerical",
+#         "Other" = "other"
+#       ),
+#     income_group = fct_relevel(
+#       income_group,
+#       c("Low income", "Lower middle income", "Upper middle income", "High income")
+#     )
+#   ) |>
+#   ggplot(
+#     aes(share, country_code)
+#   ) +
+#   geom_col(
+#     aes(fill = occupation)
+#   ) +
+#   facet_wrap(
+#     vars(income_group),
+#     scales = "free_y"
+#   ) +
+#   scale_y_reordered() +
+#   scale_fill_brewer(
+#     name = "Occupation",
+#     palette = "Paired"
+#   ) +
+#   scale_x_continuous(
+#     labels = scales::percent_format()
+#   ) +
+#   labs(
+#     x = "Share of Public Sector Employment",
+#     y = ""
+#   ) +
+#   guides(
+#     fill = guide_legend(reverse = TRUE)
+#   ) +
+#   theme(
+#     legend.position = "bottom"
+#   )
+#
+# ggsave(
+#   here("figs", "wwbi", "04-fig_public_sector_occupation.png"),
+#   width = 14,
+#   height = 16,
+#   bg = "white"
+# )
+#
+# wwbi_occupation |>
+#   left_join(
+#     wdi_gdp_pc |> group_by(country_code) |> slice_max(year, n = 1) |> ungroup(),
+#     by = c("country_code")
+#   ) |>
+#   left_join(
+#     countryclass,
+#     by = c("country_code")
+#   ) |>
+#   filter(
+#     !is.na(income_group)
+#   ) |>
+#   pivot_longer(
+#     cols = c(professional_and_technical, managerial, clerical, other),
+#     names_to = "occupation",
+#     values_to = "share"
+#   ) |>
+#   mutate(
+#     occupation = fct_relevel(
+#       occupation,
+#       c("professional_and_technical", "managerial", "clerical", "other") |> rev()
+#     ) |>
+#       fct_recode(
+#         "Professional and Technical" = "professional_and_technical",
+#         "Managerial" = "managerial",
+#         "Clerical" = "clerical",
+#         "Other" = "other"
+#       )
+#   ) |>
+#   filter(
+#     occupation == "Professional and Technical"
+#   ) |>
+#   ggplot(
+#     aes(gdp_per_capita_ppp_2017, share)
+#   ) +
+#   geom_point(
+#     aes(color = region)
+#   ) +
+#   geom_smooth(
+#     method = "lm",
+#     se = FALSE,
+#     linetype = "dashed",
+#     color = "grey15"
+#   ) +
+#   scale_color_colorblind(
+#     name = "Region"
+#   ) +
+#   scale_x_continuous(
+#     trans = "log10",
+#     label = comma
+#   ) +
+#   scale_y_continuous(
+#     labels = scales::percent_format()
+#   ) +
+#   labs(
+#     x = "GDP per capita (PPP, in 2017 USD)",
+#     y = "Share of Public Employees (Professional and Technical)"
+#   ) +
+#   theme(
+#     legend.position = "bottom"
+#   )
+#
+# ggsave(
+#   here("figs", "wwbi", "05-fig_public_sector_occupation_gdp.png"),
+#   width = 12,
+#   height = 8,
+#   bg = "white"
+# )
