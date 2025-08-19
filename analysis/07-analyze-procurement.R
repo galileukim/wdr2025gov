@@ -45,7 +45,7 @@ procurement |>
     data = procurement |>
       mutate(
         gdp_per_capita = exp(loggdp),
-        gdp_bin = cut_number(gdp_per_capita, n = 50)  # bin width in USD
+        gdp_bin = cut_number(gdp_per_capita, n = 20)  # averages across 20 bins
       ) |>
       group_by(gdp_bin) |>
       summarise(
@@ -253,9 +253,8 @@ procurement |>
   geom_smooth(
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = TRUE,
-    color = 'deepskyblue4',
-    fill = 'slategray2'
+    se = FALSE,
+    color = 'deepskyblue4'
   ) +
   labs(
     x = "Procurement Integrity",

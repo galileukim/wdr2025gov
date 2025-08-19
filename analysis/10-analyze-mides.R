@@ -2,6 +2,7 @@
 library(dplyr)
 library(sf)
 library(ggplot2)
+library(here)
 
 # join data ---------------------------------------------------------------
 mides_2018 <- mides |>
@@ -31,7 +32,7 @@ mides_shp |>
     na.value = "grey95"
   ) +
   labs(
-    fill = "Weighted average delay (days)"
+    fill = "Procurement payment delays, weighted average (days)"
   ) +
   coord_sf(
     xlim = c(-60, -40),
@@ -41,9 +42,16 @@ mides_shp |>
   theme(legend.position = "bottom")
 
 ggsave(
-  here("figs", "mides", "01-maps_delays.png"),
+  here("figs", "mides", "map_7_1_brazil_mun_procurement_delays.png"),
   width = 10,
   height = 10,
   dpi = 300,
+  bg = "white"
+)
+
+ggsave(
+  here("figs", "mides", "map_7_1_brazil_mun_procurement_delays.eps"),
+  width = 10,
+  height = 10,
   bg = "white"
 )

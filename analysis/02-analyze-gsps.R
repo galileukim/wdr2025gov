@@ -569,19 +569,13 @@ gsps_institutional_performance |>
     color = "deepskyblue4",
     method = "lm",
     formula = y ~ x + I(x^2),
-    se = FALSE
+    se = TRUE,
+    fill ='slategray2'
   ) +
   labs(x = "Performance-related promotion", y = "Work motivation")
 
 ggsave(
-  here("figs", "gsps", "fig_7_2_performance_motivation_mission.png"),
-  width = 8,
-  height = 6,
-  dpi = 300
-)
-
-ggsave(
-  here("figs", "gsps", "fig_7_2_performance_motivation_mission.eps"),
+  here("figs", "gsps", "11-fig_performance_motivation_mission.png"),
   width = 8,
   height = 6,
   dpi = 300
