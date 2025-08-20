@@ -611,7 +611,103 @@ ggsave(
   height = 6
 )
 
-# fig 7.10. hiring pattern ------------------------------------------------
+# fig 7.10. payment delays ------------------------------------------------
+# 7.10.a. grace periods to pay providers
+enterprise_surveys_procurement_rep <- enterprise_surveys_procurement |>
+  left_join(
+    # extract latest year: 2022
+    wdi_gdp_pc |>
+      filter(year == 2022) |>
+      select(-year),
+    by = c("country_code")
+  )
+
+enterprise_surveys_procurement_rep |>
+  ggplot(
+    aes(
+      gdp_per_capita_ppp_2017,
+      stringency
+    )
+  ) +
+  geom_point(
+    aes(
+      mean_gdp,
+      mean_stringency
+    ),
+    data = enterprise_surveys_procurement_rep |>
+      mutate(
+        gdp_bin = cut_number(gdp_per_capita_ppp_2017, n = 10)  # averages across 20 bins
+      ) |>
+      group_by(gdp_bin) |>
+      summarise(
+        mean_gdp = mean(gdp_per_capita_ppp_2017, na.rm = TRUE),
+        mean_stringency = mean(stringency, na.rm = TRUE),
+        .groups = "drop"
+      )
+  ) +
+  geom_smooth(
+    color = "deepskyblue4",
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = FALSE
+  ) +
+  scale_x_continuous(
+    transform = "log10",
+    labels = scales::comma
+  ) +
+  labs(x = "GDP per capita (PPP, in 2017 USD)", y = "Stringency of government payment deadline (days)")
+
+ggsave(
+  here("figs", "replication", "fig_7_10a_dejure_stringency.png"),
+  dpi = 300,
+  height = 6,
+  width = 8
+)
+
+ggsave(
+  here("figs", "replication", "fig_7_10a_dejure_stringency.eps"),
+  height = 6,
+  width = 8
+)
+
+# 7.10.b. providers paid in time
+enterprise_surveys_procurement_rep |>
+  ggplot(
+    aes(
+      gdp_per_capita_ppp_2017,
+      share_paid_on_time
+    )
+  ) +
+  geom_point() +
+  geom_smooth(
+    color = "deepskyblue4",
+    method = "lm",
+    formula = y ~ x + I(x^2),
+    se = FALSE
+  ) +
+  scale_x_continuous(
+    transform = "log10",
+    labels = scales::comma
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format()
+  ) +
+  labs(x = "GDP per capita (PPP, in 2017 USD)", y = "Share of firms paid on time (percentage)")
+
+ggsave(
+  here("figs", "replication", "fig_7_10b_share_firms_paidontime.png"),
+  dpi = 300,
+  height = 6,
+  width = 8
+)
+
+ggsave(
+  here("figs", "replication", "fig_7_10b_share_firms_paidontime.eps"),
+  height = 6,
+  width = 8
+)
+
+# fig 7.11. hiring pattern ------------------------------------------------
 rais_mun |>
   filter(ano <= 2022) |>
   group_by(ano) |>

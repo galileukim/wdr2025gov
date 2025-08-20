@@ -208,6 +208,21 @@
 #' @details Considers management practices in the economy as a whole
 "enterprise_surveys"
 
+
+#' @title Enterprise Surveys: Procurement Payments
+#' @description World Bank Enterprise Surveys (WBES) are nationally representative firm-level surveys with top managers and owners of businesses in over 160 economies, reaching 180 in upcoming years, that provide insight into many business environment topics such as access to finance, corruption, infrastructure, and performance, among others.
+#' @format A data frame with 116 rows and 3 variables:
+#' \describe{
+#'   \item{\code{country_code}}{character World Bank country code.}
+#'   \item{\code{year}}{double Year.}
+#'   \item{\code{share_paid_on_time}}{double National share of firms paid on time for their procurement contracts.}
+#'   \item{\code{share_paidontime_se}}{double Standard error of `share_paidontime`.}
+#'   \item{\code{gov_payment_deadline}}{double De jure government payment deadline, in days.}
+#'   \item{\code{stringency}}{double Stringency of government payment deadline, compared to a benchmark of 30 days.}
+#'}
+#' @details The de jure government payment deadline is based on a desk review conducted by the World Development Report team in 2025.
+"enterprise_surveys_procurement"
+
 #' @title Microdados de Despesas de Entes Subnacionais (MiDES)
 #' @description This dataset contains annual panel data on public procurement and public expenditure of Brazilian municipalities.
 #' @format A data frame with 43,298 rows and 10 variables:
