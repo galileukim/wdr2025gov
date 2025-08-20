@@ -27,19 +27,3 @@ This function takes a dataset and joins it with a national-level dataset
 on \code{country_code}. It also brings in the national mean, then computes
 the upper and lower bounds (max and min of \code{mean}) within each country group.
 }
-\examples{
-# Example usage:
-data <- tibble::tibble(
-  country_code = c("US", "US", "FR"),
-  mean = c(0.5, 0.7, 0.6)
-)
-
-national_data <- tibble::tibble(
-  country_code = c("US", "FR"),
-  economy_fct = c("High income", "High income"),
-  mean = c(0.6, 0.55)
-)
-
-left_join_national(data, national_data)
-
-}

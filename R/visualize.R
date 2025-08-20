@@ -143,21 +143,6 @@ invert_merit_reversal <- function(data, vars = "year"){
 #'     \item{lower_ci}{The minimum value of `mean` for each `country_code`}
 #'   }
 #'
-#' @examples
-#' # Example usage:
-#' data <- tibble::tibble(
-#'   country_code = c("US", "US", "FR"),
-#'   mean = c(0.5, 0.7, 0.6)
-#' )
-#'
-#' national_data <- tibble::tibble(
-#'   country_code = c("US", "FR"),
-#'   economy_fct = c("High income", "High income"),
-#'   mean = c(0.6, 0.55)
-#' )
-#'
-#' left_join_national(data, national_data)
-#'
 #' @importFrom dplyr left_join select group_by mutate
 #' @export
 left_join_national <- function(data, national_data){
