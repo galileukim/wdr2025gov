@@ -341,113 +341,7 @@ ggsave(
   height = 6
 )
 
-# fig 7.5.a. merit-based recruitment --------------------------------------
-constitution_subset <- constitution |>
-  filter(
-    year >= 1960 & !is.na(country_code)
-  ) |>
-  classify_income_group()
-
-# by income group: latest year
-constitution_subset |>
-  filter(
-    !is.na(country_code) &
-      !is.na(income_group)
-  ) |>
-  summarise_merit(
-    c("year", "income_group"),
-    agg_fun = "mean"
-  ) |>
-  ungroup() |>
-  filter(
-    year == max(year)
-  ) |>
-  ggplot() +
-  geom_col(
-    aes(
-      income_group, merit
-    ),
-    width = 0.5
-  ) +
-  labs(
-    x = "Income Group",
-    y = "Share of Countries"
-  ) +
-  scale_y_continuous(
-    labels = scales::percent_format()
-  )
-
-ggsave(
-  here("figs", "replication",  "fig_7_05a_share_countries_merit_by_income_latest.png"),
-  height = 6,
-  width = 8,
-  dpi = 300
-)
-
-ggsave(
-  here("figs", "replication",  "fig_7_05a_share_countries_merit_by_income_latest.eps"),
-  height = 6,
-  width = 8
-)
-
-# fig 7.5.b. correlation economic dev and procurement law -----------------
-procurement |>
-  mutate(
-    gdp_per_capita = exp(loggdp)
-  ) |>
-  ggplot(
-    aes(
-      gdp_per_capita,
-      transparency_l
-    )
-  ) +
-  geom_smooth(
-    method = "lm",
-    formula = y ~ x + I(x^2),
-    se = FALSE,
-    color = 'deepskyblue4'
-  ) +
-  geom_point(
-    aes(
-      mean_gdp,
-      mean_transparency
-    ),
-    data = procurement |>
-      mutate(
-        gdp_per_capita = exp(loggdp),
-        gdp_bin = cut_number(gdp_per_capita, n = 20)  # averages across 20 bins
-      ) |>
-      group_by(gdp_bin) |>
-      summarise(
-        mean_gdp = mean(gdp_per_capita, na.rm = TRUE),
-        mean_transparency = mean(transparency_l, na.rm = TRUE),
-        .groups = "drop"
-      )
-  ) +
-  scale_x_continuous(
-    trans = "log10",
-    labels = scales::comma
-  ) +
-  labs(
-    x = "GDP per capita (PPP, in 2017 USD)",
-    y = "Procurement Transparency Standards"
-  )
-
-ggsave(
-  here("figs", "replication", "fig_7_05b_procurement_transparency_standards.png"),
-  width = 8,
-  height = 6,
-  dpi = 300
-)
-
-ggsave(
-  here("figs", "replication", "fig_7_05b_procurement_transparency_standards.eps"),
-  width = 8,
-  height = 6
-)
-
-
-# fig 7.6. budget transparency --------------------------------------------
+# fig 7.5. budget transparency --------------------------------------------
 wdi_gdp_pc |>
   left_join(
     open_budget |> mutate(year = year - 1),
@@ -489,14 +383,14 @@ wdi_gdp_pc |>
   )
 
 ggsave(
-  here("figs", "replication", "fig_7_06_cor_budget_transparency_vs_gdp_per_capita.png"),
+  here("figs", "replication", "fig_7_05_cor_budget_transparency_vs_gdp_per_capita.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_06_cor_budget_transparency_vs_gdp_per_capita.eps"),
+  here("figs", "replication", "fig_7_05_cor_budget_transparency_vs_gdp_per_capita.eps"),
   width = 8,
   height = 6
 )
@@ -538,14 +432,14 @@ vdem |>
   )
 
 ggsave(
-  here("figs", "replication", "fig_7_07_cor_merit_gdp.png"),
+  here("figs", "replication", "fig_7_06_cor_merit_gdp.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_07_cor_merit_gdp.eps"),
+  here("figs", "replication", "fig_7_06_cor_merit_gdp.eps"),
   width = 8,
   height = 6,
   dpi = 300
@@ -599,14 +493,14 @@ procurement |>
   )
 
 ggsave(
-  here("figs", "replication", "fig_7_08_compliance_gap_procurement.png"),
+  here("figs", "replication", "fig_7_07_compliance_gap_procurement.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_08_compliance_gap_procurement.eps"),
+  here("figs", "replication", "fig_7_07_compliance_gap_procurement.eps"),
   width = 8,
   height = 6
 )
@@ -695,14 +589,14 @@ enterprise_surveys_procurement_rep |>
   labs(x = "GDP per capita (PPP, in 2017 USD)", y = "Share of firms paid on time (percentage)")
 
 ggsave(
-  here("figs", "replication", "fig_7_09b_share_firms_paidontime.png"),
+  here("figs", "replication", "fig_7_08b_share_firms_paidontime.png"),
   dpi = 300,
   height = 6,
   width = 8
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_09b_share_firms_paidontime.eps"),
+  here("figs", "replication", "fig_7_08b_share_firms_paidontime.eps"),
   height = 6,
   width = 8
 )
@@ -754,14 +648,14 @@ rais_mun |>
   )
 
 ggsave(
-  here("figs", "replication", "fig_7_10_rais_mun_hiring_cycles.png"),
+  here("figs", "replication", "fig_7_09_rais_mun_hiring_cycles.png"),
   dpi = 300,
   height = 6,
   width = 8
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_10_rais_mun_hiring_cycles.eps"),
+  here("figs", "replication", "fig_7_09_rais_mun_hiring_cycles.eps"),
   height = 6,
   width = 8
 )
@@ -880,14 +774,14 @@ gsps_institutional_performance |>
   labs(x = "Performance-related promotion", y = "Work motivation")
 
 ggsave(
-  here("figs", "replication", "fig_7_11_performance_motivation_mission.png"),
+  here("figs", "replication", "fig_7_10_performance_motivation_mission.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_11_performance_motivation_mission.eps"),
+  here("figs", "replication", "fig_7_10_performance_motivation_mission.eps"),
   width = 8,
   height = 6
 )
@@ -967,14 +861,14 @@ gtmi_cumulative |>
   )
 
 ggsave(
-  here("figs", "replication", "fig_7_12_gtmi_diffusion_mis.png"),
+  here("figs", "replication", "fig_7_11_gtmi_diffusion_mis.png"),
   width = 8,
   height = 6,
   dpi = 300
 )
 
 ggsave(
-  here("figs", "replication", "fig_7_12_gtmi_diffusion_mis.eps"),
+  here("figs", "replication", "fig_7_11_gtmi_diffusion_mis.eps"),
   width = 8,
   height = 6
 )
