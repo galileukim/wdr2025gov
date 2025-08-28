@@ -14,3 +14,13 @@ You can install the development version of wdr2025gov from [GitHub](https://gith
 # install.packages("pak")
 pak::pak("galileukim/wdr2025gov")
 ```
+
+In order to reproduce the analysis in this reproducibility package, please run:
+
+```r
+library(wdr2025gov)
+
+reproduce_analysis()
+```
+
+All the figures will be reproduced in the folder `figs/replication/`.
