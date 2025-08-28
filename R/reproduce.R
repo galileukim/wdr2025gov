@@ -601,14 +601,14 @@ reproduce_analysis <- function(){
     labs(x = "GDP per capita (PPP, in 2017 USD)", y = "Share of firms paid on time (percentage)")
 
   ggsave(
-    here("figs", "replication", "fig_7_08b_share_firms_paidontime.png"),
+    here("figs", "replication", "fig_7_09b_share_firms_paidontime.png"),
     dpi = 300,
     height = 6,
     width = 8
   )
 
   ggsave(
-    here("figs", "replication", "fig_7_08b_share_firms_paidontime.eps"),
+    here("figs", "replication", "fig_7_09b_share_firms_paidontime.eps"),
     height = 6,
     width = 8
   )
