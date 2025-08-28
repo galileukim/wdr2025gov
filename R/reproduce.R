@@ -3,37 +3,28 @@
 #' This function sources and runs an R script to reproduce all figures contained in Chapter 7 of the WDR 2025.
 #' All the reproduced figures are placed in the `figs/replication` subfolder.
 #'
-#' @param reproducibility_file A character string specifying the path to the R script
-#'   to source. Defaults to `"analysis/analyze-wdr2025gov.R"`.
-#'
 #' @return The function is called for its side effects (e.g., generating plots).
+#'
+#' @import ggplot2
+#' @import ggthemes
+#' @import scales
+#' @import ggrepel
+#' @import dplyr
+#' @import forcats
+#' @import stringr
+#' @import tidyr
+#' @import ggbreak
+#' @import sf
+#' @import here
 #'
 #' @examples
 #' \dontrun{
 #' # Run the default analysis script
 #' reproduce_analysis()
-#'
-#' # Run a custom analysis script
-#' reproduce_analysis("scripts/my_analysis.R")
 #' }
 #'
 #' @export
 reproduce_analysis <- function(){
-  # set-up ------------------------------------------------------------------
-  library(ggplot2)
-  library(ggthemes)
-  library(scales)
-  library(ggrepel)
-  library(gghighlight)
-  library(dplyr)
-  library(forcats)
-  library(stringr)
-  library(tidyr)
-  library(ggbreak)
-  library(sf)
-  library(here)
-  library(wdr2025gov)
-
   theme_set(
     theme(
       panel.grid = element_blank(),

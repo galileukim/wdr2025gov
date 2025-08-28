@@ -4,27 +4,19 @@
 \alias{reproduce_analysis}
 \title{Reproduce analysis for WDR 2025, Chapter 7: Standards for Better Governance}
 \usage{
-reproduce_analysis(reproducibility_file = "analysis/analyze-wdr2025gov.R")
-}
-\arguments{
-\item{reproducibility_file}{A character string specifying the path to the R script
-to source. Defaults to \code{"analysis/analyze-wdr2025gov.R"}.}
+reproduce_analysis()
 }
 \value{
 The function is called for its side effects (e.g., generating plots).
 }
 \description{
 This function sources and runs an R script to reproduce all figures contained in Chapter 7 of the WDR 2025.
-It executes the script in a local environment so that objects created in the
-script do not pollute the global environment.
+All the reproduced figures are placed in the \code{figs/replication} subfolder.
 }
 \examples{
 \dontrun{
 # Run the default analysis script
 reproduce_analysis()
-
-# Run a custom analysis script
-reproduce_analysis("scripts/my_analysis.R")
 }
 
 }
