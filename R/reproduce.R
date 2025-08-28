@@ -18,7 +18,7 @@
 #' }
 #'
 #' @export
-reproduce_analysis <- function(reproducibility_file = "analysis/analyze-wdr2025gov.R"){
+reproduce_analysis <- function(){
   # set-up ------------------------------------------------------------------
   library(ggplot2)
   library(ggthemes)
